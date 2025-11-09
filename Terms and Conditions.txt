@@ -1,35 +1,189 @@
-**Terms & Conditions**  
+**Terms & Conditions**
+**Last Updated: November 9, 2025**
 
-These terms and conditions apply to the Recipendent app (hereby referred to as "Application") for mobile devices that was created by Muhammed Avci (hereby referred to as "Service Provider") as a Commercial service.
+These terms and conditions ("Terms") apply to the Recipendent app (hereby referred to as "Application") for mobile devices that was created by Muhammed Avci (hereby referred to as "Service Provider") as a Commercial service.
 
 Upon downloading or utilizing the Application, you are automatically agreeing to the following terms. It is strongly advised that you thoroughly read and understand these terms prior to using the Application.
 
+## 1. Acceptance of Terms
+
+By accessing or using Recipendent, you agree to be bound by these Terms. If you do not agree to these Terms, do not use the Application.
+
+## 2. Description of Service
+
+Recipendent is a team management application that enables companies to:
+- Manage orders and tasks with priority tracking
+- Store and organize recipes
+- Collaborate with team members (Admin, Co-Admin, Employee roles)
+- Customize company branding (logo, colors)
+- Use biometric authentication (Face ID/Touch ID) for secure actions
+
+## 3. Intellectual Property Rights
+
 Unauthorized copying, modification of the Application, any part of the Application, or our trademarks is strictly prohibited. Any attempts to extract the source code of the Application, translate the Application into other languages, or create derivative versions are not permitted. All trademarks, copyrights, database rights, and other intellectual property rights related to the Application remain the property of the Service Provider.
 
-The Service Provider is dedicated to ensuring that the Application is as beneficial and efficient as possible. As such, they reserve the right to modify the Application or charge for their services at any time and for any reason. The Service Provider assures you that any charges for the Application or its services will be clearly communicated to you.
+## 4. User Accounts and Data
 
-The Application stores and processes personal data that you have provided to the Service Provider in order to provide the Service. It is your responsibility to maintain the security of your phone and access to the Application. The Service Provider strongly advise against jailbreaking or rooting your phone, which involves removing software restrictions and limitations imposed by the official operating system of your device. Such actions could expose your phone to malware, viruses, malicious programs, compromise your phone's security features, and may result in the Application not functioning correctly or at all.
+**Account Types:**
+- **Admin:** Full access to company account, can invite/remove team members
+- **Co-Admin:** Configurable permissions set by Admin
+- **Employee:** Limited access to assigned tasks and recipes
 
-Please be aware that the Service Provider does not assume responsibility for certain aspects. Some functions of the Application require an active internet connection, which can be Wi-Fi or provided by your mobile network provider. The Service Provider cannot be held responsible if the Application does not function at full capacity due to lack of access to Wi-Fi or if you have exhausted your data allowance.
+**Your Responsibilities:**
+- Maintain the security of your account credentials
+- Ensure invited team members have authorization to access company data
+- Admins are responsible for all activities within their company account
+- Do not share your account with unauthorized individuals
 
-If you are using the application outside of a Wi-Fi area, please be aware that your mobile network provider's agreement terms still apply. Consequently, you may incur charges from your mobile provider for data usage during the connection to the application, or other third-party charges. By using the application, you accept responsibility for any such charges, including roaming data charges if you use the application outside of your home territory (i.e., region or country) without disabling data roaming. If you are not the bill payer for the device on which you are using the application, they assume that you have obtained permission from the bill payer.
+**Data Ownership:**
+- Company Admins own all company data (orders, recipes, team information)
+- Upon account deletion, all company data will be deleted within 30 days
+- The Service Provider does not claim ownership of your content
 
-Similarly, the Service Provider cannot always assume responsibility for your usage of the application. For instance, it is your responsibility to ensure that your device remains charged. If your device runs out of battery and you are unable to access the Service, the Service Provider cannot be held responsible.
+## 5. Third-Party Services
 
-In terms of the Service Provider's responsibility for your use of the application, it is important to note that while they strive to ensure that it is updated and accurate at all times, they do rely on third parties to provide information to them so that they can make it available to you. The Service Provider accepts no liability for any loss, direct or indirect, that you experience as a result of relying entirely on this functionality of the application.
+The Application uses **Supabase** for backend services (database, authentication, file storage). By using the Application, you also agree to Supabase's terms of service and privacy policy. The Service Provider is not responsible for any issues arising from third-party services.
 
-The Service Provider may wish to update the application at some point. The application is currently available as per the requirements for the operating system (and for any additional systems they decide to extend the availability of the application to) may change, and you will need to download the updates if you want to continue using the application. The Service Provider does not guarantee that it will always update the application so that it is relevant to you and/or compatible with the particular operating system version installed on your device. However, you agree to always accept updates to the application when offered to you. The Service Provider may also wish to cease providing the application and may terminate its use at any time without providing termination notice to you. Unless they inform you otherwise, upon any termination, (a) the rights and licenses granted to you in these terms will end; (b) you must cease using the application, and (if necessary) delete it from your device.
+## 6. Data Security and Privacy
 
-**Changes to These Terms and Conditions**
+- The Application stores and processes personal data you provide to deliver the Service
+- Data is encrypted in transit (HTTPS/TLS) and stored securely
+- Company data is isolated via Row Level Security (multi-tenant architecture)
+- **Biometric Data:** Face ID/Touch ID authentication is processed locally on your device and never transmitted to servers
+- For detailed information, please review our Privacy Policy
 
-The Service Provider may periodically update their Terms and Conditions. Therefore, you are advised to review this page regularly for any changes. The Service Provider will notify you of any changes by posting the new Terms and Conditions on this page.
+**Your Security Responsibilities:**
+- Maintain the security of your device and Application access
+- Keep your device operating system updated
+- The Service Provider strongly advises against jailbreaking or rooting your device, as this may compromise security and cause the Application to malfunction
 
-These terms and conditions are effective as of 2025-11-09
+## 7. Pricing and Payments
 
-**Contact Us**
+The Service Provider reserves the right to charge for the Application or its services. Any charges will be clearly communicated to you before purchase. Pricing tiers include:
+- **Starter:** Limited team size and storage
+- **Professional:** Expanded features and team capacity
+- **Enterprise:** Custom solutions with dedicated support
 
-If you have any questions or suggestions about the Terms and Conditions, please do not hesitate to contact the Service Provider at recipendent@gmail.com.
+The Service Provider may modify pricing at any time with notice to existing subscribers.
 
-* * *
+## 8. Internet Connection and Network Charges
 
-This Terms and Conditions page was generated by [App Privacy Policy Generator](https://app-privacy-policy-generator.nisrulz.com/)
+**Internet Requirement:**
+- The Application requires an active internet connection (Wi-Fi or mobile data) for most features
+- Real-time synchronization requires continuous internet access
+- The Service Provider is not responsible if the Application does not function at full capacity due to lack of internet access
+
+**Network Charges:**
+- You are responsible for any data charges from your mobile network provider
+- This includes roaming charges if used outside your home territory
+- If you are not the bill payer, ensure you have permission to use data services
+
+## 9. Device Requirements and Maintenance
+
+**Your Responsibilities:**
+- Ensure your device remains charged and functional
+- Keep your device operating system updated for compatibility
+- Maintain adequate storage space for the Application
+- The Service Provider is not responsible for issues arising from device battery depletion or insufficient storage
+
+## 10. User-Generated Content
+
+**Content You Create:**
+- Orders, tasks, recipes, notes, and images uploaded to the Application
+- You retain ownership of your content
+- By using the Application, you grant the Service Provider a license to store, process, and display your content solely for the purpose of providing the Service
+
+**Content Guidelines:**
+- Do not upload illegal, offensive, or copyrighted content
+- Do not upload malicious code or viruses
+- The Service Provider reserves the right to remove content that violates these Terms
+
+**Company Admin Responsibilities:**
+- Admins are responsible for ensuring team members comply with these content guidelines
+- Admins can delete content created by their team members
+
+## 11. Prohibited Uses
+
+You agree NOT to:
+- Use the Application for any illegal purposes
+- Attempt to hack, reverse-engineer, or compromise the Application
+- Upload viruses, malware, or malicious code
+- Share your account credentials with unauthorized individuals
+- Use the Application to harass, defame, or harm others
+- Scrape or extract data from the Application using automated tools
+- Impersonate others or misrepresent your affiliation
+
+## 12. Service Availability and Updates
+
+**Updates:**
+- The Service Provider may update the Application to improve functionality, security, or compatibility
+- You agree to accept updates when offered
+- The Application is currently available for iOS devices
+- The Service Provider may extend availability to other platforms at their discretion
+
+**Service Changes:**
+- The Service Provider reserves the right to modify, suspend, or discontinue the Application at any time
+- The Service Provider will provide reasonable notice before discontinuing the Service
+- No guarantee is made that the Application will always be compatible with your device's OS version
+
+## 13. Termination
+
+**By You:**
+- You may stop using the Application at any time
+- To delete your account and data, contact recipendent@gmail.com
+
+**By Service Provider:**
+- The Service Provider may terminate your access if you violate these Terms
+- The Service Provider may terminate the Service at any time without notice
+- Upon termination:
+  - Your license to use the Application ends
+  - You must cease using and delete the Application from your device
+  - Company data will be deleted within 30 days
+
+## 14. Limitation of Liability
+
+**To the Maximum Extent Permitted by Law:**
+- The Service Provider is not liable for any indirect, incidental, or consequential damages
+- The Service Provider is not liable for data loss (please maintain backups)
+- The Service Provider is not liable for business losses, lost profits, or lost opportunities
+- The Application is provided "as is" without warranties of any kind
+
+**No Warranty:**
+- The Service Provider strives to keep the Application accurate and up-to-date
+- However, the Service Provider relies on third parties (Supabase, Expo) and cannot guarantee error-free operation
+- The Service Provider does not warrant that the Application will be uninterrupted or secure
+
+## 15. Governing Law
+
+These Terms shall be governed by and construed in accordance with the laws of Germany, without regard to its conflict of law provisions.
+
+## 16. Changes to These Terms and Conditions
+
+The Service Provider may periodically update these Terms and Conditions. Changes will be effective immediately upon posting to the Application or this website. You are advised to review these Terms regularly. Continued use of the Application after changes constitutes acceptance of the updated Terms.
+
+**Significant changes will be communicated via:**
+- In-app notification
+- Email to registered users
+- Update to the "Last Updated" date at the top of this document
+
+## 17. Severability
+
+If any provision of these Terms is found to be unenforceable or invalid, that provision will be limited or eliminated to the minimum extent necessary, and the remaining provisions will remain in full force and effect.
+
+## 18. Entire Agreement
+
+These Terms, together with the Privacy Policy, constitute the entire agreement between you and the Service Provider regarding the use of the Application.
+
+## 19. Contact Us
+
+If you have any questions, concerns, or suggestions about these Terms and Conditions, please contact us:
+
+**Email:** recipendent@gmail.com
+**Developer:** Muhammed Avci
+**Application:** Recipendent - Order & Team Management
+
+---
+
+**Effective Date:** November 9, 2025
+
+**Version:** 1.0
