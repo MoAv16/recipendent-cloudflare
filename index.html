@@ -21,7 +21,7 @@
 
     /* Header */
     header {
-      background: linear-gradient(135deg, #6326ad 0%, #9c5fb5 100%);
+      background: linear-gradient(135deg, #1dd1a1 0%, #5cf2d6 100%);
       color: white;
       padding: 1rem 2rem;
       position: fixed;
@@ -63,7 +63,7 @@
 
     /* Hero Section */
     .hero {
-      background: linear-gradient(135deg, #6326ad 0%, #9c5fb5 100%);
+      background: linear-gradient(135deg, #1dd1a1 0%, #5cf2d6 100%);
       color: white;
       padding: 120px 2rem 80px;
       text-align: center;
@@ -85,7 +85,7 @@
     .cta-button {
       display: inline-block;
       background: white;
-      color: #6326ad;
+      color: #5cf2d6;
       padding: 1rem 2.5rem;
       border-radius: 30px;
       text-decoration: none;
@@ -110,7 +110,7 @@
     .features h2 {
       text-align: center;
       font-size: 2.5rem;
-      color: #6326ad;
+      color: #5cf2d6;
       margin-bottom: 3rem;
     }
 
@@ -130,7 +130,7 @@
 
     .feature-card:hover {
       transform: translateY(-10px);
-      box-shadow: 0 10px 40px rgba(99, 38, 173, 0.2);
+      box-shadow: 0 10px 40px rgba(92, 242, 214, 0.3);
     }
 
     .feature-icon {
@@ -139,7 +139,7 @@
     }
 
     .feature-card h3 {
-      color: #6326ad;
+      color: #5cf2d6;
       font-size: 1.5rem;
       margin-bottom: 1rem;
     }
@@ -163,7 +163,7 @@
     .pricing h2 {
       text-align: center;
       font-size: 2.5rem;
-      color: #6326ad;
+      color: #5cf2d6;
       margin-bottom: 3rem;
     }
 
@@ -187,12 +187,12 @@
     }
 
     .pricing-card.featured {
-      border: 3px solid #6326ad;
+      border: 3px solid #5cf2d6;
       transform: scale(1.05);
     }
 
     .pricing-card h3 {
-      color: #6326ad;
+      color: #5cf2d6;
       font-size: 1.8rem;
       margin-bottom: 1rem;
     }
@@ -222,7 +222,7 @@
 
     .pricing-features li:before {
       content: "✓ ";
-      color: #6326ad;
+      color: #5cf2d6;
       font-weight: bold;
       margin-right: 0.5rem;
     }
@@ -237,7 +237,7 @@
 
     .contact h2 {
       font-size: 2.5rem;
-      color: #6326ad;
+      color: #5cf2d6;
       margin-bottom: 2rem;
     }
 
@@ -249,7 +249,7 @@
 
     .contact-email {
       font-size: 1.3rem;
-      color: #6326ad;
+      color: #5cf2d6;
       font-weight: bold;
     }
 
@@ -263,6 +263,24 @@
 
     footer p {
       opacity: 0.8;
+    }
+
+    .footer-links {
+      margin-bottom: 1rem;
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      color: #5cf2d6;
+      text-decoration: none;
+      transition: opacity 0.3s;
+    }
+
+    .footer-links a:hover {
+      opacity: 0.7;
     }
 
     /* Animations */
@@ -417,6 +435,11 @@
 
   <!-- Footer -->
   <footer>
+    <div class="footer-links">
+      <a href="/privacy/">Datenschutz</a>
+      <a href="/support/">Support</a>
+      <a href="/admin/" style="opacity: 0.5;">Admin</a>
+    </div>
     <p>© 2025 Recipendent. Alle Rechte vorbehalten.</p>
   </footer>
 </body>
