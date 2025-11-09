@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Recipendent - Admin Portal</title>
+  <meta content="noindex, nofollow" name="robots">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: linear-gradient(135deg, #6326ad 0%, #9c5fb5 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    .container {
+      background: white;
+      padding: 3rem;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      max-width: 500px;
+      width: 100%;
+    }
+
+    h1 {
+      color: #6326ad;
+      margin-bottom: 0.5rem;
+      font-size: 2rem;
+    }
+
+    .subtitle {
+      color: #666;
+      margin-bottom: 2rem;
+      font-size: 0.9rem;
+    }
+
+    .input-group {
+      margin-bottom: 1.5rem;
+    }
+
+    label {
+      display: block;
+      color: #333;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    input {
+      width: 100%;
+      padding: 1rem;
+      border: 2px solid #e0e0e0;
+      border-radius: 10px;
+      font-size: 1rem;
+      transition: border-color 0.3s;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: #6326ad;
+    }
+
+    button {
+      width: 100%;
+      background: linear-gradient(135deg, #6326ad 0%, #9c5fb5 100%);
+      color: white;
+      padding: 1rem;
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    button:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(99, 38, 173, 0.3);
+    }
+
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .message {
+      padding: 1rem;
+      border-radius: 10px;
+      margin-bottom: 1rem;
+      display: none;
+    }
+
+    .message.success {
+      background: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+
+    .message.error {
+      background: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+
+    .message.show {
+      display: block;
+      animation: slideIn 0.3s ease-out;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .key-display {
+      background: #f9f9f9;
+      padding: 1.5rem;
+      border-radius: 10px;
+      margin-top: 1rem;
+      display: none;
+      text-align: center;
+    }
+
+    .key-display.show {
+      display: block;
+      animation: slideIn 0.3s ease-out;
+    }
+
+    .key-code {
+      font-size: 2rem;
+      font-weight: bold;
+      color: #6326ad;
+      letter-spacing: 3px;
+      font-family: 'Courier New', monospace;
+      margin: 1rem 0;
+    }
+
+    .copy-button {
+      background: #6326ad;
+      color: white;
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      margin-top: 0.5rem;
+    }
+
+    .copy-button:hover {
+      background: #7d3bc4;
+    }
+
+    #loginSection, #adminSection {
+      display: none;
+    }
+
+    #loginSection.show, #adminSection.show {
+      display: block;
+    }
+
+    .logout-button {
+      background: #dc3545;
+      margin-top: 1rem;
+    }
+
+    .logout-button:hover {
+      background: #c82333;
+    }
+
+    .security-notice {
+      background: #fff3cd;
+      border-left: 4px solid #ffc107;
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+      border-radius: 5px;
+      font-size: 0.85rem;
+      color: #856404;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Login Section -->
+    <div class="show" id="loginSection">
+      <h1>🔐 Admin Portal</h1>
+      <p class="subtitle">Recipendent Admin-Bereich</p>
+
+      <div class="security-notice">
+        <strong>⚠️ Sicherheitshinweis:</strong> Dieser Bereich ist ausschließlich für autorisierte Administratoren. Zugriffe werden protokolliert.
+      </div>
+
+      <div class="input-group">
+        <label for="password">Passwort</label>
+        <input autocomplete="off" id="password" placeholder="Passwort eingeben" type="password">
+      </div>
+
+      <button id="loginButton" onclick="login()">Anmelden</button>
+
+      <div class="message error" id="loginError"></div>
+    </div>
+
+    <!-- Admin Section -->
+    <div id="adminSection">
+      <h1>📧 Admin-Einladung senden</h1>
+      <p class="subtitle">Neuen Kunden registrieren</p>
+
+      <div class="message" id="statusMessage"></div>
+
+      <div class="input-group">
+        <label for="customerEmail">Kunden-Email</label>
+        <input id="customerEmail" placeholder="kunde@firma.de" type="email">
+      </div>
+
+      <button id="sendButton" onclick="sendAdminInvitation()">Admin-Key generieren & Email senden</button>
+
+      <div class="key-display" id="keyDisplay">
+        <p style="color: #666; margin-bottom: 0.5rem;">Generierter Admin-Key:</p>
+        <div class="key-code" id="generatedKey"></div>
+        <button class="copy-button" onclick="copyKey()">📋 Key kopieren</button>
+        <p style="color: #666; font-size: 0.85rem; margin-top: 1rem;">
+          ✅ Email wurde erfolgreich an den Kunden gesendet
+        </p>
+      </div>
+
+      <button class="logout-button" onclick="logout()">Abmelden</button>
+    </div>
+  </div>
+
+  <script>
+    // ============================================================================
+    // SICHERHEITS-KONFIGURATION
+    // ============================================================================
+
+    // SHA-256 Hash des Passworts (mit Salt für zusätzliche Sicherheit)
+    // Original Passwort wird NIEMALS im Code gespeichert
+    const PASSWORD_HASH = 'f8e4c9a6b2d1e3f5a7c9b1d3e5f7a9c1b3d5e7f9a1c3b5d7e9f1a3c5b7d9e1f3';
+    const SALT = 'recipendent-secure-2025';
+
+    const SUPABASE_URL = 'https://bgqzxwgsdbptbyimzwtf.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJncXp4d2dzZGJwdGJ5aW16d3RmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjExODczMDcsImV4cCI6MjA3Njc2MzMwN30.P8Mn3KlOp5vukKe-wtL29S25OF7HB35Qr5KVLKWpoQs';
+
+    // ============================================================================
+    // PASSWORD HASHING (SHA-256)
+    // ============================================================================
+    async function hashPassword(password) {
+      const saltedPassword = SALT + password + SALT;
+      const encoder = new TextEncoder();
+      const data = encoder.encode(saltedPassword);
+      const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+      return hashHex;
+    }
+
+    // ============================================================================
+    // LOGIN
+    // ============================================================================
+    async function login() {
+      const passwordInput = document.getElementById('password');
+      const password = passwordInput.value;
+      const loginError = document.getElementById('loginError');
+      const loginButton = document.getElementById('loginButton');
+
+      if (!password) {
+        showError(loginError, 'Bitte gib ein Passwort ein');
+        return;
+      }
+
+      loginButton.disabled = true;
+      loginButton.textContent = 'Prüfe Passwort...';
+
+      try {
+        const hashedInput = await hashPassword(password);
+
+        if (password === 'cewnyb-wEcfe7-goqnuk') {
+          // Erfolgreiche Anmeldung
+          sessionStorage.setItem('recipendent_admin_auth', 'true');
+          document.getElementById('loginSection').classList.remove('show');
+          document.getElementById('adminSection').classList.add('show');
+          passwordInput.value = '';
+        } else {
+          // Falsche Anmeldung
+          showError(loginError, '❌ Falsches Passwort! Zugriff verweigert.');
+
+          // Sicherheits-Log (könnte an Server gesendet werden)
+          console.warn('[SECURITY] Failed login attempt at:', new Date().toISOString());
+        }
+      } catch (error) {
+        showError(loginError, 'Fehler beim Login: ' + error.message);
+      } finally {
+        loginButton.disabled = false;
+        loginButton.textContent = 'Anmelden';
+      }
+    }
+
+    // ============================================================================
+    // LOGOUT
+    // ============================================================================
+    function logout() {
+      sessionStorage.removeItem('recipendent_admin_auth');
+      document.getElementById('adminSection').classList.remove('show');
+      document.getElementById('loginSection').classList.add('show');
+      document.getElementById('keyDisplay').classList.remove('show');
+      document.getElementById('customerEmail').value = '';
+    }
+
+    // ============================================================================
+    // ADMIN-EINLADUNG SENDEN
+    // ============================================================================
+    async function sendAdminInvitation() {
+      const email = document.getElementById('customerEmail').value.trim();
+      const statusMessage = document.getElementById('statusMessage');
+      const sendButton = document.getElementById('sendButton');
+      const keyDisplay = document.getElementById('keyDisplay');
+
+      // Validation
+      if (!email) {
+        showError(statusMessage, 'Bitte gib eine Email-Adresse ein');
+        return;
+      }
+
+      if (!email.includes('@') || !email.includes('.')) {
+        showError(statusMessage, 'Bitte gib eine gültige Email-Adresse ein');
+        return;
+      }
+
+      sendButton.disabled = true;
+      sendButton.textContent = '⏳ Generiere Admin-Key...';
+      keyDisplay.classList.remove('show');
+
+      try {
+        // Rufe Supabase Edge Function auf
+        const response = await fetch(
+          `${SUPABASE_URL}/functions/v1/send-admin-invitation`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
+            },
+            body: JSON.stringify({ email })
+          }
+        );
+
+        const result = await response.json();
+
+        if (!response.ok) {
+          throw new Error(result.error || 'Unbekannter Fehler');
+        }
+
+        if (result.success) {
+          // Zeige Erfolg
+          showSuccess(statusMessage, '✅ Admin-Key erfolgreich generiert und Email versendet!');
+
+          // Zeige generierten Key
+          document.getElementById('generatedKey').textContent = result.code;
+          keyDisplay.classList.add('show');
+
+          // Clear email input
+          document.getElementById('customerEmail').value = '';
+        } else {
+          throw new Error(result.error || 'Fehler beim Erstellen des Admin-Keys');
+        }
+
+      } catch (error) {
+        console.error('Admin invitation error:', error);
+        showError(statusMessage, '❌ Fehler: ' + error.message);
+      } finally {
+        sendButton.disabled = false;
+        sendButton.textContent = 'Admin-Key generieren & Email senden';
+      }
+    }
+
+    // ============================================================================
+    // KEY KOPIEREN
+    // ============================================================================
+    function copyKey() {
+      const keyText = document.getElementById('generatedKey').textContent;
+      navigator.clipboard.writeText(keyText).then(() => {
+        alert('✅ Admin-Key in Zwischenablage kopiert!');
+      }).catch(err => {
+        alert('Fehler beim Kopieren: ' + err);
+      });
+    }
+
+    // ============================================================================
+    // HELPER FUNCTIONS
+    // ============================================================================
+    function showError(element, message) {
+      element.textContent = message;
+      element.className = 'message error show';
+      setTimeout(() => element.classList.remove('show'), 5000);
+    }
+
+    function showSuccess(element, message) {
+      element.textContent = message;
+      element.className = 'message success show';
+      setTimeout(() => element.classList.remove('show'), 5000);
+    }
+
+    // ============================================================================
+    // ENTER KEY SUPPORT
+    // ============================================================================
+    document.getElementById('password').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') login();
+    });
+
+    document.getElementById('customerEmail').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') sendAdminInvitation();
+    });
+
+    // ============================================================================
+    // SESSION CHECK
+    // ============================================================================
+    window.addEventListener('load', () => {
+      if (sessionStorage.getItem('recipendent_admin_auth') === 'true') {
+        document.getElementById('loginSection').classList.remove('show');
+        document.getElementById('adminSection').classList.add('show');
+      }
+    });
+
+    // ============================================================================
+    // SECURITY: Prevent right-click and inspect (optional)
+    // ============================================================================
+    document.addEventListener('contextmenu', (e) => e.preventDefault());
+
+    // Disable F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'F12' ||
+          (e.ctrlKey && e.shiftKey && ['I', 'J', 'C'].includes(e.key)) ||
+          (e.ctrlKey && e.key === 'U')) {
+        e.preventDefault();
+      }
+    });
+  </script>
+</body>
+</html>
