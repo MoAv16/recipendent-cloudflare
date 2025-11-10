@@ -1,34 +1,6 @@
-# Projekt: Recipendent iOS App - Claude Code Integration Guide
+# Projekt: Recipendent Website & WebApp - Claude Code Integration Guide
 
-# Meine Notes (ignoriere diesen Bereich)
-git pull origin claude/ios-expo-claude-md-011CUpZFR2ckwbzkMpGiozSe
-git merge claude/ios-expo-claude-md-011CUpZFR2ckwbzkMpGiozSe
-git push origin main
-Device UDID: 00008150-000869900C88401C
-
-# Expo Details (ignoriere diesen Bereich)
-Project Credentials Configuration
-
-Project                   @moav16/recipendent-app
-Bundle Identifier         com.recipendent.app
-
-Ad Hoc Configuration
-
-Distribution Certificate  
-Serial Number             3C6619396108788CBF6EEC2B041DC439
-Expiration Date           Sun, 08 Nov 2026 14:33:11 GMT+0100
-Apple Team                H34S3RDUW7 (MUHAMMED AVCI (Individual))
-Updated                   4 minutes ago
-
-Provisioning Profile      
-Developer Portal ID       X56A37ADU5
-Status                    active
-Expiration                Sun, 08 Nov 2026 14:33:11 GMT+0100
-Apple Team                H34S3RDUW7 (MUHAMMED AVCI (Individual))
-Provisioned devices       - iPhone (UDID: 00008150-000869900C88401C)
-Updated                   7 seconds ago
-
-# Config
+## Config
 - Diese Config gilt als "normal-mode" und ist standardmäßig aktiv wenn ich keine Befehle anordne.
 - Du befolgst diese Config strikt, außer ich gebe ein Befehl ein der dein Mode ändern soll.
 - Konzentration auf sauberen Code.
@@ -42,28 +14,27 @@ Updated                   7 seconds ago
   Noch ein Beisiel: rpd -l 4 : Du gibst Bereich [4] als Text aus.
 - Befehle können mit der verfassten Nachricht kombiniert werden.
 - Befehle musst du erkennen und ausführen, egal ob sie am anfang, am ende oder mitten in der Nachricht stehen.
-- Ignoriere beim lesen des Projekts diese Ordner: node_modules, cloudflare-pages
 
-# Syntax
+## Syntax
 **Stichpunkte mit einem "Var_" sind Präfixe, behandele Sie wie eine Syntax in deiner Config.**
 - Var myName               : Chef_R.
-- Var [1-X]                : Dies sind Bereiche, die neben den Überschriften mit "[]" gekennzeichnet sind 
+- Var [1-X]                : Dies sind Bereiche, die neben den Überschriften mit "[]" gekennzeichnet sind
                              und nummeriert sind von 1 bis X.
-- Var B_1 rpd -init -d     : Lese CLAUDE.md vollständig durch und verstehe das Projekt vollständig, ohne außnahme einer Datei. 
+- Var B_1 rpd -init -d     : Lese CLAUDE.md vollständig durch und verstehe das Projekt vollständig, ohne außnahme einer Datei.
                              Bestätige mit "✅ Initialized CLAUDE.md.".
 - Var B_2 rpd -init -proj  : Lese das gesamte Projekt vollständig durch, verstehe alles und vervollständige/korrigiere diese CLAUDE.md
-                             wenn es etwas zum vervollständigen/korrigieren gibt. 
+                             wenn es etwas zum vervollständigen/korrigieren gibt.
                              Bestätige mit "✅ Initialized [Projekt-Hauptordner-name].".
 - Var B_3 rpd -init -proj /[file_1], [file_2], [file_X]:
-                             Lese das gesamte Projekt vollständig durch, verstehe alles und vervollständige diese CLAUDE.md, 
+                             Lese das gesamte Projekt vollständig durch, verstehe alles und vervollständige diese CLAUDE.md,
                              Schließe die Dateien [file_1 - X] aus aus deinem Kontext und deiner initialisierung.
                              Bestätige mit "✅ Initialized [Projekt-Hauptordner-name].".
-- Var B_3 rpd -check       : Prüfe, ob der Inhalt dieses Dokumentes dem Inhalt des Projektordners entspricht, 
+- Var B_3 rpd -check       : Prüfe, ob der Inhalt dieses Dokumentes dem Inhalt des Projektordners entspricht,
                              wenn nein, liste Unterschiede ordentlich kurz und knapp auf.
 - Var B_4 rpd -up          : Dieses Dokument durch deine code-erneuerungen updaten.
 - Var B_5 rpd -sum         : eine ganz kurz und knappe zusammenfasung der in dieser session gemachten änderungen geben.
-- Var B_6 rpd -help        : Erkläre in einem kurzen Satz dieses Projekt und zeige alle möglichen Befehle 
-                             und Modis untereinander gelistet in Kategorien und eckigen klammern  an, 
+- Var B_6 rpd -help        : Erkläre in einem kurzen Satz dieses Projekt und zeige alle möglichen Befehle
+                             und Modis untereinander gelistet in Kategorien und eckigen klammern  an,
                              zmB: "[rpd -init]: ...", [Modi 1]: ...", usw.
 - Var B_7 rpd -l [1-X]     : Gebe den Bereich [1-X] als Text aus.
 - Var B_8 rpd -think [1-X] : Gebe Änderungs-Vorschläge im Bereich [1-X]
@@ -72,621 +43,1257 @@ Updated                   7 seconds ago
 - Var B_9 rpd -last        : Was weißt du noch über unseren letzten Chat ?
 - Var B_10 rpd -unhandled  : Liste alle unbenutzten Dateien, Const's, imports/exports, Dependencies innerhalb
                              diesen Projekts auf.
-- Var B_11 rpd -cat -err   : Kategorisiere die Projekt dateien in Ordner mit Unterordnern und liste fehlerhafte, unbenutzte und unbrauchbare 
+- Var B_11 rpd -cat -err   : Kategorisiere die Projekt dateien in Ordner mit Unterordnern und liste fehlerhafte, unbenutzte und unbrauchbare
                              Codes / Dateien / Pfade auf.
 
-
-# Modis
-"t" = Token 
-- Mod M_1 rpd mod -t -e : "s" = saving-mode -> Token Sparmodus -> Gehe sehr sparsam mit deinen Tokenausgaben um. 
+## Modis
+"t" = Token
+- Mod M_1 rpd mod -t -e : "s" = saving-mode -> Token Sparmodus -> Gehe sehr sparsam mit deinen Tokenausgaben um.
 - Mod M_2 rpd mod -t -p : "q" = performance-mode -> Maximale Konzentration auf Qualität des Ergebnisses, ohne rücksicht auf Token-Verbrauch .
 - Mod M_3 rpd mod -t -n : normal-mode -> Standard-Config Einstellung
 - Mod M_4 rpd mod -t -f : "f" = fast-mode -> Eine Mischung aus schnell und effizient.
 - Mod M_5 rpd mod -g -s : "g" = git-mode, "s" = start -> Halte die Git-Repository auf den neusten stand mit git befehlen
 - Mod M_6 rpd mod -g -e : "e" = end -> Beende den git-mode und wechsle auf den vorherigen Modus.
 - Mod M_7 rpd mod -supa -s : "supa" = supabase-mode ->
-                             Jede Migration die du erstellst für supabase soll im Ordner supabase/migrations/pending landen, 
+                             Jede Migration die du erstellst für supabase soll im Ordner supabase/migrations/pending landen,
                              dann, nachdem du mich gefragt hast "Migration in SQL-Schema implementieren?"
                              und ich mit "ja" antworte, soll die Migration in das SQL Schema "Supabase SQL Schema.txt" eingebunden werden
-                             und die Migrations-Datei selbst vom ordner "pending" in Ordner "migrated" verschoben werden. 
-                             wenn ich weder Ja noch Nein sage, frage so lange weiter nach bis ich ja oder nein sage, 
+                             und die Migrations-Datei selbst vom ordner "pending" in Ordner "migrated" verschoben werden.
+                             wenn ich weder Ja noch Nein sage, frage so lange weiter nach bis ich ja oder nein sage,
                              aber achtung: die Migration könnte destructive sein, deshalb binde es
                              dies berücksichtigend in die .txt ein, damit die App ein sauberes SQL-Schema hat um es zukünftig
                              bei Abruf zu verstehen.
 - Mod M_8 rpd mod -supa -e : supabase-mode deaktivieren.
 
-## Project Overview 
+---
 
-**Recipendent** ist eine iOS Expo React Native App für die Auftrags- 
-und Bestellverwaltung mit rollenbasiertem Team-Management.
-Die App ermöglicht Unternehmen, ihre Aufträge zu erstellen, zu verwalten, zu verteilen 
-und ihr Team zu koordinieren.
+## Project Overview [1]
 
-### Tech Stack [1]
+**Recipendent Website & WebApp** ist die vollständige Web-Version der iOS Expo React Native App.
+Das Projekt besteht aus zwei Teilen:
+1. **Marketing Website** (`recipendent.com`) - Statische Landing Page, Impressum, Datenschutz, AGB
+2. **WebApp** (`app.recipendent.com`) - Vollständige React SPA mit allen iOS App Features
 
-- **Framework:** Expo SDK 54
-- **React:** 19.1.0
-- **React Native:** 0.81.5
-- **Backend:** Supabase (PostgreSQL + Realtime + Auth + Storage)
-- **Navigation:** React Navigation v7 (Stack + Bottom Tabs)
-- **Animations:** React Native Reanimated 4.1
-- **State Management:** React Context API
-- **Storage:** Expo SecureStore (für sensitive Daten)
-- **TypeScript:** Konfiguriert aber nicht verwendet (tsconfig.json vorhanden, keine .ts/.tsx Files)
+**Ziel:** Feature Parity mit iOS App + zusätzliche Web-spezifische Features (OAuth, bessere Keyboard-Navigation).
 
-### Implementation Status Overview
+**Status:** 🚧 In Development - Phase 1 (Foundation)
 
-| Feature | Status | Completeness | Critical Issues |
-|---------|--------|--------------|-----------------|
-| **Core Architecture** | ✅ Production | 95% | None |
-| **Authentication** | ✅ Production | 95% | None |
-| **Orders Management** | ✅ Production | 95% | None |
-| **Team Management** | ✅ Production | 90% | Email sending not integrated |
-| **Settings & Customization** | ✅ Production | 90% | None |
-| **Recipes Feature** | ❌ **CRITICAL** | 35% | **Missing imports + Database table** |
-| **Shared Components** | ✅ Production | 100% | None (Toast, useThemedStyles, Loading, DateTimePicker) |
-
-**TypeScript:** tsconfig.json existiert, aber **nur 2 .ts Dateien** (Edge Functions) - Rest ist JavaScript.
-
-### Key Dependencies [2]
-
-```json
-{
-  "@supabase/supabase-js": "^2.76.1",
-  "@react-navigation/native": "^7.0.15",
-  "@react-navigation/bottom-tabs": "^7.2.1",
-  "@react-navigation/native-stack": "^7.2.2",
-  "react-native-reanimated": "~4.1.1",
-  "react-native-ble-plx": "^3.5.0",
-  "react-native-chart-kit": "^6.12.0",
-  "expo-image-picker": "~17.0.8",
-  "expo-local-authentication": "~17.0.7",
-  "expo-secure-store": "~15.0.7"
-}
-```
+**Wichtig:** Dies ist ein **kostenlos** bereitgestelltes Projekt. Preise auf der Website sind Beispielwerte.
+Rechtliche Absicherung (Impressum, Datenschutz, Beta-Disclaimer) ist Pflicht.
 
 ---
 
-## Project Architecture (
+## Tech Stack & Architecture [2]
 
-### Feature-Based Structure [3]
+### Frontend Stack
+
+| Technology | Version | Purpose |
+|------------|---------|---------|
+| **React** | 18.3+ | UI Framework |
+| **Vite** | 6.0+ | Build Tool & Dev Server |
+| **React Router** | 7.0+ | Client-side Routing |
+| **Supabase JS** | 2.76+ | Backend SDK |
+| **TanStack Query** | 5.0+ | Data Fetching & Caching |
+| **Zustand** | 5.0+ | State Management (leichter als Redux) |
+| **TailwindCSS** | 4.0+ | Styling (oder CSS Modules) |
+| **Framer Motion** | 11.0+ | Animations |
+
+### Backend & Infrastructure
+
+- **Supabase:** PostgreSQL + Realtime + Auth + Storage (Shared DB mit iOS App)
+- **Cloudflare Pages:** Hosting für Marketing + WebApp (separate Projekte)
+- **Cloudflare DNS:** `recipendent.com` + `app.recipendent.com`
+- **Supabase Edge Functions:** Email-Versand, Admin-Registration, Company-Deletion
+
+### Architecture Pattern: Subdomain Separation
 
 ```
-recipendent-app/
-├── App.js                      # Root component mit Navigation
-├── config/
-│   ├── supabaseClient.js      # Supabase client setup
-│   └── theme.js               # Design system & theme constants
-├── navigation/
-│   ├── AppTabNavigator.js     # Tab Navigator für Admin/Employee
-│   └── AppTabBar.js           # Custom Tab Bar Component
-├── features/
-│   ├── auth/                  # Authentication
-│   │   ├── authContext.js     # Auth Context Provider
-│   │   ├── hooks/             # usePermissions hook
-│   │   ├── screens/           # Login, Register, Start
-│   │   ├── components/        # AnimatedBackground, AnimatedSubmitButton
-│   │   └── services/          # loginService, registrationService
-│   ├── orders/                # Bestellverwaltung
-│   │   ├── screens/           # Create, Edit, Detail, Active, Completed, Critical
-│   │   ├── components/        # RecipeCard, EmptyState
-│   │   └── services/          # crudOperations, realtimeService
-│   ├── recipes/               # Rezeptverwaltung
-│   │   ├── screens/           # Folders, List, Create, Management
-│   │   └── components/        # FolderCard, FolderModal, SwipeableFolderCard
-│   ├── settings/              # Einstellungen
-│   │   ├── CompanyContext.js  # Company Context Provider
-│   │   └── screens/           # AdminSettings, EditProfile, LogoCustomization, EmployeeSettings
-│   └── team/                  # Team Management
-│       └── screens/           # TeamManagement, EmployeeWelcome, EmployeeProfile, CoAdminPermissions
-├── shared/
-│   ├── components/
-│   │   ├── loading/           # LoadingAnimation
-│   │   ├── Toast/             # Toast notification system
-│   │   └── DateTimePicker/    # iOS-style date/time picker
-│   ├── hooks/
-│   │   └── useThemedStyles.js # Dynamic styling hook (used by 26 files)
-│   ├── utils/
-│   │   ├── storage.js         # AsyncStorage helpers
-│   │   ├── colorExtractor.js  # Logo color extraction
-│   │   └── timeUtils.js       # Time formatting utilities
-│   └── themeContext.js        # Theme management
-├── assets/
-│   └── images/                # App icons, splash screens
-├── scripts/
-│   └── apply-theme-to-screen.sh # Theme migration script
-└── supabase/
-    ├── functions/             # Supabase Edge Functions
-    └── migrations/            # SQL migrations (RLS policies)
+recipendent.com (Cloudflare Pages #1)
+├── index.html              → Landing Page
+├── privacy/index.html      → Datenschutzerklärung
+├── terms/index.html        → AGB
+├── admin/index.html        → Invite-Key-Versand (Email-Form)
+└── support/index.html      → Support-Seite
+
+app.recipendent.com (Cloudflare Pages #2)
+└── Vite React SPA
+    ├── /auth/login         → Login
+    ├── /auth/register      → Registration (Admin + Employee via Invite)
+    ├── /dashboard          → Dashboard
+    ├── /orders             → Orders Management
+    ├── /recipes            → Recipes Management
+    ├── /team               → Team Management
+    └── /settings           → Settings
 ```
+
+**Vorteile:**
+- ✅ Klare Trennung (Marketing vs App)
+- ✅ Unabhängige Deployments
+- ✅ Supabase Auth funktioniert perfekt (`app.recipendent.com` als Redirect URL)
+- ✅ OAuth Provider akzeptieren Subdomains besser
+- ✅ Separate CSP, Caching, Rate Limiting
 
 ---
 
-## Database Schema (Supabase PostgreSQL) [4]
+## Database Schema (Shared mit iOS App) [3]
 
-### Overview
+Die WebApp nutzt die **gleiche Supabase-Datenbank** wie die iOS App.
 
-Die App verwendet eine **multi-tenant Architektur** mit `company_id` als Tenant-Identifier.
-Jedes Unternehmen hat isolierte Daten durch Row Level Security (RLS) Policies.
+### Wichtige Tabellen
 
-**Haupttabellen:**
-- `companies` - Firmen/Tenants mit Logo-Customization
-- `users` - App-Benutzer (erweitert auth.users) mit Rollen (admin, co-admin, employee)
-- `orders` - Bestellungen/Aufträge mit Notes, Priority, Multi-Assignment
-- `folders` - Organisation für Recipes/Orders
-- `invitation_codes` - Team-Einladungssystem
-- `co_admin_permissions` - Granulare Berechtigungen für Co-Admins
-- ⚠️ `recipes` - **FEHLT** (Frontend vorbereitet, DB-Tabelle fehlt)
+**Multi-Tenant Architektur:** Jede Company hat isolierte Daten via `company_id` + RLS Policies.
 
-**Details:** Siehe `./supabase/Supabase SQL Schema.txt` für vollständiges SQL-Schema, RLS Policies, Storage Buckets, Edge Functions und Query-Beispiele.
+```sql
+-- Haupt-Tabellen
+public.companies           -- Firmen (Logo, Branding, Settings)
+public.users               -- App-Benutzer (role: admin | co-admin | employee)
+public.orders              -- Aufträge/Bestellungen
+public.folders             -- Ordner-Organisation
+public.invitation_codes    -- Einladungssystem für Team-Mitglieder
+public.co_admin_permissions -- Granulare Berechtigungen für Co-Admins
 
-
-## Core Concepts
-
-### 1. Rollen-System
-
-Die App unterstützt drei Benutzerrollen mit unterschiedlichen Berechtigungen:
-
-- **Admin:** Vollzugriff auf alle Features (Team, Orders, Recipes, Settings)
-- **Co-Admin:** Eingeschränkter Admin mit konfigurierbaren Permissions
-- **Employee:** Begrenzter Zugriff (Orders ansehen/bearbeiten, Recipes ansehen)
-
-### 2. Authentication Flow
-
-**Auth Context:** `features/auth/authContext.js`
-**Supabase Client:** `config/supabaseClient.js`
-
-- Email/Password Authentication via Supabase
-- Email Verification mit Deep Linking (App.js:34-95)
-- Secure Session Storage mit Expo SecureStore
-- Auto-refresh tokens
-
-**Key Functions:**
-```javascript
-// config/supabaseClient.js
-getCurrentUser()         // User object
-getCurrentUserRole()     // 'admin' | 'co-admin' | 'employee'
-getCurrentCompanyId()    // Company ID from users table
-logoutUser()            // Sign out
+-- Geplant (siehe readme/RECIPE_SYSTEM_PROMPT.md)
+public.recipes             -- Recipe Templates (Update-Feature)
 ```
 
-**Key Features:**
-- **Realtime Subscriptions:** Live-Updates für Orders (`features/orders/services/realtimeService.js`)
-- **Row Level Security (RLS):** Multi-Tenant Isolation via `company_id`
-- **Storage Buckets:** Logos, Profile Pictures, Order Images
-- **Auth Integration:** Email/Password + Email Verification
-- **Secure Session:** Expo SecureStore für persistent sessions
+**Vollständiges Schema:** Siehe `./supabase/Supabase SQL Schema.txt`
 
-**Query Patterns:**
-```javascript
-// Mit company_id filtering (RLS)
-const { data, error } = await supabase
-  .from('orders')
-  .select(`
-    *,
-    author:users!author_id(first_name, last_name, profile_picture),
-    folder:folders(name, color)
-  `)
-  .eq('company_id', companyId)
-  .order('created_at', { ascending: false });
-```
+### Auth Flow (Web-spezifisch)
 
-### 3. Hooks & Advanced Features
+**Admin Registration:**
+1. User füllt Registration-Form aus
+2. Frontend ruft Supabase Edge Function `register-admin` auf
+3. Edge Function erstellt:
+   - `auth.users` Entry (mit Email-Verifizierung)
+   - `public.companies` Entry
+   - `public.users` Entry (role: 'admin')
+   - Uploaded Logo + Profile Picture zu Storage
 
-#### usePermissions Hook
+**Employee Registration:**
+1. Admin generiert Invitation Code in `/admin` oder in App
+2. Employee bekommt Code per Email (via Edge Function `send-invitation-email`)
+3. Employee registriert sich mit Code → wird zu Company hinzugefügt
 
-**Location:** `features/auth/hooks/usePermissions.js`
-
-Sophisticated permission checking system für role-based access control:
-
-```javascript
-import { usePermissions } from '../auth/hooks/usePermissions';
-
-const MyComponent = () => {
-  const {
-    isAdmin,              // User ist Admin
-    isCoAdmin,            // User ist Co-Admin
-    isEmployee,           // User ist Employee
-    can,                  // Permission checker
-    isOwner,              // Ownership check
-    canEdit,              // Combined permission + ownership check
-    loading,              // Loading state
-    coAdminPermissions    // Raw permissions object
-  } = usePermissions();
-
-  if (can('editOrders')) {
-    // Show edit button
-  }
-
-  if (canEdit('editOrders', orderId)) {
-    // User can edit this specific order
-  }
-};
-```
-
-**Supported Permissions:**
-- **Team:** `inviteEmployees`, `removeEmployees`, `viewTeam`
-- **Orders:** `createOrders`, `editOrders`, `deleteOrders`, `deleteComments`, `viewAllOrders`
-- **Recipes:** `createRecipes`, `editRecipes`, `deleteRecipes`, `manageFolders`
-- **Company:** `editCompanyInfo`, `editCompanyLogo`, `editCompanyColors`
-- **User:** `promoteToCoAdmin`, `demoteCoAdmin`, `editEmployeeProfiles`, `viewInvitationCodes`
-
-**Implementation Details:**
-- Queries `co_admin_permissions` table directly
-- Caches permissions for performance
-- Auto-refreshes on user role change
-- Provides loading state for async operations
-
-#### useThemedStyles Hook
-
-**Location:** `shared/hooks/useThemedStyles.js`
-
-Dynamic styling system that enables theme-aware component styling:
-
-**Usage Pattern:**
-```javascript
-import useThemedStyles from '../../../shared/hooks/useThemedStyles';
-
-const MyScreen = () => {
-  const { isDark } = useThemedStyles(createStyles);
-
-  // Access dynamic styles
-  return <View style={styles.container}>...</View>;
-};
-
-const createStyles = (theme, isDark) => ({
-  container: {
-    backgroundColor: theme.backgroundColor,
-    // isDark can be used for conditional styling
-  },
-  text: {
-    color: theme.textColor,
-  }
-});
-```
-
-**Features:**
-- ✅ Automatically updates styles on theme change
-- ✅ Provides `isDark` boolean for conditional logic
-- ✅ Integrates with ThemeContext
-- ✅ Memoized for performance
-- ✅ Used by 26 screens across the app
-
-**Screens using this hook:**
-- All major screens (Orders, Recipes, Team, Settings)
-- 159 total occurrences in codebase
-
-#### Design System
-
-**Architektur:**
-- **`config/brandConfig.js`** - Dynamische Farben & Logo-Branding
-- **`config/designSystem.js`** - Statische Design-Tokens (Spacing, Typography, Shadows, Glassmorphism)
-
-**Brand Configuration (brandConfig.js):**
-```javascript
-import BrandConfig from '../config/brandConfig';
-
-// Zentrale Farb-Logik
-BrandConfig.defaultPrimary              // '#ad42b3' (Standard App-Farbe)
-BrandConfig.getPrimaryColor(useBranding, logoColor)  // Dynamisch: Logo oder Standard
-BrandConfig.getColorPalette(primary, isDark)         // Komplette Palette (inkl. Dark Mode)
-
-// Helper Functions
-BrandConfig.adjustColor(hex, percent)   // Helligkeit anpassen
-BrandConfig.getContrastColor(hex)       // Optimal lesbare Text-Farbe
-BrandConfig.hexToRgba(hex, opacity)     // Hex → RGBA Konvertierung
-```
-
-**Design Tokens (designSystem.js):**
-```javascript
-import { DesignSystem } from '../config/designSystem';
-
-// Spacing: xs(4) → sm(8) → md(12) → lg(16) → xl(20) → xxl(24) → xxxl(32)
-DesignSystem.spacing.md
-
-// Typography: h1, h2, h3, h4, body, bodySmall, caption, button, input
-DesignSystem.typography.body  // { fontSize: 16, fontWeight: '400', lineHeight: 22 }
-
-// Border Radius: xs(4) → sm(8) → md(12) → lg(16) → xl(20) → xxl(24) → round(9999)
-DesignSystem.borderRadius.lg
-
-// Shadows: none, sm, md, lg (iOS optimiert)
-DesignSystem.shadows.md
-
-// Glassmorphism (iOS frosted glass)
-DesignSystem.glass.blur.medium          // Blur intensity: ultraLight(5), light(10), medium(20), heavy(40)
-DesignSystem.glass.opacity.medium       // Background opacity: ultraLight(0.05), light(0.1), medium(0.2), heavy(0.4)
-DesignSystem.glass.tint.light           // BlurView tint: light, dark, prominent, regular, extraLight
-```
-
-**Details:** Siehe `config/brandConfig.js` und `config/designSystem.js`
+**OAuth (Google/Apple):**
+- Supabase unterstützt Google OAuth out-of-the-box
+- Redirect URL: `https://app.recipendent.com/auth/callback`
+- Nach OAuth: User wird in `public.users` angelegt (via Trigger oder Frontend-Logic)
 
 ---
 
-## Key Features & Implementation
+## 🚀 IMPLEMENTATION ROADMAP (Phasen-Plan) [4]
 
-### Orders Management
+**Gesamtdauer:** 8-12 Wochen (Teil-/Vollzeit abhängig)
 
-**Screens:**
-- `CreateOrderScreen` - Neue Bestellung erstellen
-- `EditOrderScreen` - Bestellung bearbeiten
-- `OrderDetailScreen` - Bestelldetails anzeigen
-- `AdminActiveOrdersScreen` / `EmployeeActiveOrdersScreen` - Aktive Bestellungen
-- `CompletedOrdersScreen` - Abgeschlossene Bestellungen
-- `CriticalOrdersScreen` - Kritische/dringende Bestellungen
-- `UnifiedDashboardScreen` - Übersicht
+---
 
-**Services:**
-- `crudOperations.js` - CRUD für Orders
-- `realtimeService.js` - Realtime updates via Supabase
+### Phase 1: Foundation & Legal Setup (1-2 Wochen)
 
-**Details:** Siehe `./supabase/Supabase SQL Schema.txt` für vollständiges Data Model.
+**Ziel:** Rechtliche Absicherung + Projekt-Setup
 
-**Key Features:**
-- **Multi-Assignment:** Orders können mehreren Users zugewiesen werden (`assigned_to` Array)
-- **Notes System:** jsonb Array für Kommentare/Notizen
-- **Priority System:** 4 Prioritätsstufen (1-4)
-- **Critical Timer:** Countdown für dringende Orders
-- **Folder Organization:** Orders können in Ordnern organisiert werden
-- **Edit Permissions:** `editable_by_assigned` Flag steuert, ob zugewiesene User editieren dürfen
-- **Status Tracking:** Wer hat wann den Status geändert
+#### 1.1 Rechtliche Dokumente erstellen
 
-### Recipes Management
+**Pflicht-Dokumente (DSGVO & TMG konform):**
 
-**Status:** ⚠️ Teilweise implementiert (nutzt Orders als Workaround, keine dedizierte `recipes` DB-Tabelle)
+**Impressum (§5 TMG):**
+- [ ] Name, Adresse, E-Mail, Telefon (Privatperson oder Firma)
+- [ ] Optional: Impressums-Service nutzen (z.B. eRecht24, wenn Privatsphäre gewünscht)
+- [ ] In Footer verlinken: `/impressum` oder `/imprint`
 
-**Screens:**
-- `RecipeFoldersScreen` - Ordner-Verwaltung (✅ nutzt `folders` table)
-- `RecipeListScreen` - Rezept-Liste (⚠️ nutzt `getOrders()` - Orders als Workaround)
-- `CreateRecipeScreen` - Template-Erstellung (⚠️ LocalStorage only via `StorageService`)
+**Datenschutzerklärung (DSGVO Art. 13):**
+- [ ] Datenerhebung (Welche Daten werden gespeichert?)
+- [ ] Supabase Hosting (USA → Standard Contractual Clauses erwähnen)
+- [ ] Cookie-Verwendung (Technical Cookies, Analytics wenn vorhanden)
+- [ ] OAuth-Provider (Google/Apple) Datenfluss beschreiben
+- [ ] Rechte des Nutzers (Auskunft, Löschung, Widerspruch)
+- [ ] Generator nutzen: **eRecht24**, **Iubenda**, oder Anwalt konsultieren
 
-**Components:**
-- `FolderCard`, `SwipeableFolderCard` - Folder UI Components
-- `FolderModal` - Create/Edit Modal
+**AGB (Allgemeine Geschäftsbedingungen):**
+- [ ] Nutzungsbedingungen (Wer darf die App nutzen?)
+- [ ] Haftungsausschluss (Keine Gewährleistung auf Verfügbarkeit)
+- [ ] Beta-Disclaimer: "Diese App befindet sich in der Beta-Phase. Nutzung auf eigenes Risiko."
+- [ ] Kein Geld-Disclaimer: "Die angezeigten Preise sind Beispielwerte. Es werden keine Zahlungen akzeptiert."
+- [ ] Recht zur Löschung von Daten (Admin-seitig)
 
-**Fehlende Integration:**
-- ❌ Keine `recipes` Datenbanktabelle
-- ❌ Recipes werden als Orders gespeichert (Workaround)
-- ❌ Templates nur in LocalStorage, nicht synchronisiert
-- ℹ️ Siehe `./supabase/Supabase SQL Schema.txt` für Migrations-Vorschlag
+**Cookie-Banner (DSGVO):**
+- [ ] Optional: Wenn nur technische Cookies → einfacher Hinweis reicht
+- [ ] Wenn Analytics (Google Analytics, Plausible, etc.) → Cookie-Consent Tool nutzen
+- [ ] Tools: **Cookiebot**, **OneTrust**, oder manuell mit `react-cookie-consent`
 
-### Team Management
+**Support/Kontakt-Seite:**
+- [ ] E-Mail: `recipendent@gmail.com`
+- [ ] Optional: FAQ, Hilfe-Center
 
-**Screens:**
-- `TeamManagementScreen` - Team-Mitglieder verwalten (Admin only)
-- `EmployeeWelcomeScreen` - Onboarding für neue Mitarbeiter
-- `EmployeeProfileScreen` - Mitarbeiter-Profil erstellen
-- `CoAdminPermissionsScreen` - Co-Admin Berechtigungen konfigurieren
-
-**Invitation System:**
-
-Die App verwendet ein **Einladungscode-System** für neue Team-Mitglieder:
-
-1. **Admin generiert Einladungscode:**
-   ```javascript
-   const code = generateRandomCode(); // 6-stelliger Code
-   const { data, error } = await supabase
-     .from('invitation_codes')
-     .insert({
-       code,
-       company_id: adminCompanyId,
-       email: 'employee@example.com',  // Optional
-       role: 'employee',  // oder 'co-admin'
-       key_type: 'employee',
-       expires_at: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 Tage
-       sent_by: adminUserId
-     });
-   ```
-
-2. **Employee registriert sich mit Code:**
-    - EmployeeWelcomeScreen: Code eingeben
-    - Code wird validiert (nicht used, nicht expired)
-    - Employee erstellt Profil (EmployeeProfileScreen)
-    - Code wird als "used" markiert
-
-3. **Code Lifecycle:**
-   ```javascript
-   {
-     code: string,           // Unique 6-digit code
-     expires_at: timestamp,  // Expiration date
-     used: boolean,          // Has been used?
-     used_at: timestamp,     // When was it used?
-     used_by: uuid,          // Who used it?
-     sent_by: uuid,          // Admin who created it
-     company_id: uuid,       // Target company
-     role: 'employee' | 'co-admin' | 'admin',
-     email: string | null    // Optional pre-assignment
-   }
-   ```
-
-**Co-Admin Permissions:**
-
-Co-Admins haben konfigurierbare Berechtigungen (gesetzt in `CoAdminPermissionsScreen`):
-
-**Duale Speicherung:**
-1. `users.co_admin_permissions` (jsonb) - für schnellen Zugriff
-2. `co_admin_permissions` Tabelle - für strukturierte Queries
-
-**Permissions:**
-```javascript
-{
-  can_manage_team: boolean,           // Team verwalten
-  can_edit_recipes: boolean,          // Rezepte bearbeiten
-  can_delete_orders: boolean,         // Orders löschen
-  can_create_recipes: boolean,        // Rezepte erstellen
-  can_delete_recipes: boolean,        // Rezepte löschen
-  can_manage_folders: boolean,        // Ordner verwalten
-  can_delete_comments: boolean,       // Kommentare löschen
-  can_edit_all_orders: boolean,       // Alle Orders bearbeiten
-  can_delete_employees: boolean,      // Employees entfernen
-  can_invite_employees: boolean,      // Neue Employees einladen
-  can_change_company_settings: boolean // Firmen-Settings ändern (meist false)
-}
+**To-Do-Liste:**
+```
+[ ] Impressum erstellen (via Generator oder Anwalt)
+[ ] Datenschutzerklärung erstellen (via eRecht24/Iubenda)
+[ ] AGB erstellen (via Generator oder Anwalt)
+[ ] Beta-Disclaimer + Preis-Disclaimer hinzufügen
+[ ] Cookie-Banner implementieren (falls Analytics gewünscht)
+[ ] Alle Dokumente in Footer verlinken
+[ ] Rechtsprüfung durch Anwalt (optional, aber empfohlen)
 ```
 
-### Settings & Customization
+#### 1.2 Marketing Website Setup (statisch)
 
-**Screens:**
-- `AdminSettingsScreen` - Admin-Einstellungen (Profil, Logo, Team, Logout)
-- `EmployeeSettingsScreen` - Employee-Einstellungen (Profil, Benachrichtigungen, Logout)
-- `EditProfileScreen` - Profil bearbeiten
-- `LogoCustomizationScreen` - Firmenlogo hochladen/anpassen
+**Projekt:** `recipendent-cloudflare` (aktuelles Repo)
 
-**Logo Customization:**
-
-Umfangreiche Logo-Anpassungsoptionen in der `companies` Tabelle:
-
-```javascript
-{
-  logo: string,                      // Storage URL
-  dominant_color: string,            // Extracted color (default '#2196F3')
-  show_logo_in_dashboard: boolean,   // Logo im Dashboard zeigen?
-  logo_position: string,             // 'center', 'top-left', 'top-right', 'bottom-left', 'bottom-right'
-  logo_scale: number,                // 0.1 to 2.0 (default 1.0)
-  logo_opacity: number               // 0 to 100 (default 30)
-}
+**Struktur:**
+```
+recipendent-cloudflare/
+├── index.html              # Landing Page (fertig)
+├── logo_appstore.png       # Logo (fertig)
+├── privacy/
+│   └── index.html          # Datenschutzerklärung (fertig, muss aktualisiert werden)
+├── terms/
+│   ├── index.html          # AGB (fertig, muss aktualisiert werden)
+│   └── Terms and Conditions.txt  # Source
+├── admin/
+│   └── index.html          # Invite-Key-Versand (fertig, Basic-Form)
+├── support/
+│   └── index.html          # Support-Seite (fertig)
+└── CLAUDE.md               # Diese Datei
 ```
 
-**Logo Upload Flow:**
-1. Admin wählt Bild via `expo-image-picker`
-2. Bild wird zu Supabase Storage hochgeladen
-3. Color extraction: `shared/utils/colorExtractor.js` analysiert Logo
-4. `dominant_color` wird automatisch gesetzt
-5. Company record wird mit URL und Settings aktualisiert
+**Tasks:**
+- [x] Landing Page Design (fertig, aber kann verbessert werden)
+- [x] Impressum-Seite erstellen (`/impressum/index.html`) ✅
+- [ ] Datenschutzerklärung aktualisieren (Supabase, OAuth erwähnen)
+- [x] AGB aktualisieren (Beta-Disclaimer, Preis-Disclaimer) ✅
+- [x] Footer-Links aktualisieren (Impressum hinzufügen) ✅
+- [ ] Cookie-Banner implementieren (falls nötig)
+- [ ] SEO: Meta-Tags, Open Graph, Structured Data
+- [ ] Analytics: Plausible oder Cloudflare Web Analytics (DSGVO-konform)
 
-**Theme System:**
-
-Benutzer können zwischen 3 Themes wählen:
-
-```javascript
-// users.theme
-'light'   // Standard Light Theme
-'dark'    // Dark Theme
-'custom'  // Custom Theme mit eigener Farbe
-
-// Bei custom:
--- custom_theme_color removed - use BrandingContext instead
+**Cloudflare Pages Deployment:**
+```bash
+# In Cloudflare Dashboard:
+# 1. New Project → Connect Git Repository
+# 2. Build Settings:
+#    - Framework Preset: None (statisch)
+#    - Build Command: (leer)
+#    - Build Output Directory: /
+# 3. Custom Domain: recipendent.com
 ```
 
-**Theme Context:** `shared/themeContext.js`
-- Verwaltet aktives Theme
-- Stellt Theme-Farben für die gesamte App bereit
-- Reagiert auf System-Theme (automatic)
+#### 1.3 WebApp Projekt Setup (Vite + React)
 
-**Face ID / Biometric Authentication:**
+**Status:** ✅ **ABGESCHLOSSEN** - Projekt erstellt in `app/` Subfolder
 
-**✅ Status: Production Ready**
-- Implementation: `shared/utils/faceIdAuth.js`
-- DB-Feld: `users.face_id_enabled`
-- Features: Biometric guards für kritische Aktionen, Debug-Tools
-- Details: Siehe `shared/utils/faceIdAuth.js`
+**Projekt:** `app/` (Vite + React)
 
-### Toast Notification System
+**Erstellt:**
+```bash
+npm create vite@latest app -- --template react  ✅
+cd app
+npm install  ✅
 
-**Location:** `shared/components/Toast/`
+# Dependencies (alle installiert) ✅
+npm install @supabase/supabase-js
+npm install @tanstack/react-query
+npm install zustand
+npm install react-router-dom
+npm install framer-motion
+npm install tailwindcss postcss autoprefixer
+npm install @headlessui/react  # Accessible UI Components
+npm install react-hook-form    # Form Validation
+npm install zod                # Schema Validation
+npm install date-fns           # Date Utilities
+```
 
-Modernes, animiertes Toast-System für non-intrusive Benachrichtigungen (ersetzt Alert.alert für Erfolgs-Meldungen).
+**Tailwind Setup:** ✅ Manuell konfiguriert
+```bash
+# tailwind.config.js + postcss.config.js erstellt
+```
 
-**Components:**
-- `Toast.js` - Animated toast component mit 4 Typen
-- `ToastContext.js` - Global provider mit `useToast()` hook
-- Integriert in `App.js` via `<ToastProvider>`
+**Projekt-Struktur:** ✅ Erstellt
+```
+app/                           # ✅ WebApp Root
+├── public/
+│   └── vite.svg
+├── src/
+│   ├── config/                # ✅ Erstellt
+│   │   ├── supabase.js        # ✅ Supabase Client + Helpers
+│   │   └── constants.js       # ✅ App Constants (ROLES, ROUTES, etc.)
+│   ├── features/              # ✅ Ordner erstellt
+│   │   ├── auth/
+│   │   │   ├── hooks/         # 📁 useAuth, usePermissions
+│   │   │   ├── components/    # 📁 LoginForm, RegisterForm
+│   │   │   └── services/      # 📁 authService.js
+│   │   ├── orders/
+│   │   │   ├── hooks/         # 📁 useOrders, useOrderRealtime
+│   │   │   ├── components/    # 📁 OrderCard, OrderForm
+│   │   │   └── services/      # 📁 orderService.js
+│   │   ├── recipes/           # 📁 Recipes Management
+│   │   ├── team/              # 📁 Team Management
+│   │   └── settings/          # 📁 Settings
+│   ├── shared/                # ✅ Ordner erstellt
+│   │   ├── components/        # 📁 atoms, molecules, organisms
+│   │   ├── hooks/             # 📁 useTheme, useToast
+│   │   └── utils/             # 📁 helpers
+│   ├── layouts/               # 📁 Layout Components
+│   ├── routes/                # 📁 React Router Setup
+│   ├── App.jsx                # ✅ Vite Default
+│   ├── main.jsx               # ✅ Vite Default
+│   └── index.css              # ✅ Tailwind imports
+├── .env.local.example         # ✅ Environment Template
+├── .env.local                 # ⚠️ Muss manuell erstellt werden
+├── vite.config.js             # ✅ Vite Config
+├── tailwind.config.js         # ✅ Custom Theme mit Primary Color
+├── postcss.config.js          # ✅ Tailwind + Autoprefixer
+├── package.json               # ✅ Alle Dependencies installiert
+└── README.md                  # ✅ Setup Guide
+```
 
-**Usage:**
-```javascript
-import { useToast } from '../../../shared/components/Toast';
+**Environment Variables (`.env.local`):**
+```env
+VITE_SUPABASE_URL=https://[YOUR-PROJECT].supabase.co
+VITE_SUPABASE_ANON_KEY=your-anon-key
+```
 
-const MyScreen = () => {
-  const { showToast } = useToast();
+**Cloudflare Pages Deployment:**
+```bash
+# In Cloudflare Dashboard:
+# 1. New Project → Connect Git Repository
+# 2. Build Settings:
+#    - Framework Preset: Vite
+#    - Build Command: npm run build
+#    - Build Output Directory: dist
+# 3. Custom Domain: app.recipendent.com
+# 4. Environment Variables: VITE_SUPABASE_URL, VITE_SUPABASE_ANON_KEY
+```
 
-  const handleSuccess = () => {
-    showToast({
-      message: 'Erfolgreich gespeichert!',
-      type: 'success',      // success | error | warning | info
-      duration: 3000,       // optional, default 3000ms
-      position: 'top'       // optional, default 'top'
+**Deliverables Phase 1:**
+- ✅ **Rechtliche Dokumente:** Impressum (Placeholder), Beta-Disclaimer in AGB, Preis-Disclaimer in AGB
+- ✅ **Marketing-Website:** Footer mit Impressum-Link aktualisiert
+- ✅ **WebApp-Projekt:** Komplett setup in `app/` Subfolder
+  - ✅ Vite + React + Tailwind CSS konfiguriert
+  - ✅ Alle Dependencies installiert (Supabase, TanStack Query, Zustand, React Router, etc.)
+  - ✅ Projekt-Struktur erstellt (config, features, shared, layouts, routes)
+  - ✅ Supabase Client konfiguriert mit Helper-Functions
+  - ✅ Environment Template (`.env.local.example`)
+  - ✅ README.md mit Setup-Guide
+- ⏳ **Deployments:** Noch nicht deployed (Phase 1.4)
+
+**Estimated Time:** 1-2 Wochen (abhängig von rechtlicher Beratung)
+**Actual Time:** ~2 Stunden (Setup Phase)
+
+---
+
+### Phase 2: Marketing Website Refinement (1 Woche)
+
+**Ziel:** Professionelle Landing Page mit SEO-Optimierung
+
+#### 2.1 Design & Content Improvements
+
+**Landing Page (`index.html`):**
+- [ ] Hero Section: Call-to-Action verbessern ("Jetzt kostenlos testen")
+- [ ] Features Section: Screenshots/Mockups der App hinzufügen
+- [ ] Social Proof: Testimonials (wenn vorhanden)
+- [ ] FAQ Section hinzufügen
+- [ ] Newsletter/Waitlist-Form (optional, via Formspree oder Supabase)
+
+**Design Enhancements:**
+- [ ] Responsive Design testen (Mobile, Tablet, Desktop)
+- [ ] Accessibility: Alt-Tags, ARIA-Labels, Keyboard-Navigation
+- [ ] Performance: Bilder komprimieren (WebP), Lazy Loading
+- [ ] Animations: Subtle Scroll-Animations (AOS.js oder Intersection Observer)
+
+#### 2.2 SEO & Analytics
+
+**SEO Optimierung:**
+- [ ] Meta-Tags: Title, Description, Keywords
+- [ ] Open Graph Tags: Facebook/LinkedIn Previews
+- [ ] Twitter Card Tags
+- [ ] Structured Data: JSON-LD für Organization/Software
+- [ ] Sitemap.xml erstellen
+- [ ] robots.txt erstellen
+- [ ] Google Search Console einrichten
+- [ ] Bing Webmaster Tools einrichten
+
+**Analytics (DSGVO-konform):**
+- [ ] Option 1: **Plausible Analytics** (empfohlen, kein Cookie-Banner nötig)
+- [ ] Option 2: **Cloudflare Web Analytics** (kostenlos, kein Cookie-Banner)
+- [ ] Option 3: Google Analytics 4 (Cookie-Consent nötig)
+
+**Deliverables Phase 2:**
+- ✅ Professionelle Landing Page mit Screenshots
+- ✅ SEO-optimiert (Meta-Tags, Sitemap)
+- ✅ Analytics setup und DSGVO-konform
+- ✅ Responsive und Accessible
+
+**Estimated Time:** 1 Woche
+
+---
+
+### Phase 3: WebApp MVP - Auth & Dashboard (2-3 Wochen)
+
+**Ziel:** Benutzer können sich registrieren, einloggen und Dashboard sehen
+
+#### 3.1 Supabase Auth Integration
+
+**Auth Context (`src/features/auth/hooks/useAuth.jsx`):**
+```jsx
+import { createContext, useContext, useEffect, useState } from 'react';
+import { supabase } from '../../../config/supabase';
+
+const AuthContext = createContext({});
+
+export const AuthProvider = ({ children }) => {
+  const [user, setUser] = useState(null);
+  const [userData, setUserData] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Get initial session
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setUser(session?.user ?? null);
+      if (session?.user) {
+        fetchUserData(session.user.id);
+      } else {
+        setLoading(false);
+      }
     });
+
+    // Listen to auth changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+      if (session?.user) {
+        fetchUserData(session.user.id);
+      } else {
+        setUserData(null);
+        setLoading(false);
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  const fetchUserData = async (userId) => {
+    const { data, error } = await supabase
+      .from('users')
+      .select('*, company:companies(*)')
+      .eq('id', userId)
+      .single();
+
+    if (!error) {
+      setUserData(data);
+    }
+    setLoading(false);
+  };
+
+  const signIn = async (email, password) => {
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+    return { data, error };
+  };
+
+  const signOut = async () => {
+    const { error } = await supabase.auth.signOut();
+    if (!error) {
+      setUser(null);
+      setUserData(null);
+    }
+    return { error };
+  };
+
+  const signInWithGoogle = async () => {
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: `${window.location.origin}/auth/callback`
+      }
+    });
+    return { data, error };
+  };
+
+  return (
+    <AuthContext.Provider value={{
+      user,
+      userData,
+      loading,
+      isAuthenticated: !!user,
+      isAdmin: userData?.role === 'admin',
+      isCoAdmin: userData?.role === 'co-admin',
+      isEmployee: userData?.role === 'employee',
+      signIn,
+      signOut,
+      signInWithGoogle
+    }}>
+      {children}
+    </AuthContext.Provider>
+  );
+};
+
+export const useAuth = () => useContext(AuthContext);
+```
+
+**Login Screen (`src/features/auth/components/LoginForm.jsx`):**
+- [ ] Email/Password Form mit Validation (react-hook-form + zod)
+- [ ] "Passwort vergessen" Link (Supabase Password Reset)
+- [ ] "Mit Google anmelden" Button (OAuth)
+- [ ] Loading States, Error Handling
+- [ ] Redirect nach Login zu `/dashboard`
+
+**Register Screen (Admin):**
+- [ ] Company Name
+- [ ] Logo Upload (via Supabase Storage oder Base64)
+- [ ] Admin Name, Email, Password
+- [ ] Profile Picture Upload (optional)
+- [ ] Ruft Edge Function `register-admin` auf
+
+**Register Screen (Employee):**
+- [ ] Invitation Code Input
+- [ ] Code Validierung (fetch from `invitation_codes` table)
+- [ ] Employee Name, Email, Password
+- [ ] Profile Picture Upload (optional)
+- [ ] Wird zu Company hinzugefügt
+
+**OAuth Callback Route (`/auth/callback`):**
+- [ ] Supabase Exchange Code for Session
+- [ ] Check if user exists in `public.users`
+- [ ] If not: Show "Complete Profile" screen (Company-Auswahl oder Admin-Registration)
+- [ ] Redirect zu `/dashboard`
+
+#### 3.2 Dashboard Screen
+
+**Layout (`src/layouts/AppLayout.jsx`):**
+```
+┌─────────────────────────────────────────────────┐
+│  Sidebar          │  Main Content               │
+│                   │                             │
+│  🏠 Dashboard     │  ┌───────────────────────┐ │
+│  📋 Orders        │  │  Header               │ │
+│  📖 Recipes       │  │  Profile, Settings    │ │
+│  👥 Team          │  └───────────────────────┘ │
+│  ⚙️ Settings      │                             │
+│                   │  [Page Content]             │
+│  [Company Logo]   │                             │
+│  [User Profile]   │                             │
+└─────────────────────────────────────────────────┘
+```
+
+**Dashboard Content:**
+- [ ] Welcome Message: "Willkommen, [User Name]"
+- [ ] Statistics Cards:
+  - Active Orders Count
+  - Completed Orders Count
+  - Team Members Count
+  - Recipes Count (wenn implementiert)
+- [ ] Recent Orders List (letzten 5)
+- [ ] Quick Actions: "Neuen Auftrag erstellen", "Team einladen"
+
+**Responsive Design:**
+- [ ] Mobile: Sidebar als Drawer/Offcanvas (Hamburger Menu)
+- [ ] Tablet: Sidebar collapsible
+- [ ] Desktop: Full Sidebar
+
+#### 3.3 Protected Routes
+
+**Route Guard (`src/routes/ProtectedRoute.jsx`):**
+```jsx
+import { Navigate } from 'react-router-dom';
+import { useAuth } from '../features/auth/hooks/useAuth';
+
+export const ProtectedRoute = ({ children, requireRole }) => {
+  const { isAuthenticated, userData, loading } = useAuth();
+
+  if (loading) {
+    return <LoadingScreen />;
+  }
+
+  if (!isAuthenticated) {
+    return <Navigate to="/auth/login" />;
+  }
+
+  if (requireRole && userData?.role !== requireRole) {
+    return <Navigate to="/dashboard" />;
+  }
+
+  return children;
+};
+```
+
+**Router Setup (`src/routes/index.jsx`):**
+```jsx
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { AuthLayout } from '../layouts/AuthLayout';
+import { AppLayout } from '../layouts/AppLayout';
+import { ProtectedRoute } from './ProtectedRoute';
+import LoginForm from '../features/auth/components/LoginForm';
+import RegisterForm from '../features/auth/components/RegisterForm';
+import Dashboard from '../features/dashboard/Dashboard';
+// ... more imports
+
+const router = createBrowserRouter([
+  {
+    path: '/auth',
+    element: <AuthLayout />,
+    children: [
+      { path: 'login', element: <LoginForm /> },
+      { path: 'register', element: <RegisterForm /> },
+      { path: 'callback', element: <OAuthCallback /> },
+    ]
+  },
+  {
+    path: '/',
+    element: (
+      <ProtectedRoute>
+        <AppLayout />
+      </ProtectedRoute>
+    ),
+    children: [
+      { index: true, element: <Navigate to="/dashboard" /> },
+      { path: 'dashboard', element: <Dashboard /> },
+      // More routes in later phases
+    ]
+  }
+]);
+
+export default router;
+```
+
+**Deliverables Phase 3:**
+- ✅ Login/Register funktioniert (Email/Password + Google OAuth)
+- ✅ Dashboard zeigt Benutzer-Informationen und Statistiken
+- ✅ Protected Routes (nur authenticated users können App nutzen)
+- ✅ Responsive Sidebar/Navigation
+- ✅ Loading States, Error Handling
+
+**Estimated Time:** 2-3 Wochen
+
+---
+
+### Phase 4: Core Features - Orders & Team Management (3-4 Wochen)
+
+**Ziel:** Feature Parity mit iOS App für Orders und Team
+
+#### 4.1 Orders Management
+
+**Order Service (`src/features/orders/services/orderService.js`):**
+```javascript
+import { supabase } from '../../../config/supabase';
+
+export const getOrders = async (status = null) => {
+  const { data: userData } = await supabase.auth.getUser();
+  const { data: user } = await supabase
+    .from('users')
+    .select('company_id, role')
+    .eq('id', userData.user.id)
+    .single();
+
+  let query = supabase
+    .from('orders')
+    .select(`
+      *,
+      author:users!author_id(first_name, last_name, profile_picture),
+      folder:folders(name, color),
+      assigned_users:users!inner(first_name, last_name, profile_picture)
+    `)
+    .eq('company_id', user.company_id)
+    .order('created_at', { ascending: false });
+
+  if (status) {
+    query = query.eq('status', status);
+  }
+
+  // Employees sehen nur ihre eigenen Orders
+  if (user.role === 'employee') {
+    query = query.contains('assigned_to', [userData.user.id]);
+  }
+
+  const { data, error } = await query;
+  if (error) throw error;
+  return data;
+};
+
+export const createOrder = async (orderData) => {
+  const { data, error } = await supabase
+    .from('orders')
+    .insert(orderData)
+    .select()
+    .single();
+
+  if (error) throw error;
+  return data;
+};
+
+export const updateOrder = async (orderId, updates) => {
+  const { data, error } = await supabase
+    .from('orders')
+    .update(updates)
+    .eq('id', orderId)
+    .select()
+    .single();
+
+  if (error) throw error;
+  return data;
+};
+
+export const deleteOrder = async (orderId) => {
+  const { error } = await supabase
+    .from('orders')
+    .delete()
+    .eq('id', orderId);
+
+  if (error) throw error;
+};
+```
+
+**Realtime Subscriptions (`src/features/orders/hooks/useOrderRealtime.js`):**
+```javascript
+import { useEffect } from 'react';
+import { supabase } from '../../../config/supabase';
+import { useQueryClient } from '@tanstack/react-query';
+
+export const useOrderRealtime = () => {
+  const queryClient = useQueryClient();
+
+  useEffect(() => {
+    const subscription = supabase
+      .channel('orders')
+      .on('postgres_changes', {
+        event: '*',
+        schema: 'public',
+        table: 'orders'
+      }, (payload) => {
+        console.log('Order changed:', payload);
+        // Invalidate orders query to refetch
+        queryClient.invalidateQueries(['orders']);
+      })
+      .subscribe();
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, [queryClient]);
+};
+```
+
+**Orders Screens:**
+
+**OrdersListScreen:**
+- [ ] Tabs: "Aktiv", "Abgeschlossen", "Kritisch"
+- [ ] Filter: By Folder, By Priority, By Assigned User
+- [ ] Search: Title, Customer Name
+- [ ] Order Cards: Title, Customer, Priority, Due Date, Assigned Users
+- [ ] Click → Order Detail Screen
+
+**OrderDetailScreen:**
+- [ ] Full Order Info: Title, Description, Customer, Location, Priority, Image
+- [ ] Notes Section: Comments/Timeline (jsonb `notes` field)
+- [ ] Actions: Edit, Delete, Mark as Done
+- [ ] Assigned Users: Avatars
+- [ ] Created By: Author Info
+- [ ] Realtime Updates (wenn andere User ändern)
+
+**CreateOrderScreen:**
+- [ ] Form: Title, Customer, Description, Location, Priority, Due Date, Image, Folder
+- [ ] Multi-Select: Assign to Users
+- [ ] Toggle: "Editable by Assigned Users"
+- [ ] Image Upload: Drag & Drop oder File Picker → Supabase Storage
+- [ ] Submit → Redirect to Order Detail
+
+**EditOrderScreen:**
+- [ ] Gleiche Form wie Create, aber mit Daten vorausgefüllt
+- [ ] Permission Check: Nur Admin/Co-Admin oder Assigned Users (wenn `editable_by_assigned` = true)
+
+**Permission Checks:**
+- [ ] Employee: Kann nur Orders sehen, die ihm zugewiesen sind
+- [ ] Employee: Kann Orders nur editieren, wenn `editable_by_assigned` = true
+- [ ] Admin/Co-Admin: Kann alle Orders sehen und editieren
+- [ ] Delete Orders: Nur Admin/Co-Admin (mit Permission Check für Co-Admin)
+
+#### 4.2 Team Management
+
+**Team Service (`src/features/team/services/teamService.js`):**
+```javascript
+export const getTeamMembers = async () => {
+  const { data: userData } = await supabase.auth.getUser();
+  const { data: user } = await supabase
+    .from('users')
+    .select('company_id')
+    .eq('id', userData.user.id)
+    .single();
+
+  const { data, error } = await supabase
+    .from('users')
+    .select('*')
+    .eq('company_id', user.company_id)
+    .order('created_at', { ascending: false });
+
+  if (error) throw error;
+  return data;
+};
+
+export const generateInvitationCode = async (email, role, permissions = null) => {
+  const { data: userData } = await supabase.auth.getUser();
+  const { data: user } = await supabase
+    .from('users')
+    .select('company_id')
+    .eq('id', userData.user.id)
+    .single();
+
+  const code = generateRandomCode(); // 6-digit code
+  const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); // 7 Tage
+
+  const { data, error } = await supabase
+    .from('invitation_codes')
+    .insert({
+      code,
+      company_id: user.company_id,
+      email,
+      role,
+      expires_at: expiresAt,
+      sent_by: userData.user.id,
+      co_admin_permissions: permissions
+    })
+    .select()
+    .single();
+
+  if (error) throw error;
+  return data;
+};
+
+export const sendInvitationEmail = async (email, code, role, companyName) => {
+  const { data, error } = await supabase.functions.invoke('send-invitation-email', {
+    body: { email, code, role, companyName }
+  });
+
+  if (error) throw error;
+  return data;
+};
+```
+
+**Team Management Screen:**
+- [ ] Team Members List: Avatar, Name, Email, Role, Actions
+- [ ] Role Badges: Admin (green), Co-Admin (blue), Employee (gray)
+- [ ] Actions: Edit Profile, Change Role (nur Admin), Delete (nur Admin)
+- [ ] "Team-Mitglied einladen" Button → Modal
+
+**Invite Modal:**
+- [ ] Email Input
+- [ ] Role Selector: Employee | Co-Admin
+- [ ] If Co-Admin: Permission Checkboxes (can_edit_orders, can_delete_orders, etc.)
+- [ ] Generate Code → Send Email via Edge Function
+- [ ] Success: "Einladung verschickt an [email]"
+
+**Co-Admin Permissions Screen:**
+- [ ] Only visible to Admin
+- [ ] Liste aller Co-Admins
+- [ ] Click → Edit Permissions Modal
+- [ ] Checkboxes für jede Permission (siehe iOS App CLAUDE.md)
+- [ ] Save → Update `co_admin_permissions` table + `users.co_admin_permissions` jsonb
+
+**usePermissions Hook (übernehmen von iOS App):**
+```javascript
+// src/features/auth/hooks/usePermissions.js
+import { useAuth } from './useAuth';
+import { useQuery } from '@tanstack/react-query';
+import { supabase } from '../../../config/supabase';
+
+export const usePermissions = () => {
+  const { userData, isAuthenticated } = useAuth();
+
+  const { data: permissions, isLoading } = useQuery({
+    queryKey: ['permissions', userData?.id],
+    queryFn: async () => {
+      if (!userData || userData.role !== 'co-admin') {
+        return null;
+      }
+
+      const { data, error } = await supabase
+        .from('co_admin_permissions')
+        .select('*')
+        .eq('user_id', userData.id)
+        .single();
+
+      if (error) throw error;
+      return data;
+    },
+    enabled: isAuthenticated && userData?.role === 'co-admin'
+  });
+
+  const can = (permission) => {
+    if (!userData) return false;
+    if (userData.role === 'admin') return true;
+    if (userData.role === 'employee') return false;
+    return permissions?.[permission] || false;
+  };
+
+  return {
+    isAdmin: userData?.role === 'admin',
+    isCoAdmin: userData?.role === 'co-admin',
+    isEmployee: userData?.role === 'employee',
+    can,
+    loading: isLoading,
+    permissions
   };
 };
 ```
 
-**Features:**
-- ✅ 4 Typen: Success (grün), Error (rot), Warning (orange), Info (blau)
-- ✅ Slide-in Animation mit Spring-Effekt
-- ✅ Auto-dismiss nach 3 Sekunden
-- ✅ Manuell schließbar
-- ✅ Icons für jeden Typ
-- ✅ Non-blocking UI
+**Deliverables Phase 4:**
+- ✅ Orders CRUD funktioniert vollständig
+- ✅ Realtime-Updates für Orders
+- ✅ Team Management: Invite, List, Permissions
+- ✅ Permission System funktioniert (Admin, Co-Admin, Employee)
+- ✅ Image Upload zu Supabase Storage
 
-**Implementiert in 9 Screens:**
-- OrderDetailScreen, CreateOrderScreen, EditOrderScreen
-- AdminSettingsScreen, EditProfileScreen, LogoCustomizationScreen
-- CoAdminPermissionsScreen, EmployeeProfileScreen, CreateRecipeScreen
+**Estimated Time:** 3-4 Wochen
 
 ---
 
-## Development Guidelines
+### Phase 5: Advanced Features - Recipes & Settings (2-3 Wochen)
 
-### Environment Configuration
+**Ziel:** Recipe System (siehe `readme/RECIPE_SYSTEM_PROMPT.md`) + Settings
 
-**Supabase Credentials:** In `app.json` unter `expo.extra`
-- `supabaseUrl`
-- `supabaseAnonKey`
-- `supabaseServiceRoleKey` (⚠️ Achtung: Sollte nicht im Client verwendet werden!)
+#### 5.1 Recipe System Implementation
 
-**Recommended:** Verwende `.env` Dateien und `expo-constants` für sensible Daten.
-
----
-
-## Code Patterns & Conventions
-
-### File Naming
-
-- **Screens:** `PascalCaseScreen.js` (z.B. `CreateOrderScreen.js`)
-- **Components:** `camelCase.js` oder `PascalCase.js` (z.B. `recipeCard.js`, `FolderCard.js`)
-- **Services:** `camelCase.js` (z.B. `realtimeService.js`)
-- **Contexts:** `camelCaseContext.js` (z.B. `authContext.js`)
-
-### Import Structure
-
-```javascript
-// React & React Native
-import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-
-// Third-party libraries
-import { useNavigation } from '@react-navigation/native';
-
-// Local imports
-import { supabase } from '../../../config/supabaseClient';
-import { useAuth } from '../authContext';
-import LoadingAnimation from '../../../shared/components/loading';
+**Database Migration:**
+```sql
+-- Execute in Supabase SQL Editor (siehe RECIPE_SYSTEM_PROMPT.md)
+-- Create recipes table
+-- Add recipe_id + field_values to orders table
+-- Create RLS policies
+-- Create increment_recipe_usage function
 ```
 
+**Recipe Service (`src/features/recipes/services/recipeService.js`):**
+- [ ] `getRecipes()` - Fetch all recipes für Company
+- [ ] `createRecipe(data)` - Create new recipe template
+- [ ] `updateRecipe(id, data)` - Update recipe
+- [ ] `deleteRecipe(id)` - Delete recipe
+- [ ] `useRecipe(id)` - Increment usage count
 
-### Supabase Queries
+**Recipes Screens:**
 
+**RecipeFoldersScreen (3-Tab-System):**
+- [ ] Tab 1: "Alle" - Statistics + Most Used + Folders + Recent Orders
+- [ ] Tab 2: "Rezepte" - Recipe List with Usage Counts
+- [ ] Tab 3: "Ordner" - Folder Management
+- [ ] Click Recipe → Recipe Detail Screen
+
+**CreateRecipeScreen (3-Schritt Wizard):**
+- [ ] Schritt 1: Template Name, Description, Icon, Color, Folder
+- [ ] Schritt 2: Field Config Editor (Enable/Disable/Rename Fields)
+- [ ] Schritt 3: Preview + Default Values (Priority, Assignment, Folder)
+- [ ] Submit → Save to `recipes` table
+
+**RecipeDetailScreen:**
+- [ ] Template Preview (wie Order aussehen würde)
+- [ ] Usage Statistics (45x verwendet)
+- [ ] Actions: Edit, Duplicate, Delete
+- [ ] "Auftrag mit diesem Rezept erstellen" Button → CreateOrderScreen with pre-filled form
+
+**Template Selector Modal (in CreateOrderScreen):**
+- [ ] Liste aller Recipes (gruppiert nach Ordner)
+- [ ] "Standard-Auftrag" Template (hardcoded, immer verfügbar)
+- [ ] Click Template → Form passt sich an field_config an
+- [ ] Only visible fields werden angezeigt
+
+**Field Config Implementation:**
+- [ ] Dynamic Form Rendering basierend auf `field_config` jsonb
+- [ ] Field Types: text, textarea, date, select, image, checkbox
+- [ ] Validation: Required Fields
+- [ ] Field Values werden in `orders.field_values` jsonb gespeichert
+
+#### 5.2 Settings Screens
+
+**Settings Layout:**
+- [ ] Tabs: "Profil", "Firma", "Team", "Sicherheit"
+
+**Profile Settings:**
+- [ ] Edit Name, Email, Profile Picture
+- [ ] Change Password
+- [ ] Theme Selector: Light, Dark, Custom
+- [ ] Language (später, wenn i18n implementiert)
+
+**Company Settings (nur Admin):**
+- [ ] Company Name
+- [ ] Logo Upload/Change
+- [ ] Logo Branding Toggle: Use Logo Color as Primary Color
+- [ ] Logo Display Settings: Show in Dashboard, Position, Scale, Opacity
+- [ ] Dominant Color Picker (wenn Logo Branding off)
+
+**Team Settings (siehe Phase 4.2):**
+
+**Security Settings:**
+- [ ] Enable/Disable Face ID (Browser Biometrics via WebAuthn API)
+- [ ] Active Sessions: Liste aller aktiven Sessions, "Logout from other devices"
+- [ ] Delete Account (mit Confirmation Modal)
+
+**Deliverables Phase 5:**
+- ✅ Recipe System vollständig implementiert
+- ✅ Dynamic Order Forms basierend auf Recipe Templates
+- ✅ Settings Screens für Profil, Firma, Sicherheit
+- ✅ Logo Branding System funktioniert
+
+**Estimated Time:** 2-3 Wochen
+
+---
+
+### Phase 6: Polish, Testing & Launch (2-3 Wochen)
+
+**Ziel:** App produktionsreif machen
+
+#### 6.1 UI/UX Polish
+
+**Animations:**
+- [ ] Page Transitions (Framer Motion)
+- [ ] Loading States: Skeleton Screens statt Spinner
+- [ ] Toast Notifications für Success/Error Messages
+- [ ] Micro-Interactions: Button Hover, Card Hover
+
+**Responsive Design:**
+- [ ] Test auf allen Screen Sizes (Mobile, Tablet, Desktop)
+- [ ] Touch-friendly Buttons (min. 44x44px)
+- [ ] Mobile Navigation: Bottom Tab Bar (optional)
+
+**Accessibility:**
+- [ ] Keyboard Navigation: Tab-Order, Focus States
+- [ ] Screen Reader: ARIA-Labels, Alt-Tags
+- [ ] Color Contrast: WCAG AA compliant
+- [ ] Skip Links: "Skip to main content"
+
+**Dark Mode:**
+- [ ] Full Dark Mode Support (alle Screens)
+- [ ] Theme Toggle in Header
+- [ ] Theme Persistence (LocalStorage oder User Setting)
+
+#### 6.2 Performance Optimization
+
+**Frontend:**
+- [ ] Code Splitting: Lazy Load Routes (`React.lazy()`)
+- [ ] Image Optimization: WebP, Lazy Loading
+- [ ] Bundle Size Optimization: Tree Shaking, Analyze with `vite-bundle-visualizer`
+- [ ] Caching: TanStack Query Cache Strategies
+
+**Backend/Supabase:**
+- [ ] Indexes: Ensure indexes on `company_id`, `folder_id`, `recipe_id` in all tables
+- [ ] Query Optimization: Use `select()` with only needed fields
+- [ ] Realtime: Only subscribe to relevant channels (filter by company_id)
+- [ ] Rate Limiting: Cloudflare Rate Limiting Rules (prevent abuse)
+
+**Lighthouse Score Target:**
+- [ ] Performance: 90+
+- [ ] Accessibility: 100
+- [ ] Best Practices: 100
+- [ ] SEO: 100
+
+#### 6.3 Testing
+
+**Unit Tests:**
+- [ ] Service Functions: `orderService.js`, `recipeService.js`, `authService.js`
+- [ ] Utility Functions: Validators, Helpers
+- [ ] Hooks: `useAuth`, `usePermissions`
+
+**Integration Tests:**
+- [ ] Auth Flow: Login → Dashboard → Logout
+- [ ] Order CRUD: Create → Edit → Delete
+- [ ] Team Invite: Generate Code → Register with Code
+- [ ] Realtime: Order Update triggers UI update
+
+**E2E Tests (Playwright or Cypress):**
+- [ ] Admin Registration → Create Order → Assign to Team → Complete Order
+- [ ] Employee Login → See assigned Orders → Edit Order (if allowed)
+- [ ] Recipe Creation → Order from Recipe → Usage Count increments
+
+**Browser Testing:**
+- [ ] Chrome/Edge (Desktop + Mobile)
+- [ ] Firefox (Desktop + Mobile)
+- [ ] Safari (Desktop + Mobile)
+
+#### 6.4 Security Audit
+
+**Frontend:**
+- [ ] XSS Prevention: Sanitize User Input (DOMPurify)
+- [ ] CSRF Protection: Supabase handles this
+- [ ] Content-Security-Policy Header (Cloudflare Pages)
+
+**Backend/Supabase:**
+- [ ] RLS Policies: Test with different user roles
+- [ ] SQL Injection: Supabase parameterized queries prevent this
+- [ ] File Upload: Validate file types, size limits in Storage Policies
+- [ ] API Keys: Never expose Service Role Key in frontend
+
+**Penetration Testing:**
+- [ ] OWASP Top 10 checklist
+- [ ] Optional: Hire security firm for audit (wenn Budget vorhanden)
+
+#### 6.5 Documentation
+
+**User Guide:**
+- [ ] Getting Started: Registration, Login
+- [ ] Orders: How to create, edit, delete
+- [ ] Recipes: How to use templates
+- [ ] Team: How to invite members, set permissions
+- [ ] FAQ: Common questions
+
+**Developer Documentation:**
+- [ ] README.md: Project setup, installation, deployment
+- [ ] CONTRIBUTING.md: How to contribute (wenn Open Source)
+- [ ] API Documentation: Supabase Schema, Edge Functions
+- [ ] Deployment Guide: Cloudflare Pages, Environment Variables
+
+#### 6.6 Beta Testing
+
+**Internal Testing:**
+- [ ] Use app internally (with real data) for 1-2 weeks
+- [ ] Collect feedback from team
+
+**Closed Beta:**
+- [ ] Invite 5-10 beta users (friends, colleagues)
+- [ ] Collect feedback via Form (Typeform, Google Forms)
+- [ ] Fix critical bugs
+
+**Public Beta:**
+- [ ] Launch to public with "Beta" badge
+- [ ] Monitor errors (Sentry.io or similar)
+- [ ] Collect feedback via In-App Feedback Button
+
+#### 6.7 Launch Preparation
+
+**Pre-Launch Checklist:**
+- [ ] All critical bugs fixed
+- [ ] Performance optimized (Lighthouse 90+)
+- [ ] Accessibility tested
+- [ ] Legal documents final (Impressum, Datenschutz, AGB)
+- [ ] Analytics setup and tested
+- [ ] Error Monitoring setup (Sentry, LogRocket)
+- [ ] Backup Strategy: Database Backups (Supabase auto-backup)
+- [ ] Support Email: recipendent@gmail.com monitored
+
+**Launch Day:**
+- [ ] Deploy final version to `app.recipendent.com`
+- [ ] Update Marketing Website mit "Launch"-Announcement
+- [ ] Social Media Post (wenn vorhanden)
+- [ ] Submit to Product Hunt (optional)
+- [ ] Email to Beta Users: "We're Live!"
+
+**Post-Launch:**
+- [ ] Monitor Analytics: User Registrations, Active Users
+- [ ] Monitor Errors: Fix critical bugs within 24h
+- [ ] Collect Feedback: In-App Feedback, Support Emails
+- [ ] Iterate: Weekly updates mit Bug Fixes + Small Features
+
+**Deliverables Phase 6:**
+- ✅ App ist performant, accessible, responsive
+- ✅ Tests geschrieben und passed
+- ✅ Security Audit durchgeführt
+- ✅ Beta Testing abgeschlossen
+- ✅ App ist live auf `app.recipendent.com`
+- ✅ Dokumentation vollständig
+
+**Estimated Time:** 2-3 Wochen
+
+---
+
+### 🎯 Roadmap Summary
+
+| Phase | Duration | Key Deliverables |
+|-------|----------|------------------|
+| **Phase 1: Foundation** | 1-2 Wochen | Legal Docs, Marketing Website, WebApp Setup |
+| **Phase 2: Marketing** | 1 Woche | SEO, Analytics, Refined Landing Page |
+| **Phase 3: Auth & Dashboard** | 2-3 Wochen | Login, Register, Dashboard, Protected Routes |
+| **Phase 4: Core Features** | 3-4 Wochen | Orders CRUD, Team Management, Permissions |
+| **Phase 5: Advanced Features** | 2-3 Wochen | Recipe System, Settings |
+| **Phase 6: Launch** | 2-3 Wochen | Polish, Testing, Beta, Launch |
+| **TOTAL** | **11-18 Wochen** | **Vollständige WebApp + Marketing** |
+
+---
+
+## Admin Area (/admin) - Invite Key Versand [5]
+
+**Status:** ✅ Basic Form bereits vorhanden (`admin/index.html`)
+
+**Funktionalität:**
+- Formular: Email Input + Role Selector (Employee | Co-Admin)
+- Submit → Ruft Supabase Edge Function `send-invitation-email` auf
+- Edge Function generiert Code, speichert in `invitation_codes` Tabelle, sendet Email via Resend API
+
+**Improvement Ideas:**
+- [ ] Auth: Nur Admins können auf `/admin` zugreifen (via Supabase Auth + Password-Schutz)
+- [ ] Liste gesendeter Codes (mit Expiry Date, Used Status)
+- [ ] Bulk-Invite: CSV-Upload mit mehreren Emails
+- [ ] Custom Email Template Editor
+
+**Oder:** Komplett in WebApp integrieren (Team Management Screen) und `/admin` entfernen.
+
+---
+
+## Development Guidelines [6]
+
+### Component Structure
+
+**Atomic Design:**
+```
+src/shared/components/
+├── atoms/              # Button, Input, Icon
+├── molecules/          # FormField, SearchBar, Toast
+├── organisms/          # OrderCard, RecipeCard, Sidebar
+└── templates/          # PageLayout, DashboardLayout
+```
+
+**Naming Conventions:**
+- Components: `PascalCase.jsx` (z.B. `OrderCard.jsx`)
+- Hooks: `use[Name].js` (z.B. `useOrders.js`)
+- Services: `[name]Service.js` (z.B. `orderService.js`)
+- Utils: `camelCase.js` (z.B. `formatDate.js`)
+
+### Styling Guidelines
+
+**Tailwind Utility-First:**
+```jsx
+// Good
+<button className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
+  Click me
+</button>
+
+// Avoid (unless reusable)
+<button className={styles.button}>Click me</button>
+```
+
+**Custom Styles (wenn nötig):**
+- Verwende CSS Modules für komplexe Komponenten
+- Oder: Tailwind @apply in `globals.css`
+
+**Theme System:**
+- Tailwind Config: Farben aus Supabase `companies.dominant_color` dynamisch setzen
+- Verwende CSS Variables für Primary Color:
+  ```css
+  :root {
+    --color-primary: #ad42b3; /* Default */
+  }
+
+  .bg-primary {
+    background-color: var(--color-primary);
+  }
+  ```
+
+### Supabase Query Patterns
+
+**Query with RLS:**
 ```javascript
-// CRUD pattern
+// RLS Policies filtern automatisch nach company_id
 const { data, error } = await supabase
-  .from('table_name')
-  .select('*')
-  .eq('company_id', companyId)
+  .from('orders')
+  .select(`
+    *,
+    author:users!author_id(first_name, last_name),
+    folder:folders(name, color)
+  `)
   .order('created_at', { ascending: false });
+```
 
-if (error) {
-  console.error('Error:', error);
-  return;
-}
-
-// Mit Realtime
+**Realtime Subscription:**
+```javascript
 const subscription = supabase
   .channel('orders')
   .on('postgres_changes', {
     event: '*',
     schema: 'public',
     table: 'orders',
-    filter: `company_id=eq.${companyId}`,
+    filter: `company_id=eq.${companyId}` // Optional: Filter
   }, handleChange)
   .subscribe();
 
@@ -694,470 +1301,219 @@ const subscription = supabase
 return () => subscription.unsubscribe();
 ```
 
----
-
-## Common Tasks
-
-### Adding a New Screen
-
-1. Create screen file in appropriate feature folder
-2. Import and add to Stack.Navigator in `App.js`
-3. Add to appropriate role section (employee/admin)
-4. Update navigation types if using TypeScript
-
-### Adding a New Feature Module
-
-1. Create folder under `features/`
-2. Create subfolders: `screens/`, `components/`, `services/`
-3. Add context if needed
-4. Update navigation and imports
-
-### Adding a New Database Table
-
-1. **Create Migration in Supabase:**
-   ```sql
-   CREATE TABLE public.my_table (
-     id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
-     company_id uuid REFERENCES companies(id) NOT NULL,
-     -- your columns here
-     created_at timestamp with time zone DEFAULT now(),
-     updated_at timestamp with time zone DEFAULT now()
-   );
-   ```
-
-2. **Enable RLS:**
-   ```sql
-   ALTER TABLE public.my_table ENABLE ROW LEVEL SECURITY;
-
-   -- SELECT Policy
-   CREATE POLICY "Users can view own company data"
-   ON public.my_table FOR SELECT
-   USING (company_id = (SELECT company_id FROM public.users WHERE id = auth.uid()));
-
-   -- INSERT/UPDATE/DELETE Policies (role-based)
-   CREATE POLICY "Admins can modify data"
-   ON public.my_table FOR ALL
-   USING (
-     company_id = (SELECT company_id FROM public.users WHERE id = auth.uid())
-     AND (SELECT role FROM public.users WHERE id = auth.uid()) IN ('admin', 'co-admin')
-   );
-   ```
-
-3. **Create Service Layer:**
-   ```javascript
-   // features/myfeature/services/myService.js
-   import { supabase } from '../../../config/supabaseClient';
-   import { getCurrentCompanyId } from '../../../config/supabaseClient';
-
-   export const fetchItems = async () => {
-     const companyId = await getCurrentCompanyId();
-     const { data, error } = await supabase
-       .from('my_table')
-       .select('*')
-       .eq('company_id', companyId)
-       .order('created_at', { ascending: false });
-
-     if (error) throw error;
-     return data;
-   };
-   ```
-
-4. **Add Realtime (optional):**
-   ```javascript
-   const subscription = supabase
-     .channel('my_table')
-     .on('postgres_changes', {
-       event: '*',
-       schema: 'public',
-       table: 'my_table',
-       filter: `company_id=eq.${companyId}`,
-     }, handleChange)
-     .subscribe();
-   ```
-
-### Implementing the Recipes Table (TODO)
-
-Die `recipes` Tabelle fehlt aktuell. So würde man sie implementieren:
-
-1. **Run Migration:**
-   ```sql
-   -- Siehe "Supabase SQL Schema" in ./supabase für vollständiges SQL
-   CREATE TABLE public.recipes (...);
-   ALTER TABLE public.recipes ENABLE ROW LEVEL SECURITY;
-   -- Add policies
-   ```
-
-2. **Update Recipe Screens:**
-    - `CreateRecipeScreen` - Supabase insert implementieren
-    - `RecipeListScreen` - Supabase query implementieren
-    - `RecipeManagementScreen` - Update/Delete implementieren
-
-3. **Add Recipe Service:**
-   ```javascript
-   // features/recipes/services/recipeService.js
-   export const createRecipe = async (recipeData) => {
-     const companyId = await getCurrentCompanyId();
-     const { data, error } = await supabase
-       .from('recipes')
-       .insert({ ...recipeData, company_id: companyId })
-       .select()
-       .single();
-
-     if (error) throw error;
-     return data;
-   };
-   ```
-
-### Modifying User Roles/Permissions
-
-1. Update database schema in Supabase
-2. Modify `getCurrentUserRole()` in `config/supabaseClient.js`
-3. Update conditional rendering in `App.js`
-4. Add permission checks in relevant screens
-
-### Checking Co-Admin Permissions
-
+**File Upload:**
 ```javascript
-// In component
-import { supabase } from '../../../config/supabaseClient';
+// Upload to Storage
+const file = event.target.files[0];
+const fileName = `${Date.now()}_${file.name}`;
+const filePath = `${companyId}/${userId}/${fileName}`;
 
-const checkPermission = async (permission) => {
-  const { data: user } = await supabase.auth.getUser();
+const { data, error } = await supabase.storage
+  .from('profile-pictures')
+  .upload(filePath, file, {
+    cacheControl: '3600',
+    upsert: false
+  });
 
-  // Option 1: Query users.co_admin_permissions (jsonb)
-  const { data, error } = await supabase
-    .from('users')
-    .select('co_admin_permissions')
-    .eq('id', user.id)
-    .single();
+if (error) throw error;
 
-  return data?.co_admin_permissions?.[permission] || false;
-};
+// Get Public URL
+const { data: urlData } = supabase.storage
+  .from('profile-pictures')
+  .getPublicUrl(filePath);
 
-// Usage
-const canEditRecipes = await checkPermission('can_edit_recipes');
+const publicUrl = urlData.publicUrl;
 ```
 
-### Styling & Theming
+### Error Handling
 
-- Theme context: `shared/themeContext.js`
-- Company colors: Extracted from logo in `shared/utils/colorExtractor.js`
-- Use StyleSheet.create() for styles
-- Consider responsive design (safe area, different screen sizes)
-
----
-
-## Testing & Debugging
-
-### Debug Auth Status
-
+**Consistent Error Messages:**
 ```javascript
-import { debugAuthStatus } from './config/supabaseClient';
-
-// In component
-debugAuthStatus(); // Logs session, user, company, role
+try {
+  const data = await createOrder(orderData);
+  showToast({ type: 'success', message: 'Auftrag erfolgreich erstellt!' });
+  return data;
+} catch (error) {
+  console.error('Create Order Error:', error);
+  showToast({ type: 'error', message: error.message || 'Ein Fehler ist aufgetreten' });
+  throw error;
+}
 ```
 
-### Database Debugging
+**Global Error Boundary:**
+```jsx
+// src/App.jsx
+import { ErrorBoundary } from 'react-error-boundary';
 
-**Test RLS Policies:**
-```javascript
-// In Supabase SQL Editor als specific user:
-SET LOCAL request.jwt.claims = '{"sub": "user-uuid-here", "role": "authenticated"}';
+function ErrorFallback({ error, resetErrorBoundary }) {
+  return (
+    <div className="error-screen">
+      <h1>Oops! Etwas ist schief gelaufen.</h1>
+      <pre>{error.message}</pre>
+      <button onClick={resetErrorBoundary}>Erneut versuchen</button>
+    </div>
+  );
+}
 
--- Test query
-SELECT * FROM orders WHERE company_id = 'company-uuid';
-```
-
-**Check Current User Context:**
-```javascript
-const debugUserContext = async () => {
-  const { data: { user } } = await supabase.auth.getUser();
-  const { data: userData } = await supabase
-    .from('users')
-    .select('*')
-    .eq('id', user.id)
-    .single();
-
-  console.log('Auth User:', user);
-  console.log('Public User:', userData);
-  console.log('Company ID:', userData.company_id);
-  console.log('Role:', userData.role);
-  console.log('Permissions:', userData.co_admin_permissions);
-};
-```
-
-**Test Realtime Subscription:**
-```javascript
-const testRealtime = async () => {
-  const companyId = await getCurrentCompanyId();
-
-  const subscription = supabase
-    .channel('test-orders')
-    .on('postgres_changes', {
-      event: '*',
-      schema: 'public',
-      table: 'orders',
-      filter: `company_id=eq.${companyId}`,
-    }, (payload) => {
-      console.log('Realtime event:', payload);
-    })
-    .subscribe((status) => {
-      console.log('Subscription status:', status);
-    });
-
-  return () => subscription.unsubscribe();
-};
-```
-
-**Debug Storage URLs:**
-```javascript
-// Get public URL
-const { data } = supabase.storage
-  .from('company-logos')
-  .getPublicUrl('path/to/file.png');
-
-console.log('Public URL:', data.publicUrl);
-
-// List files
-const { data: files } = await supabase.storage
-  .from('company-logos')
-  .list();
-
-console.log('Files:', files);
-```
-
-### Common Issues
-
-**Session nicht persistent:**
-- Check SecureStore permissions
-- Verify Supabase client config (config/supabaseClient.js:45-52)
-- Ensure `autoRefreshToken: true` is set
-
-**Navigation nicht funktioniert:**
-- Ensure screen is registered in Stack.Navigator (App.js)
-- Check role-based rendering in App.js:124-156
-- Verify user.role matches expected value
-
-**Realtime updates fehlen:**
-- Verify RLS policies in Supabase (SELECT policy muss vorhanden sein)
-- Check subscription filter: `company_id=eq.${companyId}`
-- Ensure table has REPLICA IDENTITY enabled
-- Check subscription status in console
-
-**RLS Policy Errors:**
-```
-Error: new row violates row-level security policy
-```
-**Solution:**
-- Check INSERT/UPDATE policies
-- Ensure `company_id` is set correctly
-- Verify user has correct role
-
-**Missing Recipes Data:**
-- ⚠️ Die `recipes` Tabelle existiert nicht im Schema
-- Frontend ist vorbereitet, aber Backend fehlt
-- Siehe "Implementing the Recipes Table" Sektion
-
-**Invitation Code Errors:**
-```javascript
-// Debug invitation code
-const { data, error } = await supabase
-  .from('invitation_codes')
-  .select('*')
-  .eq('code', inputCode)
-  .single();
-
-console.log('Code found:', data);
-console.log('Used:', data?.used);
-console.log('Expired:', new Date(data?.expires_at) < new Date());
-```
-
-**Co-Admin Permission Issues:**
-```javascript
-// Check permissions
-const { data } = await supabase
-  .from('users')
-  .select('co_admin_permissions')
-  .eq('id', userId)
-  .single();
-
-console.log('Permissions:', data.co_admin_permissions);
-
-// Also check co_admin_permissions table
-const { data: perms } = await supabase
-  .from('co_admin_permissions')
-  .select('*')
-  .eq('user_id', userId)
-  .single();
-
-console.log('Permissions Table:', perms);
+function App() {
+  return (
+    <ErrorBoundary FallbackComponent={ErrorFallback}>
+      <RouterProvider router={router} />
+    </ErrorBoundary>
+  );
+}
 ```
 
 ---
 
-## Important Files Reference
+## Known Issues & Limitations [7]
 
-### Core Application Files
+**Known Issues:**
 
-| File | Purpose | Key Lines |
-|------|---------|-----------|
-| `App.js` | Root component, navigation setup, role-based routing | :1, :124-156 (role routing) |
-| `config/supabaseClient.js` | Supabase client, auth helpers, SecureStore adapter | :1, :16-39 (adapter), :64-112 (helpers) |
-| `config/brandConfig.js` | Zentrale Brand-Logik (dynamic primary color, branding system) | All |
-| `config/designSystem.js` | Design system constants (spacing, typography, shadows, glassmorphism) | All |
-| `config/theme.js` | Legacy theme constants (deprecated, use brandConfig + designSystem) | All |
-| `app.json` | Expo config, Supabase credentials, deep linking | :1, :10-13 (Supabase keys) |
-| `package.json` | Dependencies & scripts | :1 |
-| `eas.json` | EAS Build configuration | :1 |
+1. **Recipes Table fehlt noch:**
+   - Migration `RECIPE_SYSTEM_PROMPT.md` muss in Supabase ausgeführt werden
+   - Workaround: Orders werden als Recipes gespeichert (iOS App)
 
-### Context Providers
+2. **OAuth Post-Registration Flow:**
+   - User registriert sich via Google OAuth
+   - Muss dann Company auswählen oder Admin-Registration durchlaufen
+   - iOS App: Invitation Code System
+   - WebApp: Gleicher Flow oder separate "Complete Profile" Screen nötig
 
-| File | Purpose |
-|------|---------|
-| `features/auth/authContext.js` | Authentication state, user session |
-| `features/settings/CompanyContext.js` | Company data, logo, settings |
-| `shared/themeContext.js` | Theme management (light/dark/custom) |
-| `shared/brandingContext.js` | Logo-Branding System (useBranding hook, dynamic primary color) |
-| `shared/appDataContext.js` | App-wide data cache & realtime subscriptions (preloads orders, folders, team) |
+3. **File Upload Size Limits:**
+   - Supabase Free Tier: 1GB Storage
+   - Upgrade zu Pro Tier empfohlen für Production
 
-### Navigation
+**Limitations:**
 
-| File | Purpose |
-|------|---------|
-| `navigation/AppTabNavigator.js` | Tab Navigator für Admin/Employee |
-| `navigation/AppTabBar.js` | Custom Tab Bar Component |
+1. **Multi-Tenant Isolation:**
+   - Abhängig von RLS Policies (gut getestet)
+   - Keine physische DB-Trennung zwischen Companies
 
-### Orders Feature
+2. **Realtime Performance:**
+   - Bei vielen gleichzeitigen Users: Supabase Realtime kann Limits erreichen
+   - Fallback: Polling statt Realtime
 
-| File | Purpose |
-|------|---------|
-| `features/orders/services/crudOperations.js` | CRUD operations für Orders |
-| `features/orders/services/realtimeService.js` | Realtime subscriptions |
-| `features/orders/screens/CreateOrderScreen.js` | Order erstellen |
-| `features/orders/screens/OrderDetailScreen.js` | Order Details mit Notes |
-
-### Recipes Feature
-
-| File | Purpose |
-|------|---------|
-| `features/recipes/screens/RecipeFoldersScreen.js` | Folder-Übersicht |
-| `features/recipes/components/FolderCard.js` | Folder Card Component |
-| `features/recipes/components/FolderModal.js` | Create/Edit Folder Modal |
-
-### Team Management
-
-| File | Purpose |
-|------|---------|
-| `features/team/screens/TeamManagementScreen.js` | Team-Mitglieder verwalten |
-| `features/team/screens/EmployeeWelcomeScreen.js` | Invitation Code Eingabe |
-| `features/team/screens/CoAdminPermissionsScreen.js` | Permissions konfigurieren |
-
-### Settings & Customization
-
-| File | Purpose |
-|------|---------|
-| `features/settings/screens/LogoCustomizationScreen.js` | Logo Upload & Anpassung |
-| `features/settings/screens/EmployeeSettingsScreen.js` | Employee Einstellungen |
-| `shared/utils/colorExtractor.js` | Farbe aus Logo extrahieren |
-| `shared/utils/storage.js` | AsyncStorage helpers |
-| `shared/utils/timeUtils.js` | Time formatting utilities |
-
-### Hooks & Advanced Features
-
-| File | Purpose |
-|------|---------|
-| `features/auth/hooks/usePermissions.js` | Advanced permission checking hook |
-| `features/auth/components/AnimatedBackground.js` | Animated wave background for StartScreen |
-| `features/auth/components/AnimatedSubmitButton.js` | Animated button with micro-interactions |
-| `config/theme.js` | Design system constants (colors, spacing, typography, shadows) |
-
-### Shared Components
-
-| File | Purpose |
-|------|---------|
-| `shared/components/loading/` | Loading Animation Component |
-| `shared/components/Toast/` | Modern Toast Notification System (success, error, warning, info) |
-| `shared/components/DateTimePicker/CustomDateTimePicker.js` | iOS-style date/time picker |
-| `shared/components/Glass*` | Glassmorphism UI System (GlassCard, GlassButton, GlassInput, GlassContainer, GlassHeader) |
-| `shared/components/ActionSheet.js` | Native-style action sheet component |
-| `shared/utils/faceIdAuth.js` | Biometric authentication helpers & guards |
-| `shared/utils/glassStyles.js` | Glass effect utilities (blur, tint, opacity) |
-| `shared/utils/glowEffects.js` | Glow & shine effect utilities |
-
-### Supabase Edge Functions & Migrations
-
-**Edge Functions:**
-
-| File | Purpose | Status |
-|------|---------|--------|
-| `supabase/functions/send-invitation-email/index.ts` | Email invitation codes via Resend API | ⚠️ Implemented, not integrated |
-| `supabase/functions/send-admin-invitation/index.ts` | Admin invitation emails via SendGrid | ⚠️ Implemented, not integrated |
-
-**Database Migrations:**
-
-Siehe `./supabase/migrations` für Details zu neuesten Migrationen.
+3. **iOS App Sync:**
+   - WebApp und iOS App teilen DB
+   - Keine native Sync-Logik (z.B. Offline-Support)
+   - WebApp ist immer Online, iOS App hat partial Offline-Support
 
 ---
 
-## Database Schema Quick Reference
+## Deployment & CI/CD [8]
 
-### Tables Overview
+### Cloudflare Pages Deployment
 
-| Table | Primary Purpose | Key Fields |
-|-------|----------------|------------|
-| `companies` | Firmen/Tenants | name, logo, dominant_color, use_logo_branding, logo settings |
-| `users` | App-Benutzer | email, role, company_id, co_admin_permissions |
-| `orders` | Bestellungen | title, status, priority, assigned_to[], notes |
-| `folders` | Organisation | name, color, icon, sort_order |
-| `invitation_codes` | Team-Einladungen | code, expires_at, used, company_id |
-| `co_admin_permissions` | Berechtigungen | user_id, can_* flags |
-| ⚠️ `recipes` | **FEHLT** | - |
+**Marketing Website (`recipendent.com`):**
+```bash
+# Cloudflare Dashboard:
+# 1. Pages → Create Project → Connect Git
+# 2. Repository: recipendent-cloudflare
+# 3. Build Settings:
+#    - Framework Preset: None
+#    - Build Command: (leer)
+#    - Build Output Directory: /
+# 4. Custom Domain: recipendent.com
+# 5. Deploy
+```
 
-### Common Queries
+**WebApp (`app.recipendent.com`):**
+```bash
+# Cloudflare Dashboard:
+# 1. Pages → Create Project → Connect Git
+# 2. Repository: recipendent-app-web (oder subfolder)
+# 3. Build Settings:
+#    - Framework Preset: Vite
+#    - Build Command: npm run build
+#    - Build Output Directory: dist
+# 4. Environment Variables:
+#    - VITE_SUPABASE_URL
+#    - VITE_SUPABASE_ANON_KEY
+# 5. Custom Domain: app.recipendent.com
+# 6. Deploy
+```
 
-Siehe `./supabase/Supabase SQL Schema.txt` für Details zu häufig verwendeten Queries.
+**Auto-Deploy:**
+- Git Push zu `main` Branch → Auto-Deploy
+- Preview Deployments für Pull Requests
 
+### CI/CD with GitHub Actions (optional)
 
-## Known Issues & Limitations [5]
+**`.github/workflows/deploy.yml`:**
+```yaml
+name: Deploy to Cloudflare Pages
 
+on:
+  push:
+    branches: [main]
 
-## Prompt-Korb [6]
-
- - Neues recipeCard Layout:
-______________________________________________________________
-|   ____________________________            |            |   |
-|   |Titel                      |           |            |   |
-|   |___________________________|           |   Bild     |   |
-|    Kategorie                              |____________|   |
-|                                                            |
-|    BESCHREIBUNG                                            |
-|   _________                      _______         _______   |
-|   | Author |                     | Zeit |        | Ort  |  |
-|   ________     ___________         _________               |
-|   |Kunde |     |Zuweisung|        |Priorität|              |
-|____________________________________________________________|
-
-
-## Contact & Support
-
-Für Fragen zur App-Entwicklung oder Claude Code Integration, 
-konsultiere diese Dokumentation oder die verlinkten Ressourcen.
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - run: npm ci
+      - run: npm run build
+      - run: npm run test # Optional: Run tests before deploy
+      - uses: cloudflare/pages-action@v1
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          projectName: recipendent-app
+          directory: dist
+```
 
 ---
 
-## Project Health Summary
+## Support & Contact [9]
 
-**Last Updated:** November 6, 2025
-**Branch:** claude/rpd-init-011CUsTiNDG8AiHhz7AifK8x
+**Für Fragen zur WebApp-Entwicklung oder Claude Code Integration:**
+- Konsultiere diese Dokumentation
+- Supabase Docs: https://supabase.com/docs
+- React Docs: https://react.dev
+- Vite Docs: https://vite.dev
 
-### Production Readiness: 75%
+**User Support:**
+- Email: recipendent@gmail.com
+- Support-Seite: recipendent.com/support
 
-**NOT Ready:**
-- ❌ Recipes Feature (35% - Missing database table)
-- ❌ Missing critical imports (3 files will crash)
-- ⚠️ Security issues (exposed service role key)
+**Rechtliche Dokumente:**
+- Impressum: recipendent.com/impressum
+- Datenschutz: recipendent.com/privacy
+- AGB: recipendent.com/terms
 
+---
 
+## Quick Reference Commands
 
-**Happy Coding! 🚀**
+```bash
+# Marketing Website Development
+cd recipendent-cloudflare
+# Edit HTML files directly, no build needed
+
+# WebApp Development
+cd recipendent-app-web
+npm install
+npm run dev                 # Start dev server (localhost:5173)
+npm run build               # Build for production
+npm run preview             # Preview production build
+
+# Supabase CLI
+supabase login
+supabase link --project-ref [YOUR-PROJECT-REF]
+supabase db pull            # Pull remote schema
+supabase migration new [name] # Create new migration
+supabase db push            # Push local migrations
+
+# Edge Functions
+supabase functions deploy [function-name]
+supabase functions logs [function-name]
+```
+
+---
+
+**Happy Coding, Chef_R.! 🚀**
