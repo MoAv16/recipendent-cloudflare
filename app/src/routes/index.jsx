@@ -1,0 +1,68 @@
+import { createBrowserRouter, Navigate } from 'react-router-dom';
+import AuthLayout from '../layouts/AuthLayout';
+import AppLayout from '../layouts/AppLayout';
+import ProtectedRoute from './ProtectedRoute';
+import LoginForm from '../features/auth/components/LoginForm';
+import RegisterForm from '../features/auth/components/RegisterForm';
+import Dashboard from '../features/dashboard/Dashboard';
+import OrdersList from '../features/orders/components/OrdersList';
+import CreateOrder from '../features/orders/components/CreateOrder';
+import TeamList from '../features/team/components/TeamList';
+import { ROUTES } from '../config/constants';
+
+const router = createBrowserRouter([
+  {
+    path: '/auth',
+    element: <AuthLayout />,
+    children: [
+      {
+        path: 'login',
+        element: <LoginForm />,
+      },
+      {
+        path: 'register',
+        element: <RegisterForm />,
+      },
+    ],
+  },
+  {
+    path: '/',
+    element: (
+      <ProtectedRoute>
+        <AppLayout />
+      </ProtectedRoute>
+    ),
+    children: [
+      {
+        index: true,
+        element: <Navigate to={ROUTES.DASHBOARD} replace />,
+      },
+      {
+        path: 'dashboard',
+        element: <Dashboard />,
+      },
+      {
+        path: 'orders',
+        element: <OrdersList />,
+      },
+      {
+        path: 'orders/new',
+        element: <CreateOrder />,
+      },
+      {
+        path: 'recipes',
+        element: <div className="text-center py-12">Recipes - Coming Soon</div>,
+      },
+      {
+        path: 'team',
+        element: <TeamList />,
+      },
+      {
+        path: 'settings',
+        element: <div className="text-center py-12">Settings - Coming Soon</div>,
+      },
+    ],
+  },
+]);
+
+export default router;
