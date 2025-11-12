@@ -4,12 +4,15 @@ import AppLayout from '../layouts/AppLayout';
 import ProtectedRoute from './ProtectedRoute';
 import LoginForm from '../features/auth/components/LoginForm';
 import RegisterForm from '../features/auth/components/RegisterForm';
+import EmployeeRegisterForm from '../features/auth/components/EmployeeRegisterForm';
 import Dashboard from '../features/dashboard/Dashboard';
 import OrdersList from '../features/orders/components/OrdersList';
 import CreateOrder from '../features/orders/components/CreateOrder';
+import OrderDetail from '../features/orders/components/OrderDetail';
 import TeamList from '../features/team/components/TeamList';
 import RecipesList from '../features/recipes/components/RecipesList';
 import CreateRecipe from '../features/recipes/components/CreateRecipe';
+import FoldersList from '../features/folders/components/FoldersList';
 import Settings from '../features/settings/components/Settings';
 import { ROUTES } from '../config/constants';
 
@@ -25,6 +28,10 @@ const router = createBrowserRouter([
       {
         path: 'register',
         element: <RegisterForm />,
+      },
+      {
+        path: 'join',
+        element: <EmployeeRegisterForm />,
       },
     ],
   },
@@ -53,6 +60,10 @@ const router = createBrowserRouter([
         element: <CreateOrder />,
       },
       {
+        path: 'orders/:orderId',
+        element: <OrderDetail />,
+      },
+      {
         path: 'recipes',
         element: <RecipesList />,
       },
@@ -63,6 +74,10 @@ const router = createBrowserRouter([
       {
         path: 'team',
         element: <TeamList />,
+      },
+      {
+        path: 'folders',
+        element: <FoldersList />,
       },
       {
         path: 'settings',

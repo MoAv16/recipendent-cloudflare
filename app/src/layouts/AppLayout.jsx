@@ -16,6 +16,7 @@ export default function AppLayout() {
   const navigation = [
     { name: 'Dashboard', href: ROUTES.DASHBOARD, icon: '🏠' },
     { name: 'Aufträge', href: ROUTES.ORDERS, icon: '📋' },
+    { name: 'Ordner', href: '/folders', icon: '📁' },
     { name: 'Rezepte', href: ROUTES.RECIPES, icon: '📖' },
     { name: 'Team', href: ROUTES.TEAM, icon: '👥' },
     { name: 'Einstellungen', href: ROUTES.SETTINGS, icon: '⚙️' },

@@ -3,6 +3,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { getTeamMembers, generateInvitationCode } from '../services/teamService';
 import { useAuth } from '../../auth/hooks/useAuth';
 import InviteModal from './InviteModal';
+import PermissionsEditor from './PermissionsEditor';
 
 const ROLE_LABELS = {
   admin: { label: 'Admin', color: 'bg-green-100 text-green-800' },
@@ -13,6 +14,7 @@ const ROLE_LABELS = {
 export default function TeamList() {
   const { userData, isAdmin } = useAuth();
   const [showInviteModal, setShowInviteModal] = useState(false);
+  const [editingPermissions, setEditingPermissions] = useState(null);
   const queryClient = useQueryClient();
 
   const { data: teamMembers, isLoading, error } = useQuery({
@@ -118,9 +120,19 @@ export default function TeamList() {
                     {isAdmin && (
                       <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                         {member.id !== userData?.id && (
-                          <button className="text-blue-600 hover:text-blue-900">
-                            Bearbeiten
-                          </button>
+                          <div className="flex gap-2 justify-end">
+                            {member.role === 'co-admin' && (
+                              <button
+                                onClick={() => setEditingPermissions(member)}
+                                className="text-purple-600 hover:text-purple-900"
+                              >
+                                Berechtigungen
+                              </button>
+                            )}
+                            <button className="text-blue-600 hover:text-blue-900">
+                              Bearbeiten
+                            </button>
+                          </div>
                         )}
                       </td>
                     )}
@@ -143,6 +155,15 @@ export default function TeamList() {
           onInvite={inviteMutation.mutate}
           isLoading={inviteMutation.isPending}
           error={inviteMutation.error?.message}
+        />
+      )}
+
+      {/* Permissions Editor Modal */}
+      {editingPermissions && (
+        <PermissionsEditor
+          userId={editingPermissions.id}
+          userName={`${editingPermissions.first_name} ${editingPermissions.last_name}`}
+          onClose={() => setEditingPermissions(null)}
         />
       )}
     </div>
