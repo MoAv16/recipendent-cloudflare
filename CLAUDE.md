@@ -126,15 +126,6 @@ app.recipendent.com (Cloudflare Pages #2)
     └── /settings           → Settings
 ```
 
-**Vorteile:**
-- ✅ Klare Trennung (Marketing vs App)
-- ✅ Unabhängige Deployments
-- ✅ Supabase Auth funktioniert perfekt (`app.recipendent.com` als Redirect URL)
-- ✅ OAuth Provider akzeptieren Subdomains besser
-- ✅ Separate CSP, Caching, Rate Limiting
-
----
-
 ## Database Schema (Shared mit iOS App) [3]
 
 Die WebApp nutzt die **gleiche Supabase-Datenbank** wie die iOS App.
@@ -242,17 +233,21 @@ public.recipes             -- Recipe Templates (Update-Feature)
 **Struktur:**
 ```
 recipendent-cloudflare/
-├── index.html              # Landing Page (fertig)
-├── logo_appstore.png       # Logo (fertig)
-├── privacy/
-│   └── index.html          # Datenschutzerklärung (fertig, muss aktualisiert werden)
-├── terms/
-│   ├── index.html          # AGB (fertig, muss aktualisiert werden)
-│   └── Terms and Conditions.txt  # Source
-├── admin/
-│   └── index.html          # Invite-Key-Versand (fertig, Basic-Form)
-├── support/
-│   └── index.html          # Support-Seite (fertig)
+├── static/                  # Marketing Website (alle statischen Seiten)
+│   ├── index.html          # Landing Page (fertig)
+│   ├── logo_appstore.png   # Logo (fertig)
+│   ├── impressum/
+│   │   └── index.html      # Impressum (fertig)
+│   ├── privacy/
+│   │   └── index.html      # Datenschutzerklärung (fertig, muss aktualisiert werden)
+│   ├── terms/
+│   │   └── index.html      # AGB (fertig)
+│   ├── admin/
+│   │   └── index.html      # Invite-Key-Versand (fertig, Basic-Form)
+│   └── support/
+│       └── index.html      # Support-Seite (fertig)
+├── app/                     # WebApp (Vite + React)
+├── supabase/               # DB Schema & Migrations
 └── CLAUDE.md               # Diese Datei
 ```
 
@@ -266,41 +261,10 @@ recipendent-cloudflare/
 - [ ] SEO: Meta-Tags, Open Graph, Structured Data
 - [ ] Analytics: Plausible oder Cloudflare Web Analytics (DSGVO-konform)
 
-**Cloudflare Pages Deployment:**
-```bash
-# In Cloudflare Dashboard:
-# 1. New Project → Connect Git Repository
-# 2. Build Settings:
-#    - Framework Preset: None (statisch)
-#    - Build Command: (leer)
-#    - Build Output Directory: /
-# 3. Custom Domain: recipendent.com
-```
 
 #### 1.3 WebApp Projekt Setup (Vite + React)
 
 **Status:** ✅ **ABGESCHLOSSEN** - Projekt erstellt in `app/` Subfolder
-
-**Projekt:** `app/` (Vite + React)
-
-**Erstellt:**
-```bash
-npm create vite@latest app -- --template react  ✅
-cd app
-npm install  ✅
-
-# Dependencies (alle installiert) ✅
-npm install @supabase/supabase-js
-npm install @tanstack/react-query
-npm install zustand
-npm install react-router-dom
-npm install framer-motion
-npm install tailwindcss postcss autoprefixer
-npm install @headlessui/react  # Accessible UI Components
-npm install react-hook-form    # Form Validation
-npm install zod                # Schema Validation
-npm install date-fns           # Date Utilities
-```
 
 **Tailwind Setup:** ✅ Manuell konfiguriert
 ```bash
@@ -1413,7 +1377,7 @@ function App() {
 # 3. Build Settings:
 #    - Framework Preset: None
 #    - Build Command: (leer)
-#    - Build Output Directory: /
+#    - Build Output Directory: static
 # 4. Custom Domain: recipendent.com
 # 5. Deploy
 ```

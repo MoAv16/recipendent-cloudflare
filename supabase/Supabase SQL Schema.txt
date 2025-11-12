@@ -1,6 +1,7 @@
 ANFANG SUPABASE #######################
 
 Stand: 08.11.2025 - Migration: use_logo_branding Column hinzugefügt
+Diese Datenbank ist die Datenbank die für die mobile iOS App verwendet wird
 
 ####################### auth #######################
 
