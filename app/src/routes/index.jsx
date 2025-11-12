@@ -8,6 +8,9 @@ import Dashboard from '../features/dashboard/Dashboard';
 import OrdersList from '../features/orders/components/OrdersList';
 import CreateOrder from '../features/orders/components/CreateOrder';
 import TeamList from '../features/team/components/TeamList';
+import RecipesList from '../features/recipes/components/RecipesList';
+import CreateRecipe from '../features/recipes/components/CreateRecipe';
+import Settings from '../features/settings/components/Settings';
 import { ROUTES } from '../config/constants';
 
 const router = createBrowserRouter([
@@ -51,7 +54,11 @@ const router = createBrowserRouter([
       },
       {
         path: 'recipes',
-        element: <div className="text-center py-12">Recipes - Coming Soon</div>,
+        element: <RecipesList />,
+      },
+      {
+        path: 'recipes/new',
+        element: <CreateRecipe />,
       },
       {
         path: 'team',
@@ -59,7 +66,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'settings',
-        element: <div className="text-center py-12">Settings - Coming Soon</div>,
+        element: <Settings />,
       },
     ],
   },
