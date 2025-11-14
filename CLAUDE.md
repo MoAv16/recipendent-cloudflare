@@ -76,10 +76,18 @@ Das Projekt besteht aus zwei Teilen:
 
 **Ziel:** Feature Parity mit iOS App + zusätzliche Web-spezifische Features (OAuth, bessere Keyboard-Navigation).
 
-**Status:** 🚧 In Development - Phase 1 (Foundation)
+**Status:** 🚧 In Development - Phase 4 (Core Features ~65% Complete)
 
 **Wichtig:** Dies ist ein **kostenlos** bereitgestelltes Projekt. Preise auf der Website sind Beispielwerte.
 Rechtliche Absicherung (Impressum, Datenschutz, Beta-Disclaimer) ist Pflicht.
+
+**Aktueller Stand (14.11.2024):**
+- ✅ Marketing Website live (recipendent.com)
+- ✅ Admin Portal live (recipendentadmin.pages.dev)
+- ✅ WebApp komplett entwickelt (4.072 LOC, 35 Files)
+- ❌ WebApp nicht deployed (app.recipendent.com)
+- ❌ Recipe Migration fehlt (kritisch)
+- ❌ Testing fehlt komplett
 
 ---
 
@@ -105,26 +113,63 @@ Rechtliche Absicherung (Impressum, Datenschutz, Beta-Disclaimer) ist Pflicht.
 - **Cloudflare DNS:** `recipendent.com` + `app.recipendent.com`
 - **Supabase Edge Functions:** Email-Versand, Admin-Registration, Company-Deletion
 
-### Architecture Pattern: Subdomain Separation
+### Architecture Pattern: 3-Domain Separation
+
+**Architektur-Entscheidung:** Das Projekt ist auf **3 separate Cloudflare Pages Deployments** aufgeteilt:
 
 ```
-recipendent.com (Cloudflare Pages #1)
-├── index.html              → Landing Page
-├── privacy/index.html      → Datenschutzerklärung
-├── terms/index.html        → AGB
-├── admin/index.html        → Invite-Key-Versand (Email-Form)
-└── support/index.html      → Support-Seite
+1. recipendent.com (Cloudflare Pages: recipendent-marketing)
+   Source: static/ Ordner (ohne admin/)
+   ├── /                   → Landing Page (index.html)
+   ├── /impressum/         → Impressum
+   ├── /privacy/           → Datenschutzerklärung
+   ├── /terms/             → AGB
+   └── /support/           → Support-Seite
+   
+   Build Settings:
+   - Build Command: (leer - statische HTML-Dateien)
+   - Build Output Directory: static
+   - Custom Domain: recipendent.com
 
-app.recipendent.com (Cloudflare Pages #2)
-└── Vite React SPA
-    ├── /auth/login         → Login
-    ├── /auth/register      → Registration (Admin + Employee via Invite)
-    ├── /dashboard          → Dashboard
-    ├── /orders             → Orders Management
-    ├── /recipes            → Recipes Management
-    ├── /team               → Team Management
-    └── /settings           → Settings
+2. app.recipendent.com (Cloudflare Pages: recipendent-app)
+   Source: app/ Ordner
+   └── Vite React SPA
+       ├── /auth/login         → Login
+       ├── /auth/register      → Registration (Admin + Employee via Invite)
+       ├── /dashboard          → Dashboard
+       ├── /orders             → Orders Management
+       ├── /recipes            → Recipes Management
+       ├── /team               → Team Management
+       └── /settings           → Settings
+   
+   Build Settings:
+   - Root Directory: app
+   - Build Command: npm run build
+   - Build Output Directory: dist
+   - Custom Domain: app.recipendent.com
+   - Environment Variables: VITE_SUPABASE_URL, VITE_SUPABASE_ANON_KEY
+
+3. admin.recipendent.com (Cloudflare Pages: recipendent-admin)
+   Source: static/admin/ Ordner
+   └── Admin Portal
+       ├── Password-Protected Login
+       ├── Admin-Invite-Key Generierung
+       └── Email-Versand via Supabase Edge Function
+   
+   Build Settings:
+   - Root Directory: static/admin
+   - Build Command: (leer - statische HTML)
+   - Build Output Directory: /
+   - Custom Domain: admin.recipendent.com (aktuell: recipendentadmin.pages.dev)
 ```
+
+**Vorteile dieser Architektur:**
+- **Security:** Admin-Portal ist vollständig isoliert von Marketing + App
+- **Performance:** Statische Marketing-Site lädt ultra-schnell (kein React-Bundle)
+- **Unabhängigkeit:** Jedes Deployment kann separat aktualisiert werden
+- **Skalierung:** App kann separate Cloudflare Workers/Caching-Regeln haben
+- **SEO:** Marketing-Site ist rein statisch → perfekt für Google Indexierung
+- **Monitoring:** Separate Analytics und Error-Tracking pro Domain
 
 ## Database Schema (Shared mit iOS App) [3]
 
@@ -1152,17 +1197,244 @@ export const usePermissions = () => {
 
 ---
 
-### 🎯 Roadmap Summary
+### 🎯 Roadmap Summary (Updated 14.11.2024)
 
-| Phase | Duration | Key Deliverables |
-|-------|----------|------------------|
-| **Phase 1: Foundation** | 1-2 Wochen | Legal Docs, Marketing Website, WebApp Setup |
-| **Phase 2: Marketing** | 1 Woche | SEO, Analytics, Refined Landing Page |
-| **Phase 3: Auth & Dashboard** | 2-3 Wochen | Login, Register, Dashboard, Protected Routes |
-| **Phase 4: Core Features** | 3-4 Wochen | Orders CRUD, Team Management, Permissions |
-| **Phase 5: Advanced Features** | 2-3 Wochen | Recipe System, Settings |
-| **Phase 6: Launch** | 2-3 Wochen | Polish, Testing, Beta, Launch |
-| **TOTAL** | **11-18 Wochen** | **Vollständige WebApp + Marketing** |
+| Phase | Duration | Status | Key Deliverables |
+|-------|----------|--------|------------------|
+| **Phase 1: Foundation** | 1-2 Wochen | ✅ 90% | Legal Docs, Marketing Website, WebApp Setup |
+| **Phase 2: Marketing** | 1 Woche | ⚠️ 30% | SEO, Analytics, Refined Landing Page |
+| **Phase 3: Auth & Dashboard** | 2-3 Wochen | ✅ 95% | Login, Register, Dashboard, Protected Routes |
+| **Phase 4: Core Features** | 3-4 Wochen | ✅ 90% | Orders CRUD, Team Management, Permissions |
+| **Phase 5: Advanced Features** | 2-3 Wochen | ⚠️ 75% | Recipe System, Settings |
+| **Phase 6: Polish & Testing** | 2-3 Wochen | ❌ 5% | Tests, Performance, Accessibility |
+| **Phase 7: Beta Launch** | 1-2 Wochen | ❌ 0% | Deployment, Monitoring, Beta Users |
+| **Phase 8: Production** | 2-3 Wochen | ❌ 0% | User Feedback, Bug Fixes, Iteration |
+| **TOTAL** | **14-22 Wochen** | **~65%** | **Production-Ready WebApp** |
+
+---
+
+### Phase 7: Beta Launch & Deployment (1-2 Wochen) - NEW
+
+**Ziel:** App live bringen und erste User onboarden
+
+#### 7.1 Critical Fixes (vor Deployment)
+
+**Recipe System finalisieren:**
+- [ ] Recipe Migration in Supabase ausführen (RECIPE_SYSTEM_PROMPT.md)
+- [ ] Recipe Usage Counter testen
+- [ ] Recipe → Order Flow testen
+
+**WebApp Deployment:**
+- [ ] Cloudflare Pages Projekt erstellen: `recipendent-app`
+- [ ] Build Settings konfigurieren:
+  ```
+  Root Directory: app
+  Build Command: npm run build
+  Build Output Directory: dist
+  Environment Variables: VITE_SUPABASE_URL, VITE_SUPABASE_ANON_KEY
+  ```
+- [ ] Custom Domain: `app.recipendent.com` hinzufügen
+- [ ] SSL/TLS aktivieren
+- [ ] Deployment testen: Login, Create Order, Realtime
+
+**Admin Portal Custom Domain:**
+- [ ] `recipendentadmin.pages.dev` → `admin.recipendent.com`
+- [ ] DNS CNAME Record setzen
+- [ ] Footer-Link in Marketing-Website updaten
+
+**Critical Bug Fixes:**
+- [ ] Bundle Size reduzieren (676KB → ~300KB)
+  - Code Splitting: Lazy Load Routes
+  - Dynamic Imports für große Components
+  - Tree Shaking prüfen
+- [ ] OAuth Callback Route implementieren
+- [ ] Account Deletion via Edge Function
+
+#### 7.2 Monitoring & Error Tracking
+
+**Sentry Setup (Error Monitoring):**
+```bash
+npm install @sentry/react
+```
+
+**Sentry Config (`app/src/config/sentry.js`):**
+```javascript
+import * as Sentry from '@sentry/react';
+
+Sentry.init({
+  dsn: import.meta.env.VITE_SENTRY_DSN,
+  environment: import.meta.env.MODE,
+  integrations: [
+    new Sentry.BrowserTracing(),
+    new Sentry.Replay(),
+  ],
+  tracesSampleRate: 0.1,
+  replaysSessionSampleRate: 0.1,
+  replaysOnErrorSampleRate: 1.0,
+});
+```
+
+**Analytics Setup (Plausible):**
+- [ ] Plausible Account erstellen (plausible.io)
+- [ ] Script in `index.html` einfügen:
+  ```html
+  <script defer data-domain="recipendent.com" src="https://plausible.io/js/script.js"></script>
+  ```
+- [ ] Custom Events: Button Clicks, Registrations
+
+**Uptime Monitoring:**
+- [ ] UptimeRobot oder BetterStack einrichten
+- [ ] Alerts via Email bei Downtime
+
+#### 7.3 Beta Testing
+
+**Internal Testing (1 Woche):**
+- [ ] 3-5 Test-Companies erstellen
+- [ ] Vollständiger Workflow durchspielen:
+  1. Admin registriert sich
+  2. Team einladen (5 Mitglieder)
+  3. 20 Orders erstellen
+  4. Recipes nutzen
+  5. Permissions testen
+  6. Mobile Testing (iOS Safari, Android Chrome)
+
+**Closed Beta (5-10 Users):**
+- [ ] Beta-Einladungen versenden via Admin Portal
+- [ ] Feedback-Form erstellen (Typeform):
+  - Was funktioniert gut?
+  - Was ist verwirrend?
+  - Welche Features fehlen?
+  - Performance-Probleme?
+- [ ] Wöchentliche Check-Ins mit Beta-Users
+- [ ] Bug-Tracking in GitHub Issues
+
+**Deliverables Phase 7:**
+- ✅ WebApp live auf `app.recipendent.com`
+- ✅ Admin Portal auf `admin.recipendent.com`
+- ✅ Monitoring & Alerts aktiv
+- ✅ 5-10 aktive Beta-Users
+- ✅ Kritische Bugs gefixt
+
+**Estimated Time:** 1-2 Wochen
+
+---
+
+### Phase 8: Production Launch & Iteration (2-3 Wochen) - NEW
+
+**Ziel:** Stabiles Produkt mit aktiven Usern
+
+#### 8.1 Pre-Launch Optimierung
+
+**Performance Audit:**
+- [ ] Lighthouse Score: Performance 90+, Accessibility 100
+- [ ] Image Optimization: WebP, Lazy Loading
+- [ ] Font Loading: Subset, Preload
+- [ ] API Response Times: < 200ms (p95)
+
+**SEO & Marketing:**
+- [ ] Meta-Tags auf allen Seiten (Title, Description, OG-Image)
+- [ ] Sitemap.xml generieren
+- [ ] Google Search Console einrichten
+- [ ] robots.txt optimieren
+- [ ] Structured Data (JSON-LD) für Organization
+
+**Legal Final Check:**
+- [ ] Datenschutzerklärung aktualisieren (Supabase, OAuth, Analytics)
+- [ ] Cookie-Banner implementieren (falls Analytics)
+- [ ] Impressum verifizieren
+- [ ] AGB final review
+
+#### 8.2 Public Beta Launch
+
+**Launch Checklist:**
+- [ ] Beta-Badge in App anzeigen
+- [ ] Support-Email aktiv überwachen
+- [ ] Changelog-Seite erstellen (`app.recipendent.com/changelog`)
+- [ ] Status-Page (status.recipendent.com via StatusPage.io)
+
+**Marketing Activities:**
+- [ ] Product Hunt Launch (optional)
+- [ ] LinkedIn Post (falls Business-Profil vorhanden)
+- [ ] Direct Outreach: 20-30 potenzielle Kunden anschreiben
+- [ ] Reddit Post in /r/productivity, /r/saas (vorsichtig)
+
+**User Onboarding:**
+- [ ] Welcome-Email nach Registration
+- [ ] Onboarding-Tutorial in App (First-Time User Experience)
+- [ ] Feature-Tour: "Erstelle deinen ersten Auftrag"
+- [ ] Help Center / FAQ-Seite
+
+#### 8.3 Iteration & Growth
+
+**Week 1-2: Bug Fixes**
+- [ ] Täglich Sentry-Errors prüfen
+- [ ] Kritische Bugs innerhalb 24h fixen
+- [ ] User-Feedback sammeln und priorisieren
+
+**Week 3-4: Feature Improvements**
+- [ ] Top 3 User-Requests implementieren
+- [ ] Performance-Optimierungen basierend auf Analytics
+- [ ] A/B Testing: Landing Page CTR verbessern
+
+**Metrics definieren:**
+- [ ] Active Users (DAU/MAU)
+- [ ] Retention Rate (D1, D7, D30)
+- [ ] Feature Usage (Orders, Recipes, Team)
+- [ ] Error Rate (< 1%)
+- [ ] Support Tickets pro User
+
+**Deliverables Phase 8:**
+- ✅ Stabiles Produkt (< 1% Error Rate)
+- ✅ 20-50 aktive User
+- ✅ Positives User-Feedback
+- ✅ Skalierungsplan für 100+ Users
+
+**Estimated Time:** 2-3 Wochen
+
+---
+
+### Phase 9: Advanced Features & Scaling (Optional) - NEW
+
+**Ziel:** Produkt auf nächstes Level bringen
+
+#### 9.1 Advanced Features
+
+**Notifications System:**
+- [ ] Push Notifications (via Supabase Realtime)
+- [ ] Email Notifications (neue Orders, Team-Updates)
+- [ ] In-App Notification Center
+- [ ] Notification Preferences
+
+**Advanced Recipes:**
+- [ ] Recipe Templates Marketplace (User können Recipes teilen)
+- [ ] Recipe Import/Export (JSON)
+- [ ] Recipe Versioning (History)
+
+**Advanced Team Features:**
+- [ ] Team Chat (via Supabase Realtime)
+- [ ] Activity Feed (Who did what?)
+- [ ] Advanced Permissions (Custom Roles)
+
+**Reporting & Analytics:**
+- [ ] Order Statistics Dashboard
+- [ ] Team Performance Metrics
+- [ ] Export to PDF/Excel
+
+#### 9.2 Mobile App (iOS/Android)
+
+**React Native App (bereits vorhanden?):**
+- [ ] Code-Sharing zwischen Web + Mobile
+- [ ] Platform-specific Features (Face ID, Push Notifications)
+- [ ] App Store Submission
+
+#### 9.3 Internationalization
+
+**Multi-Language Support:**
+- [ ] i18n Setup (react-i18next)
+- [ ] Languages: DE, EN (später: FR, ES, IT)
+- [ ] Language Switcher in Settings
+
+**Estimated Time:** 4-8 Wochen (je nach Scope)
 
 ---
 
@@ -1452,19 +1724,281 @@ jobs:
 
 ---
 
+## 🎨 UI/UX Design-System Ergänzungen [10] - NEW
+
+**Ziel:** Einheitliches, professionelles Design
+
+### Color Palette (Brand Identity)
+
+**Primary Colors:**
+```css
+--primary-gradient: linear-gradient(135deg, #1dd1a1 0%, #5cf2d6 100%);
+--primary-500: #5cf2d6;
+--primary-600: #1dd1a1;
+--primary-700: #17a589;
+```
+
+**Semantic Colors:**
+```css
+--success: #10b981;
+--warning: #f59e0b;
+--error: #ef4444;
+--info: #3b82f6;
+```
+
+**Neutrals:**
+```css
+--gray-50: #f9fafb;
+--gray-100: #f3f4f6;
+--gray-200: #e5e7eb;
+--gray-300: #d1d5db;
+--gray-500: #6b7280;
+--gray-900: #111827;
+```
+
+### Typography
+
+**Font Stack:**
+```css
+font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 
+             'Helvetica Neue', Arial, sans-serif;
+```
+
+**Type Scale:**
+- Heading 1: 3rem (48px) - Landing Page Hero
+- Heading 2: 2rem (32px) - Section Titles
+- Heading 3: 1.5rem (24px) - Card Titles
+- Body: 1rem (16px) - Default
+- Small: 0.875rem (14px) - Labels
+
+### Component Library (Shared Components)
+
+**Missing Atomic Components:**
+- [ ] `Button` - Primary, Secondary, Outline, Ghost variants
+- [ ] `Input` - Text, Email, Password, Number mit Validation States
+- [ ] `Select` - Dropdown mit Search
+- [ ] `Toast` - Success, Error, Info, Warning Notifications
+- [ ] `Modal` - Confirmation, Form, Fullscreen
+- [ ] `Card` - Elevated, Outlined, Interactive
+- [ ] `Avatar` - mit Fallback (Initials)
+- [ ] `Badge` - Status, Role, Count
+- [ ] `Skeleton` - Loading States
+- [ ] `EmptyState` - No Data Illustrations
+
+**Molecules:**
+- [ ] `FormField` - Label + Input + Error Message
+- [ ] `SearchBar` - mit Debounce
+- [ ] `Pagination` - Table/List Pagination
+- [ ] `FilterBar` - Multi-Select Filters
+- [ ] `DateRangePicker` - Start + End Date
+
+**Organisms:**
+- [ ] `Navbar` - mit Mobile Menu
+- [ ] `Sidebar` - Collapsible
+- [ ] `DataTable` - Sortable, Filterable, Paginated
+- [ ] `ImageUploader` - Drag & Drop + Preview
+
+### Animation Guidelines
+
+**Micro-Interactions (Framer Motion):**
+```jsx
+// Button Hover
+const buttonVariants = {
+  hover: { scale: 1.02, transition: { duration: 0.2 } },
+  tap: { scale: 0.98 }
+};
+
+// Card Hover
+const cardVariants = {
+  hover: { y: -4, boxShadow: '0 20px 40px rgba(0,0,0,0.1)' }
+};
+
+// Page Transitions
+const pageVariants = {
+  initial: { opacity: 0, y: 20 },
+  animate: { opacity: 1, y: 0, transition: { duration: 0.3 } },
+  exit: { opacity: 0, y: -20 }
+};
+```
+
+**Loading States:**
+- Spinner nur für < 2 Sekunden
+- Skeleton Screens für > 2 Sekunden
+- Progress Bar für lange Tasks (File Upload)
+
+---
+
+## 🧪 Testing Strategy [11] - NEW
+
+**Ziel:** 80%+ Code Coverage
+
+### Testing Pyramid
+
+**Unit Tests (60% Coverage):**
+- Services: `orderService.js`, `teamService.js`, `recipeService.js`
+- Hooks: `useAuth`, `usePermissions`, `useOrderRealtime`
+- Utils: Validation, Formatters, Helpers
+
+**Tool:** Vitest + React Testing Library
+```bash
+npm install -D vitest @testing-library/react @testing-library/jest-dom
+```
+
+**Example Test:**
+```javascript
+// orderService.test.js
+import { describe, it, expect, vi } from 'vitest';
+import { getOrders } from './orderService';
+
+describe('orderService', () => {
+  it('should fetch orders for admin', async () => {
+    const orders = await getOrders();
+    expect(orders).toBeInstanceOf(Array);
+  });
+  
+  it('should filter orders by status', async () => {
+    const activeOrders = await getOrders('active');
+    expect(activeOrders.every(o => o.status === 'active')).toBe(true);
+  });
+});
+```
+
+**Integration Tests (30% Coverage):**
+- Auth Flow: Registration → Login → Dashboard
+- Order Flow: Create → Edit → Delete
+- Team Flow: Invite → Accept → Permissions
+
+**E2E Tests (10% Coverage):**
+- Playwright: Critical User Journeys
+- Full Flow: Registration → First Order → Team Invite
+
+**Tool:** Playwright
+```bash
+npm install -D @playwright/test
+```
+
+**Example E2E Test:**
+```javascript
+// e2e/order-flow.spec.js
+import { test, expect } from '@playwright/test';
+
+test('complete order flow', async ({ page }) => {
+  await page.goto('https://app.recipendent.com');
+  await page.click('text=Login');
+  await page.fill('input[type="email"]', 'admin@test.com');
+  await page.fill('input[type="password"]', 'password123');
+  await page.click('button:has-text("Anmelden")');
+  
+  await expect(page).toHaveURL(/.*dashboard/);
+  await page.click('text=Neuer Auftrag');
+  // ... more steps
+});
+```
+
+---
+
+## 📊 Success Metrics & KPIs [12] - NEW
+
+**Ziel:** Datenbasierte Produktentscheidungen
+
+### Product Metrics
+
+**Acquisition:**
+- Website Visitors (recipendent.com)
+- Conversion Rate: Visitor → Registration
+- Referral Sources (Organic, Direct, Social)
+
+**Activation:**
+- Registration Completion Rate
+- First Order Created (within 24h)
+- Team Invitation Sent (within 7 days)
+
+**Engagement:**
+- DAU / MAU (Daily/Monthly Active Users)
+- Orders per User per Week
+- Sessions per User per Day
+- Feature Usage: Orders 80%, Recipes 40%, Team 60%
+
+**Retention:**
+- D1, D7, D30 Retention Rates
+- Churn Rate (< 10% monthly)
+- Reactivation Rate
+
+**Technical Metrics:**
+- Error Rate (< 1%)
+- API Response Time (p95 < 300ms)
+- Page Load Time (< 2s)
+- Lighthouse Score (90+)
+
+### Tools
+
+**Analytics:**
+- Plausible (Privacy-friendly)
+- Mixpanel (User Behavior)
+- PostHog (Product Analytics)
+
+**Monitoring:**
+- Sentry (Errors)
+- Cloudflare Analytics (Traffic)
+- Supabase Dashboard (DB Performance)
+
+---
+
+## 🚀 Go-to-Market Strategy [13] - NEW
+
+**Ziel:** Erste 100 User gewinnen
+
+### Target Audience
+
+**Primary:**
+- Kleine Unternehmen (5-20 Mitarbeiter)
+- Handwerksbetriebe (Bäckereien, Catering, Schreinereien)
+- Event-Planer, Catering-Services
+- Freelancer mit wiederkehrenden Tasks
+
+**Value Proposition:**
+"Auftrags- und Teamverwaltung, die so einfach ist wie WhatsApp, aber so leistungsstark wie Trello."
+
+### Marketing Channels (Gratis/Low-Budget)
+
+**Content Marketing:**
+- [ ] Blog-Posts: "5 Tipps für effiziente Auftragsverwaltung"
+- [ ] YouTube Tutorials: "Recipendent in 5 Minuten erklärt"
+- [ ] LinkedIn Posts: Use Cases, Success Stories
+
+**Community:**
+- [ ] Reddit: /r/smallbusiness, /r/productivity
+- [ ] Facebook Groups: Handwerker-Communities
+- [ ] Discord/Slack: Freelancer-Gruppen
+
+**Direct Outreach:**
+- [ ] 100 personalisierte Emails an lokale Unternehmen
+- [ ] LinkedIn Direct Messages (50/Tag)
+- [ ] Kaltakquise bei Bäckereien/Catering (Telefon)
+
+**Partnerships:**
+- [ ] Co-Marketing mit iOS App (falls bereits User vorhanden)
+- [ ] Integration mit Stripe/PayPal (später)
+
+**Estimated Cost:** 0-500€ (nur Zeit-Investment)
+
+---
+
 ## Quick Reference Commands
 
 ```bash
 # Marketing Website Development
-cd recipendent-cloudflare
+cd recipendent-cloudflare/static
 # Edit HTML files directly, no build needed
 
 # WebApp Development
-cd recipendent-app-web
+cd app
 npm install
 npm run dev                 # Start dev server (localhost:5173)
 npm run build               # Build for production
 npm run preview             # Preview production build
+npm run test                # Run unit tests
+npm run test:e2e            # Run E2E tests
 
 # Supabase CLI
 supabase login
@@ -1476,8 +2010,64 @@ supabase db push            # Push local migrations
 # Edge Functions
 supabase functions deploy [function-name]
 supabase functions logs [function-name]
+
+# Deployment (Cloudflare Pages)
+git add .
+git commit -m "feat: [description]"
+git push origin main        # Auto-deploys to Cloudflare
+
+# Performance Testing
+npm run build
+npx lighthouse https://app.recipendent.com --view
+
+# Bundle Size Analysis
+npx vite-bundle-visualizer
 ```
 
 ---
 
-**Happy Coding, Chef_R.! 🚀**
+## 📅 Realistic Timeline to Production [14] - NEW
+
+**Start:** 14.11.2024 (Heute)  
+**Target Launch:** 15.01.2025 (9 Wochen)
+
+### Week 1-2: Critical Fixes & Deployment (14.11 - 28.11)
+- Recipe Migration ausführen
+- WebApp auf app.recipendent.com deployen
+- Admin auf admin.recipendent.com
+- Bundle Size reduzieren
+- Sentry + Analytics Setup
+
+### Week 3-4: Testing & Bug Fixes (29.11 - 12.12)
+- Unit Tests schreiben (Services, Hooks)
+- E2E Tests für Critical Flows
+- Internal Testing (3-5 Test-Companies)
+- Bug Fixing Marathon
+
+### Week 5-6: Beta Launch (13.12 - 26.12)
+- Closed Beta: 10 User einladen
+- Feedback sammeln
+- Performance-Optimierungen
+- SEO + Marketing Setup
+
+### Week 7-8: Iteration & Polish (27.12 - 09.01)
+- Top User-Requests implementieren
+- UI/UX Refinements
+- Accessibility Audit
+- Legal Docs finalisieren
+
+### Week 9: Public Launch (10.01 - 15.01)
+- Public Beta Badge aktivieren
+- Marketing-Push (Product Hunt, LinkedIn)
+- Launch-Email an alle Beta-User
+- 🎉 **Go Live!**
+
+**Post-Launch (ab 16.01):**
+- Wöchentliche Updates
+- User-Support
+- Feature-Iteration
+- Growth-Experimente
+
+---
+
+**Happy Coding, Chef_R.! Lass uns ein geiles Produkt bauen! 🚀**
