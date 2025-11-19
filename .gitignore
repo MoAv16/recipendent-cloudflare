@@ -8,6 +8,10 @@
 .env.test.local
 .env.production.local
 
+
+# Claude Variables
+
+
 # Dependencies
 node_modules/
 app/node_modules/
@@ -64,11 +68,11 @@ coverage/
 # Local Development
 .claude/
 
-# Supabase Local (nur temporäre Files, nicht migrations/functions!)
+# Supabase Local
+.supabase/
 supabase/.temp/
 supabase/.branches/
 supabase/Supabase SQL Schema.txt
-**/supabase/.supabase/
 
 # Package Manager
 .yarn/
