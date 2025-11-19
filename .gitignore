@@ -6,6 +6,9 @@
 .env.production.local
 *.env
 
+# Claude Variables
+
+
 # Dependencies
 node_modules/
 app/node_modules/
