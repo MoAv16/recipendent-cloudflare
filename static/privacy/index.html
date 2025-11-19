@@ -1,332 +1,448 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Datenschutzerklärung - Recipendent</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy - Recipendent</title>
+  <style>
+    :root {
+      --primary: #1dd1a1;
+      --primary-light: #5cf2d6;
+      --text-primary: #1a1a1a;
+      --text-secondary: #6b7280;
+      --text-muted: #9ca3af;
+      --bg-white: #ffffff;
+      --bg-gray: #f9fafb;
+      --border: #e5e7eb;
+      --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+      --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background: linear-gradient(135deg, #e0f7f4 0%, #d4f1f9 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: white;
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-        }
+    html {
+      scroll-behavior: smooth;
+    }
 
-        .header {
-            text-align: center;
-            margin-bottom: 40px;
-            padding-bottom: 20px;
-            border-bottom: 3px solid #5cf2d6;
-        }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      line-height: 1.7;
+      color: var(--text-primary);
+      background: var(--bg-gray);
+    }
 
-        .logo {
-            font-size: 32px;
-            font-weight: bold;
-            color: #5cf2d6;
-            margin-bottom: 10px;
-        }
+    /* Header */
+    header {
+      background: var(--bg-white);
+      border-bottom: 1px solid var(--border);
+      padding: 1.5rem 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(12px);
+    }
 
-        h1 {
-            font-size: 28px;
-            color: #2c3e50;
-            margin-bottom: 10px;
-        }
+    .header-content {
+      max-width: 900px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
 
-        .last-updated {
-            font-size: 14px;
-            color: #7f8c8d;
-            font-style: italic;
-        }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      color: var(--text-primary);
+    }
 
-        h2 {
-            font-size: 22px;
-            color: #34495e;
-            margin-top: 30px;
-            margin-bottom: 15px;
-            padding-bottom: 8px;
-            border-bottom: 2px solid #ecf0f1;
-        }
+    .logo-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 6px;
+      overflow: hidden;
+    }
 
-        h3 {
-            font-size: 18px;
-            color: #5cf2d6;
-            margin-top: 20px;
-            margin-bottom: 10px;
-        }
+    .logo-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
 
-        p {
-            margin-bottom: 15px;
-            text-align: justify;
-        }
+    .logo-text {
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
 
-        ul {
-            margin-left: 25px;
-            margin-bottom: 15px;
-        }
+    .back-link {
+      margin-left: auto;
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.9375rem;
+      font-weight: 500;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
 
-        li {
-            margin-bottom: 8px;
-        }
+    .back-link:hover {
+      color: var(--primary);
+    }
 
-        .highlight {
-            background-color: #fff9e6;
-            padding: 15px;
-            border-left: 4px solid #ffc107;
-            margin: 20px 0;
-            border-radius: 4px;
-        }
+    /* Main Content */
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 4rem 2rem;
+    }
 
-        .important {
-            font-weight: 600;
-            color: #e74c3c;
-        }
+    .page-header {
+      margin-bottom: 3rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid var(--border);
+    }
 
-        .contact-box {
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 8px;
-            margin-top: 30px;
-            border: 1px solid #dee2e6;
-        }
+    .page-label {
+      display: inline-block;
+      padding: 0.375rem 0.875rem;
+      background: rgba(29, 209, 161, 0.1);
+      color: var(--primary);
+      border-radius: 100px;
+      font-size: 0.8125rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
 
-        .contact-box h3 {
-            margin-top: 0;
-            color: #2c3e50;
-        }
+    h1 {
+      font-size: clamp(2rem, 4vw, 2.5rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.75rem;
+      line-height: 1.2;
+    }
 
-        .contact-info {
-            margin-top: 10px;
-        }
+    .last-updated {
+      font-size: 0.9375rem;
+      color: var(--text-muted);
+    }
 
-        .contact-info p {
-            margin-bottom: 5px;
-            text-align: left;
-        }
+    .content {
+      background: var(--bg-white);
+      border-radius: 16px;
+      padding: 3rem;
+      box-shadow: var(--shadow-sm);
+    }
 
-        strong {
-            color: #2c3e50;
-        }
+    h2 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin-top: 3rem;
+      margin-bottom: 1rem;
+      letter-spacing: -0.01em;
+      scroll-margin-top: 100px;
+    }
 
-        a {
-            color: #5cf2d6;
-            text-decoration: none;
-        }
+    h2:first-child {
+      margin-top: 0;
+    }
 
-        a:hover {
-            text-decoration: underline;
-        }
+    h3 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+      color: var(--primary);
+    }
 
-        .footer {
-            text-align: center;
-            margin-top: 40px;
-            padding-top: 20px;
-            border-top: 1px solid #ecf0f1;
-            color: #7f8c8d;
-            font-size: 14px;
-        }
+    p {
+      margin-bottom: 1.25rem;
+      color: var(--text-secondary);
+      font-size: 1rem;
+    }
 
-        .back-link {
-            display: inline-block;
-            margin-bottom: 15px;
-            color: #5cf2d6;
-            text-decoration: none;
-            font-weight: 600;
-        }
+    ul, ol {
+      margin-left: 1.5rem;
+      margin-bottom: 1.25rem;
+    }
 
-        .back-link:hover {
-            text-decoration: underline;
-        }
+    li {
+      margin-bottom: 0.75rem;
+      color: var(--text-secondary);
+      padding-left: 0.5rem;
+    }
 
-        @media (max-width: 768px) {
-            .container {
-                padding: 20px;
-            }
+    strong {
+      color: var(--text-primary);
+      font-weight: 600;
+    }
 
-            h1 {
-                font-size: 24px;
-            }
+    a {
+      color: var(--primary);
+      text-decoration: none;
+      transition: var(--transition);
+      font-weight: 500;
+    }
 
-            h2 {
-                font-size: 20px;
-            }
+    a:hover {
+      color: var(--primary-light);
+    }
 
-            h3 {
-                font-size: 16px;
-            }
-        }
-    </style>
+    /* Highlight Boxes */
+    .highlight {
+      background: #fef3c7;
+      border-left: 4px solid #f59e0b;
+      padding: 1.5rem;
+      border-radius: 8px;
+      margin: 2rem 0;
+    }
+
+    .highlight p {
+      margin-bottom: 0;
+    }
+
+    .important {
+      color: #dc2626;
+      font-weight: 600;
+    }
+
+    /* Contact Box */
+    .contact-box {
+      background: var(--bg-gray);
+      border: 1px solid var(--border);
+      padding: 2rem;
+      border-radius: 12px;
+      margin-top: 3rem;
+    }
+
+    .contact-box h3 {
+      margin-top: 0;
+      color: var(--text-primary);
+    }
+
+    .contact-info p {
+      margin-bottom: 0.5rem;
+    }
+
+    /* Footer */
+    footer {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 3rem 2rem;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.875rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .container {
+        padding: 2rem 1.5rem;
+      }
+
+      .content {
+        padding: 2rem 1.5rem;
+      }
+
+      h1 {
+        font-size: 1.75rem;
+      }
+
+      h2 {
+        font-size: 1.5rem;
+      }
+
+      h3 {
+        font-size: 1.125rem;
+      }
+
+      .back-link {
+        display: none;
+      }
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <div class="logo">
-                <img src="/logo_appstore.png" alt="Recipendent Logo" style="height: 50px; margin-bottom: 10px; border-radius: 10px;">
-                <div style="font-size: 32px; font-weight: bold; color: #5cf2d6; margin-bottom: 10px;">Recipendent</div>
-            </div>
-            <h1>Datenschutzerklärung</h1>
-            <p class="last-updated">Stand: 9. November 2025</p>
+  <!-- Header -->
+  <header>
+    <div class="header-content">
+      <a href="/" class="logo">
+        <div class="logo-icon">
+          <img src="/logo_appstore.png" alt="Recipendent">
         </div>
-
-        <p>Diese Datenschutzerklärung beschreibt, wie Recipendent („wir", „uns" oder „unser") Informationen erfasst, verwendet und weitergibt, wenn Sie unsere mobile Anwendung nutzen.</p>
-
-        <h2>1. Verantwortlicher</h2>
-        <p><strong>Muhammed Avci</strong><br>
-        E-Mail: <a href="mailto:recipendent@gmail.com">recipendent@gmail.com</a></p>
-
-        <h2>2. Welche Daten wir erheben</h2>
-
-        <h3>Von Ihnen bereitgestellte Daten</h3>
-        <p>Bei der Nutzung von Recipendent können Sie uns folgende Informationen bereitstellen:</p>
-        <ul>
-            <li><strong>Kontoinformationen:</strong> E-Mail-Adresse, Name, Profilbild</li>
-            <li><strong>Unternehmensinformationen:</strong> Firmenname, Logo, Details zu Teammitgliedern</li>
-            <li><strong>Auftrags-/Aufgabendaten:</strong> Bestellungen, Aufgaben, Rezepte, Ordner, Notizen und zugehörige Geschäftsdaten</li>
-            <li><strong>Bilder:</strong> Profilbilder und Firmenlogos, die über die App hochgeladen werden</li>
-        </ul>
-
-        <h3>Automatisch erfasste Daten</h3>
-        <ul>
-            <li><strong>Geräteinformationen:</strong> Gerätetyp, Betriebssystemversion</li>
-            <li><strong>Nutzungsdaten:</strong> Verwendete App-Funktionen, Interaktionsmuster, Absturzberichte</li>
-            <li><strong>Authentifizierungsdaten:</strong> Anmeldezeitstempel, Sitzungsinformationen</li>
-        </ul>
-
-        <h3>Biometrische Daten</h3>
-        <p>Recipendent verwendet Face ID/Touch ID (falls von Ihnen aktiviert), um sensible Aktionen zu sichern wie:</p>
-        <ul>
-            <li>Änderung von Firmenlogos</li>
-            <li>Änderung von Unternehmenseinstellungen</li>
-            <li>Löschen von Teammitgliedern</li>
-        </ul>
-
-        <div class="highlight">
-            <p><span class="important">Wichtig:</span> Biometrische Daten werden lokal auf Ihrem Gerät verarbeitet und niemals an unsere Server übermittelt.</p>
-        </div>
-
-        <h2>3. Wie wir Ihre Daten verwenden (Rechtsgrundlagen nach DSGVO)</h2>
-        <p>Wir verwenden die erhobenen Daten für folgende Zwecke:</p>
-        <ul>
-            <li><strong>Bereitstellung und Wartung des Recipendent-Dienstes</strong> (Art. 6 Abs. 1 lit. b DSGVO - Vertragserfüllung)</li>
-            <li><strong>Verwaltung Ihres Kontos und Firmen-Workspaces</strong> (Art. 6 Abs. 1 lit. b DSGVO)</li>
-            <li><strong>Ermöglichung von Teamzusammenarbeit und Echtzeit-Synchronisation</strong> (Art. 6 Abs. 1 lit. b DSGVO)</li>
-            <li><strong>Sicherung Ihres Kontos mit Face ID/biometrischer Authentifizierung</strong> (Art. 6 Abs. 1 lit. a DSGVO - Einwilligung)</li>
-            <li><strong>Versand wichtiger Benachrichtigungen über Ihre Aufträge und Ihr Team</strong> (Art. 6 Abs. 1 lit. b DSGVO)</li>
-            <li><strong>Verbesserung der App-Funktionalität und Benutzererfahrung</strong> (Art. 6 Abs. 1 lit. f DSGVO - berechtigtes Interesse)</li>
-            <li><strong>Bereitstellung von Kundensupport</strong> (Art. 6 Abs. 1 lit. b DSGVO)</li>
-        </ul>
-
-        <h2>4. Datenspeicherung und Sicherheit</h2>
-
-        <h3>Backend-Anbieter</h3>
-        <p>Wir nutzen <strong>Supabase</strong> (ein PostgreSQL-basierter Backend-Dienst) zur sicheren Speicherung Ihrer Daten. Ihre Daten werden:</p>
-        <ul>
-            <li>Während der Übertragung verschlüsselt (HTTPS/TLS)</li>
-            <li>In sicheren Rechenzentren gespeichert</li>
-            <li>Pro Unternehmen isoliert (Multi-Tenant-Architektur mit Row Level Security)</li>
-            <li>Regelmäßig gesichert</li>
-        </ul>
-
-        <h3>Sicherheitsmaßnahmen</h3>
-        <ul>
-            <li>Ende-zu-Ende-Verschlüsselung für Datenübertragung</li>
-            <li>Sichere Authentifizierung mit E-Mail-Verifizierung</li>
-            <li>Rollenbasierte Zugriffskontrolle (Admin, Co-Admin, Mitarbeiter)</li>
-            <li>Optionale biometrische Authentifizierung (Face ID)</li>
-            <li>Row Level Security-Richtlinien zur Verhinderung unbefugten Zugriffs</li>
-        </ul>
-
-        <h2>5. Weitergabe von Daten</h2>
-        <p>Wir <strong>verkaufen Ihre personenbezogenen Daten nicht</strong>. Wir geben Daten nur in folgenden Fällen weiter:</p>
-        <ul>
-            <li><strong>An Ihr Team:</strong> Von Ihnen erstellte Daten (Aufträge, Aufgaben) werden mit Teammitgliedern in Ihrem Unternehmen geteilt</li>
-            <li><strong>Dienstleister:</strong> Supabase (Backend-Hosting), Infrastrukturanbieter</li>
-            <li><strong>Gesetzliche Anforderungen:</strong> Falls gesetzlich vorgeschrieben oder zum Schutz unserer Rechte erforderlich</li>
-        </ul>
-
-        <h3>Datenübermittlung in Drittländer</h3>
-        <p>Ihre Daten können auf Servern außerhalb des Europäischen Wirtschaftsraums (EWR) gespeichert werden. Supabase verwendet AWS-Rechenzentren. Die Datenübermittlung erfolgt auf Grundlage von Standardvertragsklauseln der EU-Kommission.</p>
-
-        <h2>6. Ihre Rechte (DSGVO)</h2>
-        <p>Sie haben folgende Rechte:</p>
-        <ul>
-            <li><strong>Auskunftsrecht (Art. 15 DSGVO):</strong> Anfrage einer Kopie Ihrer personenbezogenen Daten</li>
-            <li><strong>Berichtigungsrecht (Art. 16 DSGVO):</strong> Aktualisierung oder Korrektur Ihrer Informationen</li>
-            <li><strong>Löschungsrecht (Art. 17 DSGVO):</strong> Löschung Ihres Kontos und Ihrer Daten (Kontakt: recipendent@gmail.com)</li>
-            <li><strong>Recht auf Datenübertragbarkeit (Art. 20 DSGVO):</strong> Download Ihrer Unternehmensdaten</li>
-            <li><strong>Widerspruchsrecht (Art. 21 DSGVO):</strong> Widerspruch gegen die Verarbeitung Ihrer Daten</li>
-            <li><strong>Einschränkung der Verarbeitung (Art. 18 DSGVO):</strong> Einschränkung der Datenverarbeitung unter bestimmten Umständen</li>
-        </ul>
-
-        <p><strong>Widerruf der Einwilligung:</strong> Falls Sie Ihre Einwilligung zur Datenverarbeitung (z.B. für Face ID) gegeben haben, können Sie diese jederzeit widerrufen.</p>
-
-        <p><strong>Beschwerderecht:</strong> Sie haben das Recht, sich bei einer Datenschutz-Aufsichtsbehörde über die Verarbeitung Ihrer Daten zu beschweren.</p>
-
-        <h2>7. Speicherdauer</h2>
-        <ul>
-            <li><strong>Aktive Konten:</strong> Wir speichern Ihre Daten, solange Ihr Konto aktiv ist</li>
-            <li><strong>Gelöschte Konten:</strong> Daten werden innerhalb von 30 Tagen nach Kontolöschung gelöscht</li>
-            <li><strong>Backups:</strong> Backup-Kopien können bis zu 90 Tage aufbewahrt werden</li>
-        </ul>
-
-        <h2>8. Datenschutz von Kindern</h2>
-        <p>Recipendent ist nicht für Kinder unter 16 Jahren bestimmt. Wir erheben wissentlich keine Daten von Kindern. Falls Sie glauben, dass ein Kind uns personenbezogene Daten zur Verfügung gestellt hat, kontaktieren Sie uns bitte umgehend.</p>
-
-        <h2>9. Dienste von Drittanbietern</h2>
-        <p>Recipendent integriert folgende Drittanbieter:</p>
-        <ul>
-            <li><strong>Supabase:</strong> Datenbank und Authentifizierung (<a href="https://supabase.com/privacy" target="_blank">Datenschutzerklärung</a>)</li>
-            <li><strong>Expo:</strong> App-Infrastruktur (<a href="https://expo.dev/privacy" target="_blank">Datenschutzerklärung</a>)</li>
-        </ul>
-
-        <h2>10. Berechtigungen</h2>
-        <p>Die App fordert folgende Berechtigungen an:</p>
-        <ul>
-            <li><strong>Fotos/Kamera:</strong> Zum Hochladen von Firmenlogos und Profilbildern (optional)</li>
-            <li><strong>Face ID/Touch ID:</strong> Zur Absicherung sensibler Aktionen (optional, kann deaktiviert werden)</li>
-            <li><strong>Benachrichtigungen:</strong> Zum Empfang von Updates über Aufträge und Teamaktivitäten (optional)</li>
-        </ul>
-
-        <h2>11. Änderungen dieser Datenschutzerklärung</h2>
-        <p>Wir können diese Datenschutzerklärung von Zeit zu Zeit aktualisieren. Bei wesentlichen Änderungen informieren wir Sie durch:</p>
-        <ul>
-            <li>Veröffentlichung der neuen Richtlinie in der App</li>
-            <li>Aktualisierung des Datums „Stand"</li>
-            <li>E-Mail-Benachrichtigung (bei größeren Änderungen)</li>
-        </ul>
-        <p>Die weitere Nutzung der App nach Änderungen stellt die Annahme der aktualisierten Richtlinie dar.</p>
-
-        <div class="contact-box">
-            <h3>Kontakt</h3>
-            <div class="contact-info">
-                <p>Bei Fragen zu dieser Datenschutzerklärung oder zu Ihren Daten kontaktieren Sie uns bitte:</p>
-                <p><strong>E-Mail:</strong> <a href="mailto:recipendent@gmail.com">recipendent@gmail.com</a></p>
-                <p><strong>Entwickler:</strong> Muhammed Avci</p>
-                <p><strong>App:</strong> Recipendent - Auftrags- & Teamverwaltung</p>
-            </div>
-        </div>
-
-        <div class="footer">
-            <a href="/" class="back-link">← Zurück zur Startseite</a>
-            <p><strong>Inkrafttreten:</strong> 9. November 2025</p>
-            <p>&copy; 2025 Recipendent. Alle Rechte vorbehalten.</p>
-        </div>
+        <span class="logo-text">Recipendent</span>
+      </a>
+      <a href="/" class="back-link">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M19 12H5M12 19l-7-7 7-7"/>
+        </svg>
+        Back to Home
+      </a>
     </div>
+  </header>
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="page-header">
+      <span class="page-label">Legal</span>
+      <h1>Datenschutzerklärung</h1>
+      <p class="last-updated">Letzte Aktualisierung: 9. November 2025</p>
+    </div>
+
+    <div class="content">
+      <p>Diese Datenschutzerklärung beschreibt, wie Recipendent („wir", „uns" oder „unser") Informationen erfasst, verwendet und weitergibt, wenn Sie unsere mobile Anwendung nutzen.</p>
+
+      <h2>1. Verantwortlicher</h2>
+      <p><strong>Muhammed Avci</strong><br>
+      E-Mail: <a href="mailto:recipendent@gmail.com">recipendent@gmail.com</a></p>
+
+      <h2>2. Welche Daten wir erheben</h2>
+
+      <h3>Von Ihnen bereitgestellte Daten</h3>
+      <p>Bei der Nutzung von Recipendent können Sie uns folgende Informationen bereitstellen:</p>
+      <ul>
+        <li><strong>Kontoinformationen:</strong> E-Mail-Adresse, Name, Profilbild</li>
+        <li><strong>Unternehmensinformationen:</strong> Firmenname, Logo, Details zu Teammitgliedern</li>
+        <li><strong>Auftrags-/Aufgabendaten:</strong> Bestellungen, Aufgaben, Rezepte, Ordner, Notizen und zugehörige Geschäftsdaten</li>
+        <li><strong>Bilder:</strong> Profilbilder und Firmenlogos, die über die App hochgeladen werden</li>
+      </ul>
+
+      <h3>Automatisch erfasste Daten</h3>
+      <ul>
+        <li><strong>Geräteinformationen:</strong> Gerätetyp, Betriebssystemversion</li>
+        <li><strong>Nutzungsdaten:</strong> Verwendete App-Funktionen, Interaktionsmuster, Absturzberichte</li>
+        <li><strong>Authentifizierungsdaten:</strong> Anmeldezeitstempel, Sitzungsinformationen</li>
+      </ul>
+
+      <h3>Biometrische Daten</h3>
+      <p>Recipendent verwendet Face ID/Touch ID (falls von Ihnen aktiviert), um sensible Aktionen zu sichern wie:</p>
+      <ul>
+        <li>Änderung von Firmenlogos</li>
+        <li>Änderung von Unternehmenseinstellungen</li>
+        <li>Löschen von Teammitgliedern</li>
+      </ul>
+
+      <div class="highlight">
+        <p><span class="important">Wichtig:</span> Biometrische Daten werden lokal auf Ihrem Gerät verarbeitet und niemals an unsere Server übermittelt.</p>
+      </div>
+
+      <h2>3. Wie wir Ihre Daten verwenden (Rechtsgrundlagen nach DSGVO)</h2>
+      <p>Wir verwenden die erhobenen Daten für folgende Zwecke:</p>
+      <ul>
+        <li><strong>Bereitstellung und Wartung des Recipendent-Dienstes</strong> (Art. 6 Abs. 1 lit. b DSGVO - Vertragserfüllung)</li>
+        <li><strong>Verwaltung Ihres Kontos und Firmen-Workspaces</strong> (Art. 6 Abs. 1 lit. b DSGVO)</li>
+        <li><strong>Ermöglichung von Teamzusammenarbeit und Echtzeit-Synchronisation</strong> (Art. 6 Abs. 1 lit. b DSGVO)</li>
+        <li><strong>Sicherung Ihres Kontos mit Face ID/biometrischer Authentifizierung</strong> (Art. 6 Abs. 1 lit. a DSGVO - Einwilligung)</li>
+        <li><strong>Versand wichtiger Benachrichtigungen über Ihre Aufträge und Ihr Team</strong> (Art. 6 Abs. 1 lit. b DSGVO)</li>
+        <li><strong>Verbesserung der App-Funktionalität und Benutzererfahrung</strong> (Art. 6 Abs. 1 lit. f DSGVO - berechtigtes Interesse)</li>
+        <li><strong>Bereitstellung von Kundensupport</strong> (Art. 6 Abs. 1 lit. b DSGVO)</li>
+      </ul>
+
+      <h2>4. Datenspeicherung und Sicherheit</h2>
+
+      <h3>Backend-Anbieter</h3>
+      <p>Wir nutzen <strong>Supabase</strong> (ein PostgreSQL-basierter Backend-Dienst) zur sicheren Speicherung Ihrer Daten. Ihre Daten werden:</p>
+      <ul>
+        <li>Während der Übertragung verschlüsselt (HTTPS/TLS)</li>
+        <li>In sicheren Rechenzentren gespeichert</li>
+        <li>Pro Unternehmen isoliert (Multi-Tenant-Architektur mit Row Level Security)</li>
+        <li>Regelmäßig gesichert</li>
+      </ul>
+
+      <h3>Sicherheitsmaßnahmen</h3>
+      <ul>
+        <li>Ende-zu-Ende-Verschlüsselung für Datenübertragung</li>
+        <li>Sichere Authentifizierung mit E-Mail-Verifizierung</li>
+        <li>Rollenbasierte Zugriffskontrolle (Admin, Co-Admin, Mitarbeiter)</li>
+        <li>Optionale biometrische Authentifizierung (Face ID)</li>
+        <li>Row Level Security-Richtlinien zur Verhinderung unbefugten Zugriffs</li>
+      </ul>
+
+      <h2>5. Weitergabe von Daten</h2>
+      <p>Wir <strong>verkaufen Ihre personenbezogenen Daten nicht</strong>. Wir geben Daten nur in folgenden Fällen weiter:</p>
+      <ul>
+        <li><strong>An Ihr Team:</strong> Von Ihnen erstellte Daten (Aufträge, Aufgaben) werden mit Teammitgliedern in Ihrem Unternehmen geteilt</li>
+        <li><strong>Dienstleister:</strong> Supabase (Backend-Hosting), Infrastrukturanbieter</li>
+        <li><strong>Gesetzliche Anforderungen:</strong> Falls gesetzlich vorgeschrieben oder zum Schutz unserer Rechte erforderlich</li>
+      </ul>
+
+      <h3>Datenübermittlung in Drittländer</h3>
+      <p>Ihre Daten können auf Servern außerhalb des Europäischen Wirtschaftsraums (EWR) gespeichert werden. Supabase verwendet AWS-Rechenzentren. Die Datenübermittlung erfolgt auf Grundlage von Standardvertragsklauseln der EU-Kommission.</p>
+
+      <h2>6. Ihre Rechte (DSGVO)</h2>
+      <p>Sie haben folgende Rechte:</p>
+      <ul>
+        <li><strong>Auskunftsrecht (Art. 15 DSGVO):</strong> Anfrage einer Kopie Ihrer personenbezogenen Daten</li>
+        <li><strong>Berichtigungsrecht (Art. 16 DSGVO):</strong> Aktualisierung oder Korrektur Ihrer Informationen</li>
+        <li><strong>Löschungsrecht (Art. 17 DSGVO):</strong> Löschung Ihres Kontos und Ihrer Daten (Kontakt: recipendent@gmail.com)</li>
+        <li><strong>Recht auf Datenübertragbarkeit (Art. 20 DSGVO):</strong> Download Ihrer Unternehmensdaten</li>
+        <li><strong>Widerspruchsrecht (Art. 21 DSGVO):</strong> Widerspruch gegen die Verarbeitung Ihrer Daten</li>
+        <li><strong>Einschränkung der Verarbeitung (Art. 18 DSGVO):</strong> Einschränkung der Datenverarbeitung unter bestimmten Umständen</li>
+      </ul>
+
+      <p><strong>Widerruf der Einwilligung:</strong> Falls Sie Ihre Einwilligung zur Datenverarbeitung (z.B. für Face ID) gegeben haben, können Sie diese jederzeit widerrufen.</p>
+
+      <p><strong>Beschwerderecht:</strong> Sie haben das Recht, sich bei einer Datenschutz-Aufsichtsbehörde über die Verarbeitung Ihrer Daten zu beschweren.</p>
+
+      <h2>7. Speicherdauer</h2>
+      <ul>
+        <li><strong>Aktive Konten:</strong> Wir speichern Ihre Daten, solange Ihr Konto aktiv ist</li>
+        <li><strong>Gelöschte Konten:</strong> Daten werden innerhalb von 30 Tagen nach Kontolöschung gelöscht</li>
+        <li><strong>Backups:</strong> Backup-Kopien können bis zu 90 Tage aufbewahrt werden</li>
+      </ul>
+
+      <h2>8. Datenschutz von Kindern</h2>
+      <p>Recipendent ist nicht für Kinder unter 16 Jahren bestimmt. Wir erheben wissentlich keine Daten von Kindern. Falls Sie glauben, dass ein Kind uns personenbezogene Daten zur Verfügung gestellt hat, kontaktieren Sie uns bitte umgehend.</p>
+
+      <h2>9. Dienste von Drittanbietern</h2>
+      <p>Recipendent integriert folgende Drittanbieter:</p>
+      <ul>
+        <li><strong>Supabase:</strong> Datenbank und Authentifizierung (<a href="https://supabase.com/privacy" target="_blank">Datenschutzerklärung</a>)</li>
+        <li><strong>Expo:</strong> App-Infrastruktur (<a href="https://expo.dev/privacy" target="_blank">Datenschutzerklärung</a>)</li>
+      </ul>
+
+      <h2>10. Berechtigungen</h2>
+      <p>Die App fordert folgende Berechtigungen an:</p>
+      <ul>
+        <li><strong>Fotos/Kamera:</strong> Zum Hochladen von Firmenlogos und Profilbildern (optional)</li>
+        <li><strong>Face ID/Touch ID:</strong> Zur Absicherung sensibler Aktionen (optional, kann deaktiviert werden)</li>
+        <li><strong>Benachrichtigungen:</strong> Zum Empfang von Updates über Aufträge und Teamaktivitäten (optional)</li>
+      </ul>
+
+      <h2>11. Änderungen dieser Datenschutzerklärung</h2>
+      <p>Wir können diese Datenschutzerklärung von Zeit zu Zeit aktualisieren. Bei wesentlichen Änderungen informieren wir Sie durch:</p>
+      <ul>
+        <li>Veröffentlichung der neuen Richtlinie in der App</li>
+        <li>Aktualisierung des Datums „Stand"</li>
+        <li>E-Mail-Benachrichtigung (bei größeren Änderungen)</li>
+      </ul>
+      <p>Die weitere Nutzung der App nach Änderungen stellt die Annahme der aktualisierten Richtlinie dar.</p>
+
+      <div class="contact-box">
+        <h3>Kontakt</h3>
+        <div class="contact-info">
+          <p>Bei Fragen zu dieser Datenschutzerklärung oder zu Ihren Daten kontaktieren Sie uns bitte:</p>
+          <p><strong>E-Mail:</strong> <a href="mailto:recipendent@gmail.com">recipendent@gmail.com</a></p>
+          <p><strong>Entwickler:</strong> Muhammed Avci</p>
+          <p><strong>App:</strong> Recipendent - Auftrags- & Teamverwaltung</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2025 Recipendent. Alle Rechte vorbehalten.</p>
+  </footer>
 </body>
 </html>

@@ -2,131 +2,278 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8">
-  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Impressum - Recipendent</title>
   <style>
+    :root {
+      --primary: #1dd1a1;
+      --primary-light: #5cf2d6;
+      --text-primary: #1a1a1a;
+      --text-secondary: #6b7280;
+      --text-muted: #9ca3af;
+      --bg-white: #ffffff;
+      --bg-gray: #f9fafb;
+      --border: #e5e7eb;
+      --warning-bg: #fef3c7;
+      --warning-border: #f59e0b;
+      --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+      --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
 
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-      line-height: 1.6;
-      color: #333;
-      background: #f9f9f9;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      line-height: 1.7;
+      color: var(--text-primary);
+      background: var(--bg-gray);
     }
 
+    /* Header */
     header {
-      background: linear-gradient(135deg, #1dd1a1 0%, #5cf2d6 100%);
-      color: white;
-      padding: 1rem 2rem;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 1.5rem 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
     }
 
-    nav {
-      max-width: 1200px;
+    .header-content {
+      max-width: 900px;
       margin: 0 auto;
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      gap: 1rem;
     }
 
     .logo {
-      font-size: 1.5rem;
-      font-weight: bold;
-      color: white;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
       text-decoration: none;
+      color: var(--text-primary);
     }
 
+    .logo-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .logo-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .logo-text {
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .back-link {
+      margin-left: auto;
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.9375rem;
+      font-weight: 500;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .back-link:hover {
+      color: var(--primary);
+    }
+
+    /* Main Content */
     .container {
-      max-width: 800px;
-      margin: 4rem auto;
-      padding: 3rem;
-      background: white;
-      border-radius: 15px;
-      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 4rem 2rem;
+    }
+
+    .page-header {
+      margin-bottom: 3rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .page-label {
+      display: inline-block;
+      padding: 0.375rem 0.875rem;
+      background: rgba(29, 209, 161, 0.1);
+      color: var(--primary);
+      border-radius: 100px;
+      font-size: 0.8125rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
     }
 
     h1 {
-      color: #5cf2d6;
-      font-size: 2.5rem;
-      margin-bottom: 2rem;
-      border-bottom: 3px solid #5cf2d6;
-      padding-bottom: 1rem;
+      font-size: clamp(2rem, 4vw, 2.5rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.75rem;
+      line-height: 1.2;
+    }
+
+    .content {
+      background: var(--bg-white);
+      border-radius: 16px;
+      padding: 3rem;
+      box-shadow: var(--shadow-sm);
     }
 
     h2 {
-      color: #5cf2d6;
-      font-size: 1.5rem;
-      margin-top: 2rem;
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin-top: 3rem;
       margin-bottom: 1rem;
+      letter-spacing: -0.01em;
+      scroll-margin-top: 100px;
+    }
+
+    h2:first-child {
+      margin-top: 0;
     }
 
     p {
-      margin-bottom: 1rem;
-      color: #666;
+      margin-bottom: 1.25rem;
+      color: var(--text-secondary);
+      font-size: 1rem;
     }
 
-    .info-box {
-      background: #f0f9ff;
-      border-left: 4px solid #5cf2d6;
+    ul {
+      margin-left: 1.5rem;
+      margin-bottom: 1.25rem;
+    }
+
+    li {
+      margin-bottom: 0.75rem;
+      color: var(--text-secondary);
+      padding-left: 0.5rem;
+    }
+
+    strong {
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+
+    a {
+      color: var(--primary);
+      text-decoration: none;
+      transition: var(--transition);
+      font-weight: 500;
+    }
+
+    a:hover {
+      color: var(--primary-light);
+    }
+
+    /* Warning Box */
+    .warning-box {
+      background: var(--warning-bg);
+      border-left: 4px solid var(--warning-border);
       padding: 1.5rem;
-      margin: 2rem 0;
       border-radius: 8px;
+      margin: 2rem 0;
+    }
+
+    .warning-box p {
+      margin-bottom: 0.75rem;
+    }
+
+    .warning-box p:last-child {
+      margin-bottom: 0;
+    }
+
+    /* Info Box */
+    .info-box {
+      background: var(--bg-gray);
+      border: 1px solid var(--border);
+      padding: 2rem;
+      border-radius: 12px;
+      margin: 2rem 0;
     }
 
     .info-box p {
-      margin: 0.5rem 0;
+      margin-bottom: 0.5rem;
     }
 
-    .warning {
-      background: #fff3cd;
-      border-left: 4px solid #ffc107;
-      padding: 1.5rem;
-      margin: 2rem 0;
-      border-radius: 8px;
+    .info-box p:last-child {
+      margin-bottom: 0;
     }
 
-    .warning strong {
-      color: #856404;
-    }
-
+    /* Footer */
     footer {
-      background: #2c2c2c;
-      color: white;
-      padding: 2rem;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 3rem 2rem;
       text-align: center;
-      margin-top: 4rem;
+      color: var(--text-muted);
+      font-size: 0.875rem;
     }
 
     .footer-links {
-      margin-bottom: 1rem;
       display: flex;
       justify-content: center;
       gap: 2rem;
       flex-wrap: wrap;
+      margin-bottom: 1rem;
     }
 
     .footer-links a {
-      color: #5cf2d6;
+      color: var(--text-secondary);
       text-decoration: none;
-      transition: opacity 0.3s;
+      transition: var(--transition);
     }
 
     .footer-links a:hover {
-      opacity: 0.7;
+      color: var(--primary);
     }
 
+    /* Responsive */
     @media (max-width: 768px) {
       .container {
-        margin: 2rem 1rem;
-        padding: 2rem;
+        padding: 2rem 1.5rem;
+      }
+
+      .content {
+        padding: 2rem 1.5rem;
       }
 
       h1 {
-        font-size: 2rem;
+        font-size: 1.75rem;
+      }
+
+      h2 {
+        font-size: 1.5rem;
+      }
+
+      .back-link {
+        display: none;
+      }
+
+      .footer-links {
+        gap: 1rem;
       }
     }
   </style>
@@ -134,66 +281,80 @@
 <body>
   <!-- Header -->
   <header>
-    <nav>
-      <a class="logo" href="/">
-        Recipendent
+    <div class="header-content">
+      <a href="/" class="logo">
+        <div class="logo-icon">
+          <img src="/logo_appstore.png" alt="Recipendent">
+        </div>
+        <span class="logo-text">Recipendent</span>
       </a>
-    </nav>
+      <a href="/" class="back-link">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M19 12H5M12 19l-7-7 7-7"/>
+        </svg>
+        Back to Home
+      </a>
+    </div>
   </header>
 
   <!-- Main Content -->
   <div class="container">
-    <h1>Impressum & Rechtliche Hinweise</h1>
-
-    <div class="warning">
-      <p><strong>⚠️ WICHTIGER HINWEIS - DEMO-/ENTWICKLUNGSVERSION</strong></p>
+    <div class="page-header">
+      <span class="page-label">Legal</span>
+      <h1>Impressum & Rechtliche Hinweise</h1>
     </div>
 
-    <h2>Status dieser Website</h2>
-    <div class="info-box">
-      <p><strong>Diese Website ist eine nicht-kommerzielle Demo- und Entwicklungsversion.</strong></p>
-      <p>Sie dient ausschließlich zu Demonstrations-, Test- und Portfolio-Zwecken.</p>
-    </div>
+    <div class="content">
+      <div class="warning-box">
+        <p><strong>WICHTIGER HINWEIS - DEMO-/ENTWICKLUNGSVERSION</strong></p>
+      </div>
 
-    <h2>Keine kommerziellen Dienstleistungen</h2>
-    <div class="info-box">
-      <p><strong>Es werden keinerlei kommerzielle Dienstleistungen angeboten.</strong></p>
-      <ul style="margin-left: 1.5rem; margin-top: 0.5rem; color: #666;">
-        <li>Die App ist zur Zeit vollständig kostenlos</li>
-        <li>Alle angezeigten Preise (z.B. "29€/Monat") sind reine Beispielwerte</li>
-        <li>Es werden keine Zahlungen akzeptiert oder verarbeitet</li>
-        <li>Es werden keine rechtlich bindenden Verträge geschlossen</li>
-        <li>Keine Registrierung für echte, kostenpflichtige Dienste möglich</li>
-      </ul>
-    </div>
+      <h2>Status dieser Website</h2>
+      <div class="info-box">
+        <p><strong>Diese Website ist eine nicht-kommerzielle Demo- und Entwicklungsversion.</strong></p>
+        <p>Sie dient ausschließlich zu Demonstrations-, Test- und Portfolio-Zwecken.</p>
+      </div>
 
-    <h2>Entwicklungsstatus</h2>
-    <p>Diese Seite wird derzeit entwickelt und befindet sich in einem frühen Entwicklungsstadium. Alle Inhalte können sich jederzeit ändern.</p>
-    <p>Ein vollständiges Impressum gemäß §5 TMG wird hinzugefügt, sobald die Website kommerzielle Dienste anbietet.</p>
+      <h2>Keine kommerziellen Dienstleistungen</h2>
+      <div class="info-box">
+        <p><strong>Es werden keinerlei kommerzielle Dienstleistungen angeboten.</strong></p>
+        <ul style="margin-left: 1.5rem; margin-top: 0.5rem; color: var(--text-secondary);">
+          <li>Die App ist zur Zeit vollständig kostenlos</li>
+          <li>Alle angezeigten Preise (z.B. "29€/Monat") sind reine Beispielwerte</li>
+          <li>Es werden keine Zahlungen akzeptiert oder verarbeitet</li>
+          <li>Es werden keine rechtlich bindenden Verträge geschlossen</li>
+          <li>Keine Registrierung für echte, kostenpflichtige Dienste möglich</li>
+        </ul>
+      </div>
 
-    <h2>Kontakt</h2>
-    <div class="info-box">
-      <p><strong>E-Mail:</strong> recipendent@gmail.com</p>
-      <p>Für Anfragen zur Demo-Version oder technische Fragen.</p>
-    </div>
+      <h2>Entwicklungsstatus</h2>
+      <p>Diese Seite wird derzeit entwickelt und befindet sich in einem frühen Entwicklungsstadium. Alle Inhalte können sich jederzeit ändern.</p>
+      <p>Ein vollständiges Impressum gemäß §5 TMG wird hinzugefügt, sobald die Website kommerzielle Dienste anbietet.</p>
 
-    <h2>Haftungsausschluss</h2>
-    <div class="info-box">
-      <p><strong>Nutzung auf eigenes Risiko:</strong></p>
-      <p>Diese Demo-Anwendung wird ohne jegliche Gewährleistung bereitgestellt. Es wird keine Haftung für Fehler, Datenverlust oder sonstige Schäden übernommen.</p>
-      <p>Die Nutzung erfolgt vollständig auf eigenes Risiko.</p>
-    </div>
+      <h2>Kontakt</h2>
+      <div class="info-box">
+        <p><strong>E-Mail:</strong> <a href="mailto:recipendent@gmail.com">recipendent@gmail.com</a></p>
+        <p>Für Anfragen zur Demo-Version oder technische Fragen.</p>
+      </div>
 
-    <h2>Datenschutz</h2>
-    <p>Informationen zur Verarbeitung personenbezogener Daten finden Sie in unserer <a href="/privacy/" style="color: #5cf2d6;">Datenschutzerklärung</a>.</p>
+      <h2>Haftungsausschluss</h2>
+      <div class="info-box">
+        <p><strong>Nutzung auf eigenes Risiko:</strong></p>
+        <p>Diese Demo-Anwendung wird ohne jegliche Gewährleistung bereitgestellt. Es wird keine Haftung für Fehler, Datenverlust oder sonstige Schäden übernommen.</p>
+        <p>Die Nutzung erfolgt vollständig auf eigenes Risiko.</p>
+      </div>
 
-    <h2>Änderungen</h2>
-    <p>Wir behalten uns vor, diese Seite jederzeit zu aktualisieren, sobald die Website in den kommerziellen Betrieb übergeht.</p>
-    <p><strong>Letztes Update:</strong> November 2025</p>
+      <h2>Datenschutz</h2>
+      <p>Informationen zur Verarbeitung personenbezogener Daten finden Sie in unserer <a href="/privacy/">Datenschutzerklärung</a>.</p>
 
-    <div class="warning">
-      <p><strong>📝 Hinweis für Besucher:</strong></p>
-      <p>Diese Website dient ausschließlich zu Demonstrationszwecken. Alle angezeigten Informationen, Preise und Funktionen sind Beispiele und stellen keine echten Angebote dar.</p>
+      <h2>Änderungen</h2>
+      <p>Wir behalten uns vor, diese Seite jederzeit zu aktualisieren, sobald die Website in den kommerziellen Betrieb übergeht.</p>
+      <p><strong>Letztes Update:</strong> November 2025</p>
+
+      <div class="warning-box">
+        <p><strong>Hinweis für Besucher:</strong></p>
+        <p>Diese Website dient ausschließlich zu Demonstrationszwecken. Alle angezeigten Informationen, Preise und Funktionen sind Beispiele und stellen keine echten Angebote dar.</p>
+      </div>
     </div>
   </div>
 
