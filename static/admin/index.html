@@ -706,17 +706,35 @@
       container.innerHTML = '<div class="loading">⏳ Lade Tickets...</div>';
 
       try {
+        console.log('[TICKETS] Loading tickets from Supabase...');
+
         const { data: tickets, error } = await supabase
           .from('support_tickets')
           .select('*')
           .order('created_at', { ascending: false });
 
-        if (error) throw error;
+        console.log('[TICKETS] Response:', { ticketsCount: tickets?.length || 0, error });
+
+        if (error) {
+          console.error('[TICKETS] Supabase Error:', error);
+          throw new Error(`Supabase Error: ${error.message || 'Unknown error'}`);
+        }
 
         if (!tickets || tickets.length === 0) {
-          container.innerHTML = '<div class="empty-state">📭 Keine Tickets vorhanden</div>';
+          console.warn('[TICKETS] No tickets found in database');
+          container.innerHTML = `
+            <div class="empty-state">
+              📭 Keine Tickets vorhanden
+              <p style="font-size: 0.9rem; color: #999; margin-top: 1rem;">
+                Hinweis: Falls Tickets in der DB existieren, prüfe RLS Policies.<br>
+                Siehe <strong>FIX_TICKETS_ACCESS.md</strong> für Details.
+              </p>
+            </div>
+          `;
           return;
         }
+
+        console.log('[TICKETS] Rendering', tickets.length, 'tickets');
 
         let html = '<div class="tickets-grid">';
         tickets.forEach(ticket => {
@@ -747,8 +765,16 @@
         html += '</div>';
         container.innerHTML = html;
       } catch (error) {
-        console.error('Error loading tickets:', error);
-        container.innerHTML = '<div class="empty-state">❌ Fehler beim Laden der Tickets</div>';
+        console.error('[TICKETS] Error loading tickets:', error);
+        container.innerHTML = `
+          <div class="empty-state">
+            ❌ Fehler beim Laden der Tickets
+            <p style="font-size: 0.9rem; color: #999; margin-top: 1rem;">
+              ${error.message}<br>
+              Siehe Browser Console (F12) für Details.
+            </p>
+          </div>
+        `;
       }
     };
 
