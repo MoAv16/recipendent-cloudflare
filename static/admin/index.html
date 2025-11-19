@@ -410,6 +410,67 @@
       padding: 2rem;
       color: #666;
     }
+
+    /* Filter Buttons */
+    .filter-buttons {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      padding: 0.6rem 1.2rem;
+      border: 2px solid #e0e0e0;
+      background: white;
+      color: #666;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      width: auto;
+    }
+
+    .filter-btn:hover {
+      border-color: #5cf2d6;
+      color: #5cf2d6;
+      transform: translateY(-1px);
+    }
+
+    .filter-btn.active {
+      background: linear-gradient(135deg, #1dd1a1 0%, #5cf2d6 100%);
+      color: white;
+      border-color: #1dd1a1;
+    }
+
+    .btn-reopen {
+      background: #fbbf24;
+      color: white;
+      padding: 0.6rem 1rem;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      width: auto;
+    }
+
+    .btn-reopen:hover {
+      background: #f59e0b;
+      transform: translateY(-2px);
+    }
+
+    .filter-info {
+      color: #666;
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+      padding: 0.5rem 1rem;
+      background: #f9fafb;
+      border-radius: 8px;
+      display: inline-block;
+    }
   </style>
 </head>
 <body>
@@ -476,6 +537,14 @@
       <div class="tab-content" id="ticketsTab">
         <h1>💬 Support-Tickets</h1>
         <p class="subtitle">Kunden-Support-Anfragen verwalten</p>
+
+        <!-- Filter Buttons -->
+        <div class="filter-buttons">
+          <button class="filter-btn active" onclick="filterTickets('all')">📋 Alle</button>
+          <button class="filter-btn" onclick="filterTickets('open')">🟡 Offen</button>
+          <button class="filter-btn" onclick="filterTickets('resolved')">✅ Erledigt</button>
+        </div>
+
         <div id="ticketsContainer"></div>
       </div>
 
@@ -686,6 +755,9 @@
       other: 'Sonstiges',
     };
 
+    // Current filter state
+    let currentFilter = 'all';
+
     window.switchTab = function(tabName) {
       // Update tab buttons
       document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
@@ -701,26 +773,37 @@
       }
     };
 
+    window.filterTickets = function(filter) {
+      currentFilter = filter;
+
+      // Update filter button states
+      document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+
+      // Reload tickets with new filter
+      loadTickets();
+    };
+
     window.loadTickets = async function() {
       const container = document.getElementById('ticketsContainer');
       container.innerHTML = '<div class="loading">⏳ Lade Tickets...</div>';
 
       try {
-        console.log('[TICKETS] Loading tickets from Supabase...');
+        console.log('[TICKETS] Loading tickets from Supabase... Filter:', currentFilter);
 
-        const { data: tickets, error } = await supabase
+        const { data: allTickets, error } = await supabase
           .from('support_tickets')
           .select('*')
           .order('created_at', { ascending: false });
 
-        console.log('[TICKETS] Response:', { ticketsCount: tickets?.length || 0, error });
+        console.log('[TICKETS] Response:', { ticketsCount: allTickets?.length || 0, error });
 
         if (error) {
           console.error('[TICKETS] Supabase Error:', error);
           throw new Error(`Supabase Error: ${error.message || 'Unknown error'}`);
         }
 
-        if (!tickets || tickets.length === 0) {
+        if (!allTickets || allTickets.length === 0) {
           console.warn('[TICKETS] No tickets found in database');
           container.innerHTML = `
             <div class="empty-state">
@@ -734,31 +817,73 @@
           return;
         }
 
-        console.log('[TICKETS] Rendering', tickets.length, 'tickets');
+        // Apply filter
+        let tickets = allTickets;
+        if (currentFilter === 'open') {
+          tickets = allTickets.filter(t => t.status === 'open');
+        } else if (currentFilter === 'resolved') {
+          tickets = allTickets.filter(t => t.status === 'resolved');
+        }
 
-        let html = '<div class="tickets-grid">';
+        // Show filter info
+        const filterInfo = currentFilter === 'all'
+          ? `${tickets.length} Ticket${tickets.length !== 1 ? 's' : ''}`
+          : `${tickets.length} ${currentFilter === 'open' ? 'offene' : 'erledigte'} Ticket${tickets.length !== 1 ? 's' : ''}`;
+
+        if (tickets.length === 0) {
+          container.innerHTML = `
+            <div class="empty-state">
+              📭 Keine ${currentFilter === 'open' ? 'offenen' : 'erledigten'} Tickets
+              <p style="font-size: 0.9rem; color: #999; margin-top: 1rem;">
+                ${allTickets.length} Ticket${allTickets.length !== 1 ? 's' : ''} insgesamt
+              </p>
+            </div>
+          `;
+          return;
+        }
+
+        console.log('[TICKETS] Rendering', tickets.length, 'tickets (filter:', currentFilter + ')');
+
+        let html = `<div class="filter-info">📊 ${filterInfo}</div>`;
+        html += '<div class="tickets-grid">';
         tickets.forEach(ticket => {
           const statusClass = ticket.status === 'open' ? 'open' : 'resolved';
           const date = new Date(ticket.created_at).toLocaleString('de-DE');
+
+          // Action buttons - add reopen button for resolved tickets
+          let actionButtons = '';
+          if (ticket.status === 'resolved') {
+            actionButtons = `
+              <button class="btn-reopen" onclick="reopenTicket('${ticket.id}')">🔄 Wieder öffnen</button>
+              <button class="btn-delete" onclick="deleteTicket('${ticket.id}')">🗑️ Löschen</button>
+            `;
+          } else {
+            actionButtons = `
+              <button class="btn-reply" onclick="toggleReplyForm('${ticket.id}')">📨 Antworten</button>
+              <button class="btn-delete" onclick="deleteTicket('${ticket.id}')">🗑️ Löschen</button>
+            `;
+          }
+
           html += `
             <div class="ticket-card">
               <div class="ticket-header">
                 <div class="ticket-number">#${ticket.ticket_number || 'N/A'}</div>
-                <div class="ticket-status ${statusClass}">${ticket.status}</div>
+                <div class="ticket-status ${statusClass}">${ticket.status === 'open' ? 'offen' : 'erledigt'}</div>
               </div>
               <div><strong>Von:</strong> ${ticket.user_name} (${ticket.user_email})</div>
               <div><strong>Datum:</strong> ${date}</div>
               <div style="margin: 0.5rem 0;"><span class="category-badge">${CATEGORY_LABELS[ticket.category]}</span></div>
               <div class="ticket-message">${ticket.message}</div>
               <div class="ticket-actions">
-                <button class="btn-reply" onclick="toggleReplyForm('${ticket.id}')">📨 Antworten</button>
-                <button class="btn-delete" onclick="deleteTicket('${ticket.id}')">🗑️ Löschen</button>
+                ${actionButtons}
               </div>
+              ${ticket.status === 'open' ? `
               <div class="reply-form" id="reply-${ticket.id}">
                 <label>Antwort-Nachricht:</label>
                 <textarea id="reply-message-${ticket.id}" placeholder="Deine Antwort an ${ticket.user_name}..."></textarea>
                 <button onclick="sendReply('${ticket.id}')" style="margin-top: 1rem;">📧 Email senden</button>
               </div>
+              ` : ''}
             </div>
           `;
         });
@@ -842,6 +967,35 @@
       } catch (error) {
         console.error('Error deleting ticket:', error);
         alert('❌ Fehler beim Löschen: ' + error.message);
+      }
+    };
+
+    window.reopenTicket = async function(ticketId) {
+      if (!confirm('Ticket wieder öffnen? Der Status wird von "erledigt" auf "offen" geändert.')) {
+        return;
+      }
+
+      try {
+        console.log('[TICKETS] Reopening ticket:', ticketId);
+
+        const { error } = await supabase
+          .from('support_tickets')
+          .update({
+            status: 'open',
+            updated_at: new Date().toISOString()
+          })
+          .eq('id', ticketId);
+
+        if (error) {
+          console.error('[TICKETS] Error reopening ticket:', error);
+          throw error;
+        }
+
+        alert('✅ Ticket wurde wieder geöffnet');
+        loadTickets(); // Reload tickets list
+      } catch (error) {
+        console.error('Error reopening ticket:', error);
+        alert('❌ Fehler beim Öffnen: ' + error.message);
       }
     };
 
