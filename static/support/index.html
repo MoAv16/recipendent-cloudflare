@@ -1,291 +1,476 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Support - Recipendent</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Support - Recipendent</title>
+  <style>
+    :root {
+      --primary: #1dd1a1;
+      --primary-light: #5cf2d6;
+      --text-primary: #1a1a1a;
+      --text-secondary: #6b7280;
+      --text-muted: #9ca3af;
+      --bg-white: #ffffff;
+      --bg-gray: #f9fafb;
+      --border: #e5e7eb;
+      --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+      --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background: linear-gradient(135deg, #e0f7f4 0%, #d4f1f9 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: white;
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-        }
+    html {
+      scroll-behavior: smooth;
+    }
 
-        .header {
-            text-align: center;
-            margin-bottom: 40px;
-            padding-bottom: 20px;
-            border-bottom: 3px solid #5cf2d6;
-        }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      line-height: 1.7;
+      color: var(--text-primary);
+      background: var(--bg-gray);
+    }
 
-        .logo {
-            font-size: 32px;
-            font-weight: bold;
-            color: #5cf2d6;
-            margin-bottom: 10px;
-        }
+    /* Header */
+    header {
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 1.5rem 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
 
-        h1 {
-            font-size: 28px;
-            color: #2c3e50;
-            margin-bottom: 10px;
-        }
+    .header-content {
+      max-width: 900px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
 
-        h2 {
-            font-size: 22px;
-            color: #34495e;
-            margin-top: 30px;
-            margin-bottom: 15px;
-            padding-bottom: 8px;
-            border-bottom: 2px solid #ecf0f1;
-        }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      color: var(--text-primary);
+    }
 
-        h3 {
-            font-size: 18px;
-            color: #5cf2d6;
-            margin-top: 20px;
-            margin-bottom: 10px;
-        }
+    .logo-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 6px;
+      overflow: hidden;
+    }
 
-        p {
-            margin-bottom: 15px;
-        }
+    .logo-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
 
-        ul {
-            margin-left: 25px;
-            margin-bottom: 15px;
-        }
+    .logo-text {
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
 
-        li {
-            margin-bottom: 10px;
-        }
+    .back-link {
+      margin-left: auto;
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.9375rem;
+      font-weight: 500;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
 
-        .contact-box {
-            background: #f8f9fa;
-            padding: 25px;
-            border-radius: 8px;
-            margin: 30px 0;
-            border: 2px solid #5cf2d6;
-            text-align: center;
-        }
+    .back-link:hover {
+      color: var(--primary);
+    }
 
-        .contact-box h2 {
-            margin-top: 0;
-            border: none;
-            padding: 0;
-        }
+    /* Main Content */
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 4rem 2rem;
+    }
 
-        .contact-method {
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            margin: 15px 0;
-            border: 1px solid #dee2e6;
-        }
+    .page-header {
+      margin-bottom: 3rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid var(--border);
+    }
 
-        .contact-method h3 {
-            margin-top: 0;
-            color: #2c3e50;
-        }
+    .page-label {
+      display: inline-block;
+      padding: 0.375rem 0.875rem;
+      background: rgba(29, 209, 161, 0.1);
+      color: var(--primary);
+      border-radius: 100px;
+      font-size: 0.8125rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
 
-        .email-button {
-            display: inline-block;
-            background: #5cf2d6;
-            color: white;
-            padding: 12px 30px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 600;
-            margin-top: 10px;
-            transition: background 0.3s;
-        }
+    h1 {
+      font-size: clamp(2rem, 4vw, 2.5rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.75rem;
+      line-height: 1.2;
+    }
 
-        .email-button:hover {
-            background: #4ad9c0;
-        }
+    .subtitle {
+      font-size: 1.125rem;
+      color: var(--text-muted);
+    }
 
-        .faq-item {
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            border-left: 4px solid #5cf2d6;
-        }
+    .content {
+      background: var(--bg-white);
+      border-radius: 16px;
+      padding: 3rem;
+      box-shadow: var(--shadow-sm);
+    }
 
-        .faq-question {
-            font-weight: 600;
-            color: #2c3e50;
-            margin-bottom: 10px;
-            font-size: 16px;
-        }
+    h2 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin-top: 3rem;
+      margin-bottom: 1.5rem;
+      letter-spacing: -0.01em;
+      scroll-margin-top: 100px;
+    }
 
-        .faq-answer {
-            color: #555;
-        }
+    h2:first-child {
+      margin-top: 0;
+    }
 
-        strong {
-            color: #2c3e50;
-        }
+    h3 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+      color: var(--text-primary);
+    }
 
-        a {
-            color: #5cf2d6;
-            text-decoration: none;
-        }
+    p {
+      margin-bottom: 1.25rem;
+      color: var(--text-secondary);
+      font-size: 1rem;
+    }
 
-        a:hover {
-            text-decoration: underline;
-        }
+    ul {
+      margin-left: 1.5rem;
+      margin-bottom: 1.25rem;
+    }
 
-        .footer {
-            text-align: center;
-            margin-top: 40px;
-            padding-top: 20px;
-            border-top: 1px solid #ecf0f1;
-            color: #7f8c8d;
-            font-size: 14px;
-        }
+    li {
+      margin-bottom: 0.75rem;
+      color: var(--text-secondary);
+      padding-left: 0.5rem;
+    }
 
-        .back-link {
-            display: inline-block;
-            margin-bottom: 15px;
-            color: #5cf2d6;
-            text-decoration: none;
-            font-weight: 600;
-        }
+    strong {
+      color: var(--text-primary);
+      font-weight: 600;
+    }
 
-        .back-link:hover {
-            text-decoration: underline;
-        }
+    a {
+      color: var(--primary);
+      text-decoration: none;
+      transition: var(--transition);
+      font-weight: 500;
+    }
 
-        @media (max-width: 768px) {
-            .container {
-                padding: 20px;
-            }
+    a:hover {
+      color: var(--primary-light);
+    }
 
-            h1 {
-                font-size: 24px;
-            }
+    /* Contact Card */
+    .contact-card {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+      border-radius: 16px;
+      padding: 3rem;
+      text-align: center;
+      margin-bottom: 3rem;
+      color: white;
+    }
 
-            h2 {
-                font-size: 20px;
-            }
-        }
-    </style>
+    .contact-card h2 {
+      color: white;
+      margin-top: 0;
+      margin-bottom: 1rem;
+    }
+
+    .contact-card p {
+      color: rgba(255, 255, 255, 0.9);
+      margin-bottom: 1.5rem;
+    }
+
+    .email-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: white;
+      color: var(--primary);
+      padding: 1rem 2rem;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.0625rem;
+      transition: var(--transition);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .email-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+      color: var(--primary);
+    }
+
+    /* FAQ Item */
+    .faq-item {
+      background: var(--bg-gray);
+      border-left: 4px solid var(--primary);
+      padding: 1.5rem;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      transition: var(--transition);
+    }
+
+    .faq-item:hover {
+      background: #f0fdf9;
+      border-left-color: var(--primary-light);
+    }
+
+    .faq-question {
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 0.75rem;
+      font-size: 1.0625rem;
+    }
+
+    .faq-answer {
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    /* Support Method Card */
+    .support-method {
+      background: var(--bg-gray);
+      border: 1px solid var(--border);
+      padding: 2rem;
+      border-radius: 12px;
+      margin-bottom: 1.5rem;
+    }
+
+    .support-method h3 {
+      margin-top: 0;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .support-method p {
+      margin-bottom: 0.5rem;
+    }
+
+    /* Info Box */
+    .info-box {
+      background: #eff6ff;
+      border-left: 4px solid #3b82f6;
+      padding: 1.5rem;
+      border-radius: 8px;
+      margin: 2rem 0;
+    }
+
+    .info-box p {
+      margin-bottom: 0.75rem;
+    }
+
+    .info-box p:last-child {
+      margin-bottom: 0;
+    }
+
+    /* Footer */
+    footer {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 3rem 2rem;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.875rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .container {
+        padding: 2rem 1.5rem;
+      }
+
+      .content, .contact-card {
+        padding: 2rem 1.5rem;
+      }
+
+      h1 {
+        font-size: 1.75rem;
+      }
+
+      h2 {
+        font-size: 1.5rem;
+      }
+
+      h3 {
+        font-size: 1.125rem;
+      }
+
+      .back-link {
+        display: none;
+      }
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <div class="logo">
-                <img src="/logo_appstore.png" alt="Recipendent Logo" style="height: 50px; margin-bottom: 10px; border-radius: 10px;">
-                <div style="font-size: 32px; font-weight: bold; color: #5cf2d6; margin-bottom: 10px;">Recipendent</div>
-            </div>
-            <h1>Support & Help Center</h1>
-            <p>Wir helfen dir gerne weiter!</p>
+  <!-- Header -->
+  <header>
+    <div class="header-content">
+      <a href="/" class="logo">
+        <div class="logo-icon">
+          <img src="/logo_appstore.png" alt="Recipendent">
         </div>
-
-        <div class="contact-box">
-            <h2>Kontakt aufnehmen</h2>
-            <p>Bei Fragen, Problemen oder Feedback erreichst du uns unter:</p>
-            <a href="mailto:recipendent@gmail.com" class="email-button">
-                📧 recipendent@gmail.com
-            </a>
-        </div>
-
-        <h2>Häufig gestellte Fragen (FAQ)</h2>
-
-        <div class="faq-item">
-            <div class="faq-question">Wie erstelle ich einen Account?</div>
-            <div class="faq-answer">
-                Du benötigst einen Einladungscode von deinem Admin. Gebe den Code im Registrierungs-Screen ein und folge den Anweisungen.
-            </div>
-        </div>
-
-        <div class="faq-item">
-            <div class="faq-question">Wie lade ich Teammitglieder ein?</div>
-            <div class="faq-answer">
-                Als Admin: Gehe zu "Team" → "Neuen Mitarbeiter einladen" → E-Mail eingeben → Einladungscode wird automatisch generiert und versendet.
-            </div>
-        </div>
-
-        <div class="faq-item">
-            <div class="faq-question">Wie ändere ich mein Company Logo?</div>
-            <div class="faq-answer">
-                Gehe zu "Einstellungen" → "Unternehmens-Einstellungen" → "Logo" → Wähle ein neues Bild aus deiner Galerie. (Benötigt Face ID Bestätigung)
-            </div>
-        </div>
-
-        <div class="faq-item">
-            <div class="faq-question">Was sind Co-Admin Berechtigungen?</div>
-            <div class="faq-answer">
-                Co-Admins können bestimmte Admin-Funktionen nutzen (z.B. Team verwalten, Aufträge erstellen), aber keine kritischen Einstellungen ändern. Du kannst die Berechtigungen individuell festlegen.
-            </div>
-        </div>
-
-        <div class="faq-item">
-            <div class="faq-question">Wie aktiviere ich Face ID?</div>
-            <div class="faq-answer">
-                Gehe zu "Einstellungen" → "Sicherheit" → "Face ID" aktivieren. Face ID schützt kritische Aktionen wie Logo-Änderungen und Team-Verwaltung.
-            </div>
-        </div>
-
-        <div class="faq-item">
-            <div class="faq-question">Wie lösche ich meinen Account?</div>
-            <div class="faq-answer">
-                Sende eine E-Mail an recipendent@gmail.com mit dem Betreff "Account löschen". Wir löschen deine Daten innerhalb von 30 Tagen.
-            </div>
-        </div>
-
-        <h2>Technischer Support</h2>
-
-        <div class="contact-method">
-            <h3>📧 E-Mail Support</h3>
-            <p>Für technische Probleme, Bugs oder Feature-Anfragen:</p>
-            <p><strong>E-Mail:</strong> <a href="mailto:recipendent@gmail.com">recipendent@gmail.com</a></p>
-            <p><strong>Antwortzeit:</strong> In der Regel innerhalb von 24-48 Stunden</p>
-        </div>
-
-        <h2>Fehler melden</h2>
-        <p>Wenn du einen Bug gefunden hast, hilf uns bitte mit folgenden Informationen:</p>
-        <ul>
-            <li><strong>Gerät:</strong> iPhone Modell & iOS Version</li>
-            <li><strong>App Version:</strong> Siehe Einstellungen → App Info</li>
-            <li><strong>Beschreibung:</strong> Was ist passiert?</li>
-            <li><strong>Schritte:</strong> Wie kann der Fehler reproduziert werden?</li>
-            <li><strong>Screenshots:</strong> Falls möglich</li>
-        </ul>
-
-        <h2>Feature-Vorschläge</h2>
-        <p>Wir freuen uns über deine Ideen! Schicke uns deine Feature-Wünsche an:</p>
-        <p><a href="mailto:recipendent@gmail.com">recipendent@gmail.com</a></p>
-
-        <h2>Datenschutz & Sicherheit</h2>
-        <p>Fragen zu Datenschutz? Lies unsere <a href="/privacy/">Privacy Policy</a> oder kontaktiere uns direkt.</p>
-
-        <div class="footer">
-            <a href="/" class="back-link">← Zurück zur Startseite</a>
-            <p><strong>Recipendent</strong> - Order & Team Management</p>
-            <p><strong>Developer:</strong> Muhammed Avci</p>
-            <p><strong>E-Mail:</strong> recipendent@gmail.com</p>
-            <p>&copy; 2025 Recipendent. All rights reserved.</p>
-        </div>
+        <span class="logo-text">Recipendent</span>
+      </a>
+      <a href="/" class="back-link">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M19 12H5M12 19l-7-7 7-7"/>
+        </svg>
+        Back to Home
+      </a>
     </div>
+  </header>
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="page-header">
+      <span class="page-label">Help Center</span>
+      <h1>Support & Help Center</h1>
+      <p class="subtitle">Wir helfen dir gerne weiter!</p>
+    </div>
+
+    <!-- Contact Card -->
+    <div class="contact-card">
+      <h2>Kontakt aufnehmen</h2>
+      <p>Bei Fragen, Problemen oder Feedback erreichst du uns unter:</p>
+      <a href="mailto:recipendent@gmail.com" class="email-button">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+          <polyline points="22,6 12,13 2,6"/>
+        </svg>
+        recipendent@gmail.com
+      </a>
+    </div>
+
+    <div class="content">
+      <h2>Häufig gestellte Fragen (FAQ)</h2>
+
+      <div class="faq-item">
+        <div class="faq-question">Wie erstelle ich einen Account?</div>
+        <div class="faq-answer">
+          Du benötigst einen Einladungscode von deinem Admin. Gebe den Code im Registrierungs-Screen ein und folge den Anweisungen.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">Wie lade ich Teammitglieder ein?</div>
+        <div class="faq-answer">
+          Als Admin: Gehe zu "Team" → "Neuen Mitarbeiter einladen" → E-Mail eingeben → Einladungscode wird automatisch generiert und versendet.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">Wie ändere ich mein Company Logo?</div>
+        <div class="faq-answer">
+          Gehe zu "Einstellungen" → "Unternehmens-Einstellungen" → "Logo" → Wähle ein neues Bild aus deiner Galerie. (Benötigt Face ID Bestätigung)
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">Was sind Co-Admin Berechtigungen?</div>
+        <div class="faq-answer">
+          Co-Admins können bestimmte Admin-Funktionen nutzen (z.B. Team verwalten, Aufträge erstellen), aber keine kritischen Einstellungen ändern. Du kannst die Berechtigungen individuell festlegen.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">Wie aktiviere ich Face ID?</div>
+        <div class="faq-answer">
+          Gehe zu "Einstellungen" → "Sicherheit" → "Face ID" aktivieren. Face ID schützt kritische Aktionen wie Logo-Änderungen und Team-Verwaltung.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">Wie lösche ich meinen Account?</div>
+        <div class="faq-answer">
+          Sende eine E-Mail an recipendent@gmail.com mit dem Betreff "Account löschen". Wir löschen deine Daten innerhalb von 30 Tagen.
+        </div>
+      </div>
+
+      <h2>Technischer Support</h2>
+
+      <div class="support-method">
+        <h3>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+            <polyline points="22,6 12,13 2,6"/>
+          </svg>
+          E-Mail Support
+        </h3>
+        <p>Für technische Probleme, Bugs oder Feature-Anfragen:</p>
+        <p><strong>E-Mail:</strong> <a href="mailto:recipendent@gmail.com">recipendent@gmail.com</a></p>
+        <p><strong>Antwortzeit:</strong> In der Regel innerhalb von 24-48 Stunden</p>
+      </div>
+
+      <h2>Fehler melden</h2>
+      <p>Wenn du einen Bug gefunden hast, hilf uns bitte mit folgenden Informationen:</p>
+      <ul>
+        <li><strong>Gerät:</strong> iPhone Modell & iOS Version</li>
+        <li><strong>App Version:</strong> Siehe Einstellungen → App Info</li>
+        <li><strong>Beschreibung:</strong> Was ist passiert?</li>
+        <li><strong>Schritte:</strong> Wie kann der Fehler reproduziert werden?</li>
+        <li><strong>Screenshots:</strong> Falls möglich</li>
+      </ul>
+
+      <h2>Feature-Vorschläge</h2>
+      <p>Wir freuen uns über deine Ideen! Schicke uns deine Feature-Wünsche an:</p>
+      <p><a href="mailto:recipendent@gmail.com">recipendent@gmail.com</a></p>
+
+      <h2>Datenschutz & Sicherheit</h2>
+      <p>Fragen zu Datenschutz? Lies unsere <a href="/privacy/">Datenschutzerklärung</a> oder kontaktiere uns direkt.</p>
+
+      <div class="info-box">
+        <p><strong>Entwickler:</strong> Muhammed Avci</p>
+        <p><strong>App:</strong> Recipendent - Order & Team Management</p>
+        <p><strong>E-Mail:</strong> <a href="mailto:recipendent@gmail.com">recipendent@gmail.com</a></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2025 Recipendent. Alle Rechte vorbehalten.</p>
+  </footer>
 </body>
 </html>
