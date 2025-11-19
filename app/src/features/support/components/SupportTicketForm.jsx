@@ -72,9 +72,25 @@ export default function SupportTicketForm() {
       return;
     }
 
+    // Check if user and company are loaded
+    if (!user || !company) {
+      console.error('User or company not loaded:', { user, company });
+      showToast({ message: 'Benutzerdaten nicht geladen. Bitte lade die Seite neu.', type: 'error' });
+      return;
+    }
+
     setIsSubmitting(true);
 
     try {
+      console.log('Creating ticket with data:', {
+        category: selectedCategory,
+        message: message.substring(0, 50) + '...',
+        userId: user.id,
+        companyId: company.id,
+        userName: `${user.first_name} ${user.last_name}`,
+        userEmail: user.email,
+      });
+
       const { data, error } = await createSupportTicket({
         category: selectedCategory,
         message,
@@ -85,13 +101,15 @@ export default function SupportTicketForm() {
       });
 
       if (error) {
+        console.error('Ticket creation error:', error);
         showToast({
-          message: error.message || 'Fehler beim Erstellen des Tickets',
+          message: `Fehler: ${error.message || 'Unbekannter Fehler'}`,
           type: 'error',
         });
         return;
       }
 
+      console.log('Ticket created successfully:', data);
       showToast({
         message: 'Ticket erfolgreich erstellt! Wir melden uns bald bei dir.',
         type: 'success',
@@ -102,9 +120,9 @@ export default function SupportTicketForm() {
       setMessage('');
       setShowCategoryDropdown(false);
     } catch (error) {
-      console.error('Error submitting ticket:', error);
+      console.error('Unexpected error submitting ticket:', error);
       showToast({
-        message: 'Ein unerwarteter Fehler ist aufgetreten',
+        message: `Fehler: ${error.message || 'Ein unerwarteter Fehler ist aufgetreten'}`,
         type: 'error',
       });
     } finally {
