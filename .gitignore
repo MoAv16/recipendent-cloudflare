@@ -1,10 +1,12 @@
 # Environment Variables (Secrets)
 .env
+.env.*
+!.env.example
+!.env.local.example
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
-*.env
 
 # Dependencies
 node_modules/
@@ -62,8 +64,11 @@ coverage/
 # Local Development
 .claude/
 
-# Supabase Local
-.supabase/
+# Supabase Local (nur temporäre Files, nicht migrations/functions!)
+supabase/.temp/
+supabase/.branches/
+supabase/Supabase SQL Schema.txt
+**/supabase/.supabase/
 
 # Package Manager
 .yarn/
