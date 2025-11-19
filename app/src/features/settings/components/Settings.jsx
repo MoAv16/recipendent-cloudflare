@@ -2,6 +2,7 @@ import { useState } from 'react';
 import ProfileSettings from './ProfileSettings';
 import CompanySettings from './CompanySettings';
 import SecuritySettings from './SecuritySettings';
+import SupportTicketForm from '../../support/components/SupportTicketForm';
 import { useAuth } from '../../auth/hooks/useAuth';
 
 export default function Settings() {
@@ -12,6 +13,7 @@ export default function Settings() {
     { id: 'profile', label: 'Profil', icon: '👤' },
     ...(isAdmin ? [{ id: 'company', label: 'Firma', icon: '🏢' }] : []),
     { id: 'security', label: 'Sicherheit', icon: '🔒' },
+    { id: 'support', label: 'Support', icon: '💬' },
   ];
 
   return (
@@ -49,6 +51,7 @@ export default function Settings() {
           {activeTab === 'profile' && <ProfileSettings />}
           {activeTab === 'company' && <CompanySettings />}
           {activeTab === 'security' && <SecuritySettings />}
+          {activeTab === 'support' && <SupportTicketForm />}
         </div>
       </div>
     </div>
