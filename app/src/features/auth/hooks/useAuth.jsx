@@ -82,8 +82,10 @@ export const AuthProvider = ({ children }) => {
   };
 
   const value = {
-    user,
-    userData,
+    user: userData, // Full user data from users table
+    company: userData?.company, // Company data
+    authUser: user, // Auth user (from Supabase Auth)
+    userData, // Legacy support
     loading,
     isAuthenticated: !!user,
     isAdmin: userData?.role === 'admin',
