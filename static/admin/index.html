@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>Recipendent - Admin Portal</title>
+  <title>Recipendent - Super Admin Portal</title>
   <meta content="noindex, nofollow" name="robots">
   <style>
     * {
@@ -205,31 +205,48 @@
     .back-link:hover {
       opacity: 1;
     }
+
+    .admin-badge {
+      display: inline-block;
+      background: #5cf2d6;
+      color: white;
+      padding: 0.3rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: bold;
+      margin-bottom: 1rem;
+    }
   </style>
 </head>
 <body>
   <div class="container">
     <!-- Login Section -->
     <div class="show" id="loginSection">
-      <h1>🔐 Admin Portal</h1>
-      <p class="subtitle">Recipendent Admin-Bereich</p>
+      <h1>🔐 Super Admin Portal</h1>
+      <p class="subtitle">Recipendent Plattform-Administration</p>
 
       <div class="security-notice">
-        <strong>⚠️ Sicherheitshinweis:</strong> Dieser Bereich ist ausschließlich für autorisierte Administratoren. Zugriffe werden protokolliert.
+        <strong>⚠️ Super Admin Bereich:</strong> Nur für autorisierte Plattform-Administratoren. Alle Zugriffe werden protokolliert.
+      </div>
+
+      <div class="message error" id="loginError"></div>
+
+      <div class="input-group">
+        <label for="email">Email</label>
+        <input autocomplete="email" id="email" placeholder="deine@email.com" type="email">
       </div>
 
       <div class="input-group">
         <label for="password">Passwort</label>
-        <input autocomplete="off" id="password" placeholder="Passwort eingeben" type="password">
+        <input autocomplete="current-password" id="password" placeholder="Passwort eingeben" type="password">
       </div>
 
       <button id="loginButton" onclick="login()">Anmelden</button>
-
-      <div class="message error" id="loginError"></div>
     </div>
 
     <!-- Admin Section -->
     <div id="adminSection">
+      <span class="admin-badge">🚀 SUPER ADMIN</span>
       <h1>📧 Admin-Einladung senden</h1>
       <p class="subtitle">Neuen Kunden registrieren</p>
 
@@ -257,88 +274,106 @@
 
   <a href="/" class="back-link">← Zurück zur Startseite</a>
 
-  <script>
+  <!-- Supabase Client (ES Module via CDN) -->
+  <script type="module">
     // ============================================================================
-    // SICHERHEITS-KONFIGURATION
+    // SUPABASE CLIENT SETUP
     // ============================================================================
-
-    // SHA-256 Hash des Passworts (mit Salt für zusätzliche Sicherheit)
-    // Original Passwort wird NIEMALS im Code gespeichert
-    const PASSWORD_HASH = 'f8e4c9a6b2d1e3f5a7c9b1d3e5f7a9c1b3d5e7f9a1c3b5d7e9f1a3c5b7d9e1f3';
-    const SALT = 'recipendent-secure-2025';
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
 
     const SUPABASE_URL = 'https://bgqzxwgsdbptbyimzwtf.supabase.co';
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJncXp4d2dzZGJwdGJ5aW16d3RmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjExODczMDcsImV4cCI6MjA3Njc2MzMwN30.P8Mn3KlOp5vukKe-wtL29S25OF7HB35Qr5KVLKWpoQs';
 
-    // ============================================================================
-    // PASSWORD HASHING (SHA-256)
-    // ============================================================================
-    async function hashPassword(password) {
-      const saltedPassword = SALT + password + SALT;
-      const encoder = new TextEncoder();
-      const data = encoder.encode(saltedPassword);
-      const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-      const hashArray = Array.from(new Uint8Array(hashBuffer));
-      const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-      return hashHex;
-    }
+    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
     // ============================================================================
-    // LOGIN
+    // LOGIN (Supabase Auth + Super Admin Check)
     // ============================================================================
-    async function login() {
+    window.login = async function() {
+      const emailInput = document.getElementById('email');
       const passwordInput = document.getElementById('password');
+      const email = emailInput.value.trim();
       const password = passwordInput.value;
       const loginError = document.getElementById('loginError');
       const loginButton = document.getElementById('loginButton');
 
-      if (!password) {
-        showError(loginError, 'Bitte gib ein Passwort ein');
+      // Validation
+      if (!email || !password) {
+        showError(loginError, 'Bitte Email und Passwort eingeben');
         return;
       }
 
       loginButton.disabled = true;
-      loginButton.textContent = 'Prüfe Passwort...';
+      loginButton.textContent = 'Prüfe Credentials...';
 
       try {
-        const hashedInput = await hashPassword(password);
+        // 1. Login mit Supabase Auth
+        const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
+          email,
+          password
+        });
 
-        if (password === 'cewnyb-wEcfe7-goqnuk') {
-          // Erfolgreiche Anmeldung
-          sessionStorage.setItem('recipendent_admin_auth', 'true');
-          document.getElementById('loginSection').classList.remove('show');
-          document.getElementById('adminSection').classList.add('show');
-          passwordInput.value = '';
-        } else {
-          // Falsche Anmeldung
-          showError(loginError, '❌ Falsches Passwort! Zugriff verweigert.');
-
-          // Sicherheits-Log (könnte an Server gesendet werden)
-          console.warn('[SECURITY] Failed login attempt at:', new Date().toISOString());
+        if (authError) {
+          throw new Error(authError.message);
         }
+
+        // 2. Prüfe ob Email in super_admins Tabelle
+        const { data: superAdmin, error: checkError } = await supabase
+          .from('super_admins')
+          .select('email, notes')
+          .eq('email', authData.user.email)
+          .single();
+
+        if (checkError || !superAdmin) {
+          // NICHT authorized - Logout!
+          await supabase.auth.signOut();
+          throw new Error('❌ Kein Super-Admin-Zugriff! Dieser Bereich ist nur für Plattform-Administratoren.');
+        }
+
+        // 3. Update last_login
+        await supabase
+          .from('super_admins')
+          .update({ last_login: new Date().toISOString() })
+          .eq('email', authData.user.email);
+
+        // SUCCESS: Show Admin Section
+        console.log('[AUTH] Super Admin logged in:', authData.user.email);
+        document.getElementById('loginSection').classList.remove('show');
+        document.getElementById('adminSection').classList.add('show');
+
+        // Clear inputs
+        emailInput.value = '';
+        passwordInput.value = '';
+
       } catch (error) {
-        showError(loginError, 'Fehler beim Login: ' + error.message);
+        console.error('[LOGIN ERROR]:', error);
+        showError(loginError, error.message || 'Login fehlgeschlagen');
       } finally {
         loginButton.disabled = false;
         loginButton.textContent = 'Anmelden';
       }
-    }
+    };
 
     // ============================================================================
-    // LOGOUT
+    // LOGOUT (Supabase Auth)
     // ============================================================================
-    function logout() {
-      sessionStorage.removeItem('recipendent_admin_auth');
-      document.getElementById('adminSection').classList.remove('show');
-      document.getElementById('loginSection').classList.add('show');
-      document.getElementById('keyDisplay').classList.remove('show');
-      document.getElementById('customerEmail').value = '';
-    }
+    window.logout = async function() {
+      try {
+        await supabase.auth.signOut();
+        document.getElementById('adminSection').classList.remove('show');
+        document.getElementById('loginSection').classList.add('show');
+        document.getElementById('keyDisplay').classList.remove('show');
+        document.getElementById('customerEmail').value = '';
+        console.log('[AUTH] Super Admin logged out');
+      } catch (error) {
+        console.error('[LOGOUT ERROR]:', error);
+      }
+    };
 
     // ============================================================================
     // ADMIN-EINLADUNG SENDEN
     // ============================================================================
-    async function sendAdminInvitation() {
+    window.sendAdminInvitation = async function() {
       const email = document.getElementById('customerEmail').value.trim();
       const statusMessage = document.getElementById('statusMessage');
       const sendButton = document.getElementById('sendButton');
@@ -400,19 +435,19 @@
         sendButton.disabled = false;
         sendButton.textContent = 'Admin-Key generieren & Email senden';
       }
-    }
+    };
 
     // ============================================================================
     // KEY KOPIEREN
     // ============================================================================
-    function copyKey() {
+    window.copyKey = function() {
       const keyText = document.getElementById('generatedKey').textContent;
       navigator.clipboard.writeText(keyText).then(() => {
         alert('✅ Admin-Key in Zwischenablage kopiert!');
       }).catch(err => {
         alert('Fehler beim Kopieren: ' + err);
       });
-    }
+    };
 
     // ============================================================================
     // HELPER FUNCTIONS
@@ -432,6 +467,12 @@
     // ============================================================================
     // ENTER KEY SUPPORT
     // ============================================================================
+    document.getElementById('email').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        document.getElementById('password').focus();
+      }
+    });
+
     document.getElementById('password').addEventListener('keypress', (e) => {
       if (e.key === 'Enter') login();
     });
@@ -441,12 +482,38 @@
     });
 
     // ============================================================================
-    // SESSION CHECK
+    // SESSION CHECK (on page load)
     // ============================================================================
-    window.addEventListener('load', () => {
-      if (sessionStorage.getItem('recipendent_admin_auth') === 'true') {
-        document.getElementById('loginSection').classList.remove('show');
-        document.getElementById('adminSection').classList.add('show');
+    window.addEventListener('load', async () => {
+      try {
+        // Check if user is already logged in
+        const { data: { session }, error } = await supabase.auth.getSession();
+
+        if (error) {
+          console.error('[SESSION ERROR]:', error);
+          return;
+        }
+
+        if (session?.user) {
+          // Verify user is still a super admin
+          const { data: superAdmin, error: checkError } = await supabase
+            .from('super_admins')
+            .select('email')
+            .eq('email', session.user.email)
+            .single();
+
+          if (!checkError && superAdmin) {
+            // Valid super admin session - show admin section
+            document.getElementById('loginSection').classList.remove('show');
+            document.getElementById('adminSection').classList.add('show');
+            console.log('[AUTH] Super Admin session restored:', session.user.email);
+          } else {
+            // Not a super admin - logout
+            await supabase.auth.signOut();
+          }
+        }
+      } catch (error) {
+        console.error('[SESSION CHECK ERROR]:', error);
       }
     });
 
