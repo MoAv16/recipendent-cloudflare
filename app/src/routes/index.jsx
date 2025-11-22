@@ -9,6 +9,7 @@ import Dashboard from '../features/dashboard/Dashboard';
 import OrdersList from '../features/orders/components/OrdersList';
 import CreateOrder from '../features/orders/components/CreateOrder';
 import OrderDetail from '../features/orders/components/OrderDetail';
+import EditOrder from '../features/orders/components/EditOrder';
 import TeamList from '../features/team/components/TeamList';
 import RecipesList from '../features/recipes/components/RecipesList';
 import CreateRecipe from '../features/recipes/components/CreateRecipe';
@@ -60,8 +61,12 @@ const router = createBrowserRouter([
         element: <CreateOrder />,
       },
       {
-        path: 'orders/:orderId',
+        path: 'orders/:id',
         element: <OrderDetail />,
+      },
+      {
+        path: 'orders/:id/edit',
+        element: <EditOrder />,
       },
       {
         path: 'recipes',
