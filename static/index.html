@@ -216,6 +216,99 @@
       transform: translateY(-2px);
     }
 
+    /* App Download Section */
+    .app-download {
+      margin-top: 4rem;
+      padding-top: 3rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .app-download-label {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 1.5rem;
+    }
+
+    .app-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .app-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.875rem 1.5rem;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9375rem;
+      transition: var(--transition);
+      border: 2px solid var(--border);
+      background: var(--bg-white);
+      position: relative;
+    }
+
+    .app-button.ios {
+      border-color: var(--primary);
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      color: white;
+      box-shadow: 0 4px 14px 0 rgba(29, 209, 161, 0.3);
+    }
+
+    .app-button.ios:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px 0 rgba(29, 209, 161, 0.4);
+    }
+
+    .app-button.android {
+      color: var(--text-secondary);
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .app-button-icon {
+      width: 24px;
+      height: 24px;
+    }
+
+    .app-button-content {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.125rem;
+    }
+
+    .app-button-label {
+      font-size: 0.75rem;
+      font-weight: 500;
+      opacity: 0.9;
+    }
+
+    .app-button-name {
+      font-size: 1rem;
+      font-weight: 700;
+    }
+
+    .coming-soon-badge {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      padding: 0.25rem 0.5rem;
+      background: #fbbf24;
+      color: white;
+      border-radius: 6px;
+      font-size: 0.625rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
     /* Feature Grid */
     .features {
       padding: 120px 2rem;
@@ -581,6 +674,20 @@
         width: 100%;
         justify-content: center;
       }
+
+      .app-download {
+        margin-top: 3rem;
+        padding-top: 2rem;
+      }
+
+      .app-buttons {
+        flex-direction: column;
+      }
+
+      .app-button {
+        width: 100%;
+        justify-content: flex-start;
+      }
     }
 
     /* Scroll reveal animation */
@@ -629,6 +736,35 @@
       <a href="#features" class="cta-button secondary">
         Learn More
       </a>
+    </div>
+
+    <!-- App Download Section -->
+    <div class="app-download">
+      <div class="app-download-label">Download Mobile App</div>
+      <div class="app-buttons">
+        <!-- iOS App Store Button -->
+        <a href="https://apps.apple.com/de/app/recipendent/id6755092558" class="app-button ios" target="_blank" rel="noopener noreferrer">
+          <svg class="app-button-icon" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M18.71 19.5C17.88 20.74 17 21.95 15.66 21.97C14.32 22 13.89 21.18 12.37 21.18C10.84 21.18 10.37 21.95 9.09997 22C7.78997 22.05 6.79997 20.68 5.95997 19.47C4.24997 17 2.93997 12.45 4.69997 9.39C5.56997 7.87 7.12997 6.91 8.81997 6.88C10.1 6.86 11.32 7.75 12.11 7.75C12.89 7.75 14.37 6.68 15.92 6.84C16.57 6.87 18.39 7.1 19.56 8.82C19.47 8.88 17.39 10.1 17.41 12.63C17.44 15.65 20.06 16.66 20.09 16.67C20.06 16.74 19.67 18.11 18.71 19.5ZM13 3.5C13.73 2.67 14.94 2.04 15.94 2C16.07 3.17 15.6 4.35 14.9 5.19C14.21 6.04 13.07 6.7 11.95 6.61C11.8 5.46 12.36 4.26 13 3.5Z"/>
+          </svg>
+          <div class="app-button-content">
+            <span class="app-button-label">Download on the</span>
+            <span class="app-button-name">App Store</span>
+          </div>
+        </a>
+
+        <!-- Android Button (Coming Soon) -->
+        <div class="app-button android">
+          <span class="coming-soon-badge">Coming Soon</span>
+          <svg class="app-button-icon" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M17.6 9.48l1.84-3.18c.16-.31.04-.69-.26-.85-.29-.15-.65-.06-.83.22l-1.88 3.24c-2.86-1.21-6.08-1.21-8.94 0L5.65 5.67c-.19-.28-.54-.37-.83-.22-.3.16-.42.54-.26.85l1.84 3.18C4.25 11.24 2.5 13.96 2.5 17h19c0-3.04-1.75-5.76-3.9-7.52zM7 15.25c-.69 0-1.25-.56-1.25-1.25s.56-1.25 1.25-1.25 1.25.56 1.25 1.25-.56 1.25-1.25 1.25zm10 0c-.69 0-1.25-.56-1.25-1.25s.56-1.25 1.25-1.25 1.25.56 1.25 1.25-.56 1.25-1.25 1.25z"/>
+          </svg>
+          <div class="app-button-content">
+            <span class="app-button-label">Get it on</span>
+            <span class="app-button-name">Google Play</span>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
