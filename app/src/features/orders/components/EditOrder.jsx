@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useMutation, useQueryClient, useQuery } from '@tanstack/react-query';
-import { createOrder, getCompanyUsers, getFolders } from '../services/orderService';
-import { uploadImage, validateImageFile } from '../../../shared/utils/storage';
+import { getOrderById, updateOrder, getCompanyUsers, getFolders } from '../services/orderService';
+import { uploadImage, replaceImage, validateImageFile } from '../../../shared/utils/storage';
 import { ROUTES } from '../../../config/constants';
+import { format } from 'date-fns';
 
-// Priority configuration
 const PRIORITIES = {
   1: { label: 'Sehr wichtig', color: 'bg-red-500', textColor: 'text-red-700', bgLight: 'bg-red-50' },
   2: { label: 'Wichtig', color: 'bg-orange-500', textColor: 'text-orange-700', bgLight: 'bg-orange-50' },
@@ -31,13 +31,14 @@ const orderSchema = z.object({
   editable_by_assigned: z.boolean(),
 });
 
-export default function CreateOrderNew() {
+export default function EditOrderNew() {
+  const { id } = useParams();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [error, setError] = useState(null);
   const [imageFile, setImageFile] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
-  const [assignToAllTeam, setAssignToAllTeam] = useState(true);
+  const [assignToAllTeam, setAssignToAllTeam] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
 
   const {
@@ -45,6 +46,7 @@ export default function CreateOrderNew() {
     handleSubmit,
     watch,
     setValue,
+    reset,
     formState: { errors },
   } = useForm({
     resolver: zodResolver(orderSchema),
@@ -60,6 +62,12 @@ export default function CreateOrderNew() {
   const selectedUsers = watch('assigned_to');
   const criticalTimer = watch('critical_timer');
 
+  // Fetch order
+  const { data: order, isLoading: orderLoading } = useQuery({
+    queryKey: ['order', id],
+    queryFn: () => getOrderById(id),
+  });
+
   // Fetch company users
   const { data: users = [] } = useQuery({
     queryKey: ['company-users'],
@@ -72,6 +80,35 @@ export default function CreateOrderNew() {
     queryFn: getFolders,
   });
 
+  // Populate form when order loads
+  useEffect(() => {
+    if (order) {
+      reset({
+        title: order.title || '',
+        category: order.category || '',
+        description: order.description || '',
+        additional_text: order.additional_text || '',
+        customer_name: order.customer_name || '',
+        location: order.location || '',
+        priority: order.priority || 2,
+        due_date: order.due_date ? format(new Date(order.due_date), "yyyy-MM-dd'T'HH:mm") : '',
+        critical_timer: order.critical_timer || 2,
+        folder_id: order.folder_id || '',
+        assigned_to: order.assigned_to || [],
+        editable_by_assigned: order.editable_by_assigned || false,
+      });
+
+      if (order.image_url) {
+        setImagePreview(order.image_url);
+      }
+
+      // Check if all team members are assigned
+      if (users.length > 0 && order.assigned_to?.length === users.length) {
+        setAssignToAllTeam(true);
+      }
+    }
+  }, [order, reset, users.length]);
+
   // Auto-assign all team members when toggle is on
   useEffect(() => {
     if (assignToAllTeam && users.length > 0) {
@@ -80,10 +117,11 @@ export default function CreateOrderNew() {
   }, [assignToAllTeam, users, setValue]);
 
   const mutation = useMutation({
-    mutationFn: createOrder,
+    mutationFn: (data) => updateOrder(id, data),
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['order', id] });
       queryClient.invalidateQueries({ queryKey: ['orders'] });
-      navigate(ROUTES.ORDERS);
+      navigate(`${ROUTES.ORDERS}/${id}`);
     },
     onError: (err) => {
       setError(err.message);
@@ -109,7 +147,7 @@ export default function CreateOrderNew() {
   const handleRemoveImage = () => {
     setImageFile(null);
     setImagePreview(null);
-    if (imagePreview) {
+    if (imagePreview && !imagePreview.startsWith('http')) {
       URL.revokeObjectURL(imagePreview);
     }
   };
@@ -117,7 +155,7 @@ export default function CreateOrderNew() {
   const toggleUserSelection = (userId) => {
     const current = selectedUsers || [];
     if (current.includes(userId)) {
-      setValue('assigned_to', current.filter((id) => id !== userId));
+      setValue('assigned_to', current.filter((uid) => uid !== userId));
     } else {
       setValue('assigned_to', [...current, userId]);
     }
@@ -129,43 +167,61 @@ export default function CreateOrderNew() {
     setIsUploading(true);
 
     try {
-      // Upload image first if selected
-      let imageUrl = null;
+      let imageUrl = order?.image_url;
+
+      // Upload or replace image if new file selected
       if (imageFile) {
-        imageUrl = await uploadImage(imageFile, 'order-images', {
-          folder: 'orders',
-        });
+        if (order?.image_url) {
+          imageUrl = await replaceImage(order.image_url, imageFile, 'order-images', {
+            folder: 'orders',
+          });
+        } else {
+          imageUrl = await uploadImage(imageFile, 'order-images', {
+            folder: 'orders',
+          });
+        }
       }
 
-      // Create order
+      // Update order
       await mutation.mutateAsync({
         ...data,
         image_url: imageUrl,
-        status: 'open',
+        folder_id: data.folder_id || null,
       });
     } catch (err) {
-      setError(err.message || 'Fehler beim Erstellen des Auftrags');
+      setError(err.message || 'Fehler beim Aktualisieren des Auftrags');
       setIsUploading(false);
     }
   };
+
+  if (orderLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-gray-500">Lade Auftrag...</div>
+      </div>
+    );
+  }
+
+  if (!order) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-red-500">Auftrag nicht gefunden</div>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-4xl mx-auto space-y-6 p-6">
       <div className="flex items-center gap-4">
         <button
-          onClick={() => navigate(ROUTES.ORDERS)}
+          onClick={() => navigate(`${ROUTES.ORDERS}/${id}`)}
           className="text-gray-600 hover:text-gray-900 transition-colors"
         >
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M15 19l-7-7 7-7"
-            />
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
           </svg>
         </button>
-        <h1 className="text-3xl font-bold text-gray-900">Auftrag erstellen</h1>
+        <h1 className="text-3xl font-bold text-gray-900">Auftrag bearbeiten</h1>
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
@@ -192,42 +248,22 @@ export default function CreateOrderNew() {
                 className="absolute top-2 right-2 bg-red-500 text-white p-2 rounded-full hover:bg-red-600 transition-colors"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M6 18L18 6M6 6l12 12"
-                  />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 </svg>
               </button>
             </div>
           ) : (
             <label className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 transition-colors">
               <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                <svg
-                  className="w-12 h-12 mb-3 text-gray-400"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
-                  />
+                <svg className="w-12 h-12 mb-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
                 </svg>
                 <p className="mb-2 text-sm text-gray-500">
                   <span className="font-semibold">Klicken zum Hochladen</span> oder drag & drop
                 </p>
                 <p className="text-xs text-gray-500">PNG, JPG oder WebP (max. 5MB)</p>
               </div>
-              <input
-                type="file"
-                className="hidden"
-                accept="image/*"
-                onChange={handleImageSelect}
-              />
+              <input type="file" className="hidden" accept="image/*" onChange={handleImageSelect} />
             </label>
           )}
         </div>
@@ -237,17 +273,13 @@ export default function CreateOrderNew() {
           <h2 className="text-lg font-semibold text-gray-900">Basis-Informationen</h2>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Titel *
-            </label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Titel *</label>
             <input
               {...register('title')}
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
               placeholder="z.B. BMW 3er Außenreinigung"
             />
-            {errors.title && (
-              <p className="mt-1 text-sm text-red-600">{errors.title.message}</p>
-            )}
+            {errors.title && <p className="mt-1 text-sm text-red-600">{errors.title.message}</p>}
           </div>
 
           <div>
@@ -329,9 +361,7 @@ export default function CreateOrderNew() {
           <h2 className="text-lg font-semibold text-gray-900">Fälligkeitsdatum</h2>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Datum und Uhrzeit
-            </label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Datum und Uhrzeit</label>
             <input
               {...register('due_date')}
               type="datetime-local"
@@ -453,11 +483,11 @@ export default function CreateOrderNew() {
             disabled={mutation.isPending || isUploading}
             className="flex-1 px-6 py-3 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {isUploading ? 'Wird hochgeladen...' : mutation.isPending ? 'Wird erstellt...' : 'Auftrag erstellen'}
+            {isUploading ? 'Wird hochgeladen...' : mutation.isPending ? 'Wird gespeichert...' : 'Änderungen speichern'}
           </button>
           <button
             type="button"
-            onClick={() => navigate(ROUTES.ORDERS)}
+            onClick={() => navigate(`${ROUTES.ORDERS}/${id}`)}
             className="px-6 py-3 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors font-medium"
           >
             Abbrechen

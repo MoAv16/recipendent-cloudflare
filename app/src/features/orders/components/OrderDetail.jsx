@@ -1,310 +1,444 @@
 import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { getOrderById, updateOrder, deleteOrder } from '../services/orderService';
-import { useAuth } from '../../auth/hooks/useAuth';
-import { usePermissions } from '../../auth/hooks/usePermissions';
+import {
+  getOrderById,
+  updateOrderStatus,
+  addCommentToOrder,
+  deleteComment,
+  deleteOrder,
+} from '../services/orderService';
 import { ROUTES } from '../../../config/constants';
 import { format } from 'date-fns';
 import { de } from 'date-fns/locale';
 
-const PRIORITY_LABELS = {
-  1: { label: 'Dringend', color: 'bg-red-100 text-red-800' },
-  2: { label: 'Hoch', color: 'bg-orange-100 text-orange-800' },
-  3: { label: 'Mittel', color: 'bg-yellow-100 text-yellow-800' },
-  4: { label: 'Niedrig', color: 'bg-green-100 text-green-800' },
+const PRIORITIES = {
+  1: { label: 'Sehr wichtig', color: 'bg-red-500', textColor: 'text-red-700', bgLight: 'bg-red-50' },
+  2: { label: 'Wichtig', color: 'bg-orange-500', textColor: 'text-orange-700', bgLight: 'bg-orange-50' },
+  3: { label: 'Neutral', color: 'bg-yellow-500', textColor: 'text-yellow-700', bgLight: 'bg-yellow-50' },
+  4: { label: 'Weniger wichtig', color: 'bg-green-500', textColor: 'text-green-700', bgLight: 'bg-green-50' },
 };
 
-export default function OrderDetail() {
-  const { orderId } = useParams();
+const STATUS_LABELS = {
+  open: { label: 'Offen', color: 'bg-blue-100 text-blue-800' },
+  done: { label: 'Erledigt', color: 'bg-green-100 text-green-800' },
+  archived: { label: 'Archiviert', color: 'bg-gray-100 text-gray-800' },
+};
+
+export default function OrderDetailNew() {
+  const { id } = useParams();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const { userData } = useAuth();
-  const { can, isAdmin, isCoAdmin } = usePermissions();
+  const [commentText, setCommentText] = useState('');
+  const [showImageModal, setShowImageModal] = useState(false);
+  const [error, setError] = useState(null);
 
-  const [isEditing, setIsEditing] = useState(false);
-  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
-
-  const { data: order, isLoading, error } = useQuery({
-    queryKey: ['orders', orderId],
-    queryFn: () => getOrderById(orderId),
+  // Fetch order
+  const { data: order, isLoading } = useQuery({
+    queryKey: ['order', id],
+    queryFn: () => getOrderById(id),
+    refetchInterval: 5000, // Poll every 5s for updates (until realtime is implemented)
   });
 
-  const updateMutation = useMutation({
-    mutationFn: ({ id, updates }) => updateOrder(id, updates),
+  // Status update mutation
+  const statusMutation = useMutation({
+    mutationFn: (newStatus) => updateOrderStatus(id, newStatus),
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['order', id] });
       queryClient.invalidateQueries({ queryKey: ['orders'] });
-      setIsEditing(false);
+    },
+    onError: (err) => {
+      setError(err.message);
     },
   });
 
+  // Add comment mutation
+  const commentMutation = useMutation({
+    mutationFn: (text) => addCommentToOrder(id, text),
+    onSuccess: () => {
+      setCommentText('');
+      queryClient.invalidateQueries({ queryKey: ['order', id] });
+    },
+    onError: (err) => {
+      setError(err.message);
+    },
+  });
+
+  // Delete comment mutation
+  const deleteCommentMutation = useMutation({
+    mutationFn: (commentId) => deleteComment(id, commentId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['order', id] });
+    },
+    onError: (err) => {
+      setError(err.message);
+    },
+  });
+
+  // Delete order mutation
   const deleteMutation = useMutation({
-    mutationFn: deleteOrder,
+    mutationFn: () => deleteOrder(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['orders'] });
       navigate(ROUTES.ORDERS);
     },
+    onError: (err) => {
+      setError(err.message);
+    },
   });
 
-  const handleMarkAsDone = () => {
-    updateMutation.mutate({
-      id: orderId,
-      updates: { status: order.status === 'done' ? 'open' : 'done' },
-    });
+  const handleStatusToggle = () => {
+    const newStatus = order.status === 'open' ? 'done' : 'open';
+    statusMutation.mutate(newStatus);
   };
 
-  const handleDelete = () => {
-    if (showDeleteConfirm) {
-      deleteMutation.mutate(orderId);
-    } else {
-      setShowDeleteConfirm(true);
+  const handleAddComment = (e) => {
+    e.preventDefault();
+    if (!commentText.trim()) return;
+    commentMutation.mutate(commentText);
+  };
+
+  const handleDeleteComment = (commentId) => {
+    if (window.confirm('Kommentar wirklich löschen?')) {
+      deleteCommentMutation.mutate(commentId);
     }
   };
 
-  const canEdit = () => {
-    if (isAdmin || (isCoAdmin && can('can_edit_orders'))) return true;
-    if (order?.editable_by_assigned && order?.assigned_to?.includes(userData?.id)) return true;
-    return false;
+  const handleDeleteOrder = () => {
+    if (window.confirm(`Auftrag "${order.title}" wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden.`)) {
+      deleteMutation.mutate();
+    }
   };
 
-  const canDelete = () => {
-    if (isAdmin) return true;
-    if (isCoAdmin && can('can_delete_orders')) return true;
-    return false;
+  const formatDateTime = (dateString) => {
+    if (!dateString) return null;
+    return format(new Date(dateString), 'dd.MM.yyyy HH:mm', { locale: de });
   };
 
   if (isLoading) {
     return (
-      <div className="flex justify-center py-12">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-gray-500">Lade Auftrag...</div>
       </div>
     );
   }
 
-  if (error || !order) {
+  if (!order) {
     return (
-      <div className="text-center py-12">
-        <p className="text-red-600">Fehler beim Laden des Auftrags</p>
-        <button
-          onClick={() => navigate(ROUTES.ORDERS)}
-          className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg"
-        >
-          Zurück zu Aufträgen
-        </button>
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-red-500">Auftrag nicht gefunden</div>
       </div>
     );
   }
 
-  const priority = PRIORITY_LABELS[order.priority] || PRIORITY_LABELS[3];
+  const priorityConfig = PRIORITIES[order.priority] || PRIORITIES[2];
+  const statusConfig = STATUS_LABELS[order.status] || STATUS_LABELS.open;
+
+  const comments = (order.notes || []).filter((note) => note.type === 'comment');
+  const statusChanges = (order.notes || []).filter((note) => note.type === 'status_change');
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6">
+    <div className="max-w-5xl mx-auto p-6 space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
           <button
             onClick={() => navigate(ROUTES.ORDERS)}
-            className="text-gray-600 hover:text-gray-900"
+            className="text-gray-600 hover:text-gray-900 transition-colors"
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M15 19l-7-7 7-7"
-              />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
           </button>
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">{order.title}</h1>
-            <p className="text-sm text-gray-600">
-              Erstellt von {order.author?.first_name} {order.author?.last_name}
-            </p>
+            <h1 className="text-3xl font-bold text-gray-900">{order.title}</h1>
+            {order.category && (
+              <p className="text-sm text-gray-500 mt-1">Kategorie: {order.category}</p>
+            )}
           </div>
         </div>
 
-        <div className="flex gap-2">
-          {canEdit() && (
-            <button
-              onClick={() => setIsEditing(!isEditing)}
-              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-            >
-              {isEditing ? 'Abbrechen' : 'Bearbeiten'}
-            </button>
-          )}
-          {canDelete() && (
-            <button
-              onClick={handleDelete}
-              className={`px-4 py-2 rounded-lg transition-colors ${
-                showDeleteConfirm
-                  ? 'bg-red-600 text-white hover:bg-red-700'
-                  : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-              }`}
-            >
-              {showDeleteConfirm ? 'Bestätigen' : 'Löschen'}
-            </button>
+        <div className="flex items-center gap-3">
+          <button
+            onClick={() => navigate(`${ROUTES.ORDERS}/${id}/edit`)}
+            className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors font-medium"
+          >
+            Bearbeiten
+          </button>
+          <button
+            onClick={handleDeleteOrder}
+            className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors font-medium"
+          >
+            Löschen
+          </button>
+        </div>
+      </div>
+
+      {error && (
+        <div className="bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-lg">
+          {error}
+        </div>
+      )}
+
+      {/* Image */}
+      {order.image_url && (
+        <div className="bg-white rounded-lg shadow overflow-hidden">
+          <img
+            src={order.image_url}
+            alt={order.title}
+            className="w-full h-96 object-cover cursor-pointer hover:opacity-90 transition-opacity"
+            onClick={() => setShowImageModal(true)}
+          />
+        </div>
+      )}
+
+      {/* Status & Priority */}
+      <div className="bg-white rounded-lg shadow p-6">
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-lg font-semibold text-gray-900">Status & Priorität</h2>
+          <button
+            onClick={handleStatusToggle}
+            disabled={statusMutation.isPending}
+            className={`px-6 py-2 rounded-lg font-medium transition-colors ${
+              order.status === 'open'
+                ? 'bg-green-500 text-white hover:bg-green-600'
+                : 'bg-blue-500 text-white hover:bg-blue-600'
+            } disabled:opacity-50`}
+          >
+            {order.status === 'open' ? 'Als erledigt markieren' : 'Als offen markieren'}
+          </button>
+        </div>
+
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <p className="text-sm text-gray-500 mb-2">Status</p>
+            <span className={`inline-flex px-3 py-1 rounded-full text-sm font-medium ${statusConfig.color}`}>
+              {statusConfig.label}
+            </span>
+          </div>
+
+          {order.priority && (
+            <div>
+              <p className="text-sm text-gray-500 mb-2">Priorität</p>
+              <div className="flex items-center gap-2">
+                <div className={`w-8 h-8 rounded-full ${priorityConfig.color} flex items-center justify-center text-white text-xs font-bold`}>
+                  P{order.priority}
+                </div>
+                <span className="text-sm font-medium">{priorityConfig.label}</span>
+              </div>
+            </div>
           )}
         </div>
       </div>
 
-      {/* Main Content */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Left Column - Details */}
-        <div className="lg:col-span-2 space-y-6">
-          {/* Status & Priority */}
-          <div className="bg-white rounded-lg shadow p-6">
-            <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center gap-3">
-                <span className={`px-3 py-1 text-sm font-medium rounded-full ${priority.color}`}>
-                  {priority.label}
+      {/* Details */}
+      <div className="bg-white rounded-lg shadow p-6 space-y-4">
+        <h2 className="text-lg font-semibold text-gray-900">Details</h2>
+
+        {order.description && (
+          <div>
+            <p className="text-sm text-gray-500">Beschreibung</p>
+            <p className="text-gray-900 whitespace-pre-wrap">{order.description}</p>
+          </div>
+        )}
+
+        {order.additional_text && (
+          <div>
+            <p className="text-sm text-gray-500">Notizen</p>
+            <p className="text-gray-900 whitespace-pre-wrap">{order.additional_text}</p>
+          </div>
+        )}
+
+        <div className="grid grid-cols-2 gap-4">
+          {order.customer_name && (
+            <div>
+              <p className="text-sm text-gray-500">Kundenname</p>
+              <p className="text-gray-900">{order.customer_name}</p>
+            </div>
+          )}
+
+          {order.location && (
+            <div>
+              <p className="text-sm text-gray-500">Ort</p>
+              <p className="text-gray-900">{order.location}</p>
+            </div>
+          )}
+
+          {order.due_date && (
+            <div>
+              <p className="text-sm text-gray-500">Fälligkeitsdatum</p>
+              <p className="text-gray-900">{formatDateTime(order.due_date)}</p>
+            </div>
+          )}
+
+          {order.critical_timer !== null && (
+            <div>
+              <p className="text-sm text-gray-500">Kritischer Timer</p>
+              <p className="text-gray-900">{order.critical_timer} Stunden vor Fälligkeit</p>
+            </div>
+          )}
+        </div>
+
+        {order.folder && (
+          <div>
+            <p className="text-sm text-gray-500">Ordner</p>
+            <div className="flex items-center gap-2 mt-1">
+              <div
+                className="w-4 h-4 rounded"
+                style={{ backgroundColor: order.folder.color || '#6326ad' }}
+              />
+              <span className="text-gray-900">{order.folder.name}</span>
+            </div>
+          </div>
+        )}
+
+        <div>
+          <p className="text-sm text-gray-500">Erstellt von</p>
+          <div className="flex items-center gap-2 mt-1">
+            <div className="w-8 h-8 rounded-full bg-primary-100 text-primary-600 flex items-center justify-center text-sm font-semibold">
+              {order.author?.first_name?.[0]}{order.author?.last_name?.[0]}
+            </div>
+            <div>
+              <p className="text-gray-900 text-sm font-medium">
+                {order.author?.first_name} {order.author?.last_name}
+              </p>
+              <p className="text-xs text-gray-500">{formatDateTime(order.created_at)}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Assigned Users */}
+      {order.assignedUsers && order.assignedUsers.length > 0 && (
+        <div className="bg-white rounded-lg shadow p-6">
+          <h2 className="text-lg font-semibold text-gray-900 mb-4">Zugewiesen an</h2>
+          <div className="flex flex-wrap gap-3">
+            {order.assignedUsers.map((user) => (
+              <div key={user.id} className="flex items-center gap-2 bg-gray-50 rounded-lg px-3 py-2">
+                <div className="w-8 h-8 rounded-full bg-primary-100 text-primary-600 flex items-center justify-center text-sm font-semibold">
+                  {user.first_name[0]}{user.last_name[0]}
+                </div>
+                <span className="text-sm font-medium text-gray-700">
+                  {user.first_name} {user.last_name}
                 </span>
-                {order.status === 'done' && (
-                  <span className="px-3 py-1 text-sm font-medium rounded-full bg-green-100 text-green-800">
-                    Abgeschlossen
-                  </span>
-                )}
               </div>
-              <button
-                onClick={handleMarkAsDone}
-                disabled={!canEdit()}
-                className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {order.status === 'done' ? 'Als Offen markieren' : 'Als Erledigt markieren'}
-              </button>
-            </div>
+            ))}
           </div>
+          {order.editable_by_assigned && (
+            <p className="text-sm text-gray-500 mt-3">
+              ✓ Zugewiesene Mitarbeiter dürfen diesen Auftrag bearbeiten
+            </p>
+          )}
+        </div>
+      )}
 
-          {/* Details */}
-          <div className="bg-white rounded-lg shadow p-6 space-y-4">
-            <h2 className="text-lg font-semibold text-gray-900">Details</h2>
-
-            {order.customer && (
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Kunde</label>
-                <p className="text-gray-900">{order.customer}</p>
-              </div>
-            )}
-
-            {order.description && (
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Beschreibung
-                </label>
-                <p className="text-gray-900 whitespace-pre-wrap">{order.description}</p>
-              </div>
-            )}
-
-            {order.location && (
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Standort</label>
-                <p className="text-gray-900">📍 {order.location}</p>
-              </div>
-            )}
-
-            {order.due_date && (
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Fälligkeitsdatum
-                </label>
-                <p className="text-gray-900">
-                  {format(new Date(order.due_date), 'dd. MMMM yyyy', { locale: de })}
-                </p>
-              </div>
-            )}
-
-            {order.folder && (
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Ordner</label>
-                <div className="flex items-center gap-2">
-                  <div
-                    className="w-3 h-3 rounded-full"
-                    style={{ backgroundColor: order.folder.color || '#gray' }}
-                  />
-                  <span className="text-gray-900">{order.folder.name}</span>
+      {/* Status History */}
+      {statusChanges.length > 0 && (
+        <div className="bg-white rounded-lg shadow p-6">
+          <h2 className="text-lg font-semibold text-gray-900 mb-4">Status-Verlauf</h2>
+          <div className="space-y-3">
+            {statusChanges.reverse().map((change) => (
+              <div key={change.id} className="flex items-start gap-3 text-sm">
+                <div className="w-2 h-2 rounded-full bg-blue-500 mt-1.5" />
+                <div className="flex-1">
+                  <p className="text-gray-900">{change.text}</p>
+                  <p className="text-gray-500 text-xs mt-0.5">
+                    {change.author} • {formatDateTime(change.timestamp)}
+                  </p>
                 </div>
               </div>
-            )}
-
-            {order.image_url && (
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Bild</label>
-                <img
-                  src={order.image_url}
-                  alt="Order"
-                  className="rounded-lg max-w-full h-auto"
-                />
-              </div>
-            )}
-          </div>
-
-          {/* Notes Section */}
-          <div className="bg-white rounded-lg shadow p-6">
-            <h2 className="text-lg font-semibold text-gray-900 mb-4">Notizen</h2>
-            {order.notes && order.notes.length > 0 ? (
-              <div className="space-y-3">
-                {order.notes.map((note, index) => (
-                  <div key={index} className="border-l-4 border-blue-500 pl-4 py-2">
-                    <p className="text-sm text-gray-600">{note.text}</p>
-                    <p className="text-xs text-gray-400 mt-1">
-                      {format(new Date(note.created_at), 'dd.MM.yyyy HH:mm')}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <p className="text-gray-500 text-sm">Noch keine Notizen vorhanden</p>
-            )}
+            ))}
           </div>
         </div>
+      )}
 
-        {/* Right Column - Meta Info */}
-        <div className="space-y-6">
-          {/* Assigned Users */}
-          <div className="bg-white rounded-lg shadow p-6">
-            <h3 className="text-sm font-semibold text-gray-900 mb-3">Zugewiesen an</h3>
-            {order.assigned_to && order.assigned_to.length > 0 ? (
-              <div className="space-y-2">
-                {order.assigned_to.map((userId, index) => (
-                  <div key={userId} className="flex items-center gap-2">
-                    <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white text-xs font-medium">
-                      {index + 1}
+      {/* Comments */}
+      <div className="bg-white rounded-lg shadow p-6">
+        <h2 className="text-lg font-semibold text-gray-900 mb-4">
+          Kommentare ({comments.length})
+        </h2>
+
+        {/* Add Comment Form */}
+        <form onSubmit={handleAddComment} className="mb-6">
+          <textarea
+            value={commentText}
+            onChange={(e) => setCommentText(e.target.value)}
+            placeholder="Kommentar hinzufügen..."
+            rows={3}
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 resize-none"
+          />
+          <div className="flex justify-end mt-2">
+            <button
+              type="submit"
+              disabled={!commentText.trim() || commentMutation.isPending}
+              className="px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {commentMutation.isPending ? 'Wird gesendet...' : 'Kommentar hinzufügen'}
+            </button>
+          </div>
+        </form>
+
+        {/* Comments List */}
+        <div className="space-y-4">
+          {comments.length === 0 ? (
+            <p className="text-gray-500 text-center py-8">Noch keine Kommentare</p>
+          ) : (
+            comments.reverse().map((comment) => (
+              <div key={comment.id} className="border border-gray-200 rounded-lg p-4">
+                <div className="flex items-start justify-between">
+                  <div className="flex items-start gap-3 flex-1">
+                    <div className="w-10 h-10 rounded-full bg-primary-100 text-primary-600 flex items-center justify-center text-sm font-semibold flex-shrink-0">
+                      {comment.author.split(' ').map(n => n[0]).join('')}
                     </div>
-                    <span className="text-sm text-gray-700">Team-Mitglied {index + 1}</span>
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className="font-medium text-gray-900">{comment.author}</span>
+                        <span className="text-sm text-gray-500">
+                          {formatDateTime(comment.timestamp)}
+                        </span>
+                      </div>
+                      <p className="text-gray-700 whitespace-pre-wrap">{comment.text}</p>
+                    </div>
                   </div>
-                ))}
-              </div>
-            ) : (
-              <p className="text-gray-500 text-sm">Niemandem zugewiesen</p>
-            )}
-          </div>
-
-          {/* Metadata */}
-          <div className="bg-white rounded-lg shadow p-6">
-            <h3 className="text-sm font-semibold text-gray-900 mb-3">Informationen</h3>
-            <div className="space-y-2 text-sm">
-              <div>
-                <span className="text-gray-600">Erstellt:</span>
-                <p className="text-gray-900">
-                  {format(new Date(order.created_at), 'dd.MM.yyyy HH:mm')}
-                </p>
-              </div>
-              <div>
-                <span className="text-gray-600">Zuletzt bearbeitet:</span>
-                <p className="text-gray-900">
-                  {format(new Date(order.updated_at), 'dd.MM.yyyy HH:mm')}
-                </p>
-              </div>
-              {order.editable_by_assigned && (
-                <div className="pt-2 border-t">
-                  <span className="text-xs text-green-600 font-medium">
-                    ✓ Bearbeitbar durch zugewiesene Benutzer
-                  </span>
+                  <button
+                    onClick={() => handleDeleteComment(comment.id)}
+                    className="text-red-500 hover:text-red-700 transition-colors p-1"
+                    title="Kommentar löschen"
+                  >
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg>
+                  </button>
                 </div>
-              )}
-            </div>
-          </div>
+              </div>
+            ))
+          )}
         </div>
       </div>
+
+      {/* Image Modal */}
+      {showImageModal && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4"
+          onClick={() => setShowImageModal(false)}
+        >
+          <div className="relative max-w-6xl max-h-full">
+            <img
+              src={order.image_url}
+              alt={order.title}
+              className="max-w-full max-h-screen object-contain"
+            />
+            <button
+              onClick={() => setShowImageModal(false)}
+              className="absolute top-4 right-4 bg-white rounded-full p-2 hover:bg-gray-100 transition-colors"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -5,13 +5,14 @@ import { useQueryClient } from '@tanstack/react-query';
 /**
  * Subscribe to realtime changes for orders
  * Automatically invalidates React Query cache when orders change
+ * RLS policies ensure users only receive changes for their company
  */
 export const useOrderRealtime = () => {
   const queryClient = useQueryClient();
 
   useEffect(() => {
-    const subscription = supabase
-      .channel('orders')
+    const channel = supabase
+      .channel('orders-realtime')
       .on(
         'postgres_changes',
         {
@@ -20,23 +21,30 @@ export const useOrderRealtime = () => {
           table: 'orders',
         },
         (payload) => {
-          console.log('Order changed:', payload);
+          console.log('[Realtime] Order changed:', payload.eventType, payload.new || payload.old);
 
-          // Invalidate orders query to refetch
+          // Invalidate all orders queries
           queryClient.invalidateQueries({ queryKey: ['orders'] });
 
-          // If it's an update or delete, also invalidate the specific order
-          if (payload.eventType === 'UPDATE' || payload.eventType === 'DELETE') {
-            queryClient.invalidateQueries({
-              queryKey: ['orders', payload.old.id]
-            });
+          // Invalidate specific order if we have the ID
+          const orderId = payload.new?.id || payload.old?.id;
+          if (orderId) {
+            queryClient.invalidateQueries({ queryKey: ['order', orderId] });
+          }
+
+          // Also invalidate company-users if team assignments changed
+          if (payload.eventType === 'UPDATE' && payload.new?.assigned_to !== payload.old?.assigned_to) {
+            queryClient.invalidateQueries({ queryKey: ['company-users'] });
           }
         }
       )
-      .subscribe();
+      .subscribe((status) => {
+        console.log('[Realtime] Subscription status:', status);
+      });
 
     return () => {
-      subscription.unsubscribe();
+      console.log('[Realtime] Unsubscribing from orders');
+      supabase.removeChannel(channel);
     };
   }, [queryClient]);
 };
