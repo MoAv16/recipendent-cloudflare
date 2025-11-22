@@ -30,7 +30,9 @@ export default function OrdersList() {
     const query = searchQuery.toLowerCase();
     return (
       order.title?.toLowerCase().includes(query) ||
-      order.customer?.toLowerCase().includes(query) ||
+      order.customer_name?.toLowerCase().includes(query) ||
+      order.category?.toLowerCase().includes(query) ||
+      order.location?.toLowerCase().includes(query) ||
       order.description?.toLowerCase().includes(query)
     );
   });
