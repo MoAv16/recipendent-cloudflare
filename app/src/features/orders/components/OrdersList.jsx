@@ -3,27 +3,21 @@ import { Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { getOrders } from '../services/orderService';
 import { useOrderRealtime } from '../hooks/useOrderRealtime';
-import OrderCard from './OrderCard';
+import OrderCardNew from './OrderCardNew';
+import OrderDetailView from './OrderDetailView';
 
 export default function OrdersList() {
-  const [activeTab, setActiveTab] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
+  const [selectedOrderId, setSelectedOrderId] = useState(null);
 
   // Subscribe to realtime updates
   useOrderRealtime();
 
-  // Fetch orders based on active tab
-  const statusFilter = activeTab === 'all' ? null : activeTab;
+  // Fetch all open orders
   const { data: orders, isLoading, error } = useQuery({
-    queryKey: ['orders', statusFilter],
-    queryFn: () => getOrders(statusFilter),
+    queryKey: ['orders', 'open'],
+    queryFn: () => getOrders('open'),
   });
-
-  const tabs = [
-    { id: 'all', label: 'Alle', count: orders?.length || 0 },
-    { id: 'open', label: 'Aktiv', count: orders?.filter(o => o.status === 'open').length || 0 },
-    { id: 'done', label: 'Abgeschlossen', count: orders?.filter(o => o.status === 'done').length || 0 },
-  ];
 
   // Filter orders by search query
   const filteredOrders = orders?.filter((order) => {
@@ -37,6 +31,16 @@ export default function OrdersList() {
     );
   });
 
+  // Get selected order details
+  const selectedOrder = selectedOrderId
+    ? orders?.find(o => o.id === selectedOrderId)
+    : null;
+
+  // Auto-select first order when orders load
+  if (!selectedOrderId && filteredOrders && filteredOrders.length > 0) {
+    setSelectedOrderId(filteredOrders[0].id);
+  }
+
   if (error) {
     return (
       <div className="text-center py-12">
@@ -46,74 +50,81 @@ export default function OrdersList() {
   }
 
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-gray-900">Aufträge</h1>
-        <Link
-          to="/orders/new"
-          className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
-        >
-          + Neuer Auftrag
-        </Link>
+    <div className="flex h-screen pt-10 px-6 gap-10">
+      {/* Left Side - Orders List */}
+      <div className="flex-shrink-0 w-[540px] flex flex-col">
+        {/* Header */}
+        <div className="mb-6">
+          <h1 className="text-xl font-albert-sans font-bold text-black mb-4">
+            Aktive Aufträge
+          </h1>
+
+          {/* Search Bar */}
+          <div className="bg-white rounded-xl border border-[#ecedf6] shadow-soft-lg px-4 py-3 flex items-center gap-3">
+            <img
+              src="/design-assets/icons/vector_3.svg"
+              alt="Search"
+              className="w-6 h-6"
+            />
+            <input
+              type="text"
+              placeholder="Search..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="flex-1 outline-none text-base font-abeezee placeholder:text-[#c4c4c4]"
+            />
+            <button className="w-6 h-6">
+              <img
+                src="/design-assets/icons/vuesaxlinearsetting4.svg"
+                alt="Filter"
+                className="w-full h-full"
+              />
+            </button>
+          </div>
+        </div>
+
+        {/* Orders List - Scrollable */}
+        <div className="flex-1 overflow-y-auto space-y-6 pr-2">
+          {isLoading ? (
+            <div className="flex justify-center py-12">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+            </div>
+          ) : filteredOrders && filteredOrders.length > 0 ? (
+            filteredOrders.map((order) => (
+              <OrderCardNew
+                key={order.id}
+                order={order}
+                isActive={selectedOrderId === order.id}
+                onClick={() => setSelectedOrderId(order.id)}
+              />
+            ))
+          ) : (
+            <div className="text-center py-12 bg-white rounded-xl shadow-soft">
+              <p className="text-gray-500 text-lg">Keine Aufträge gefunden</p>
+              <p className="text-gray-400 text-sm mt-2">
+                {searchQuery
+                  ? 'Versuche eine andere Suche'
+                  : 'Erstelle deinen ersten Auftrag'}
+              </p>
+            </div>
+          )}
+        </div>
+
+        {/* Create New Order Button */}
+        <div className="mt-6">
+          <Link
+            to="/orders/new"
+            className="block w-full px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary-600 transition-colors font-medium text-center"
+          >
+            + Neuer Auftrag
+          </Link>
+        </div>
       </div>
 
-      {/* Tabs */}
-      <div className="bg-white rounded-lg shadow">
-        <div className="border-b border-gray-200">
-          <nav className="flex -mb-px">
-            {tabs.map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
-                className={`flex-1 py-4 px-6 text-center border-b-2 font-medium transition-colors ${
-                  activeTab === tab.id
-                    ? 'border-blue-500 text-blue-600'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                }`}
-              >
-                {tab.label}
-                <span className="ml-2 px-2 py-1 text-xs rounded-full bg-gray-100">
-                  {tab.count}
-                </span>
-              </button>
-            ))}
-          </nav>
-        </div>
-
-        {/* Search */}
-        <div className="p-4">
-          <input
-            type="text"
-            placeholder="Aufträge durchsuchen..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-        </div>
+      {/* Right Side - Order Detail View */}
+      <div className="flex-1 overflow-y-auto">
+        <OrderDetailView order={selectedOrder} />
       </div>
-
-      {/* Orders List */}
-      {isLoading ? (
-        <div className="flex justify-center py-12">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
-        </div>
-      ) : filteredOrders && filteredOrders.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {filteredOrders.map((order) => (
-            <OrderCard key={order.id} order={order} />
-          ))}
-        </div>
-      ) : (
-        <div className="text-center py-12 bg-white rounded-lg shadow">
-          <p className="text-gray-500 text-lg">Keine Aufträge gefunden</p>
-          <p className="text-gray-400 text-sm mt-2">
-            {searchQuery
-              ? 'Versuche eine andere Suche'
-              : 'Erstelle deinen ersten Auftrag'}
-          </p>
-        </div>
-      )}
     </div>
   );
 }
