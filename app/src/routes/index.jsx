@@ -7,7 +7,7 @@ import RegisterForm from '../features/auth/components/RegisterForm';
 import EmployeeRegisterForm from '../features/auth/components/EmployeeRegisterForm';
 import Dashboard from '../features/dashboard/Dashboard';
 import OrdersList from '../features/orders/components/OrdersList';
-import CreateOrder from '../features/orders/components/CreateOrder';
+import CreateOrderNew from '../features/orders/components/CreateOrderNew';
 import OrderDetailPage from '../features/orders/components/OrderDetailPage';
 import EditOrder from '../features/orders/components/EditOrder';
 import TeamList from '../features/team/components/TeamList';
@@ -18,6 +18,7 @@ import Settings from '../features/settings/components/Settings';
 import Messages from '../features/messages/Messages';
 import Notes from '../features/notes/Notes';
 import Calendar from '../features/calendar/Calendar';
+import Account from '../features/account/Account';
 import { ROUTES } from '../config/constants';
 
 const router = createBrowserRouter([
@@ -61,7 +62,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'orders/new',
-        element: <CreateOrder />,
+        element: <CreateOrderNew />,
       },
       {
         path: 'orders/:id',
@@ -102,6 +103,10 @@ const router = createBrowserRouter([
       {
         path: 'settings',
         element: <Settings />,
+      },
+      {
+        path: 'account',
+        element: <Account />,
       },
     ],
   },

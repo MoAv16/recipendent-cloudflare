@@ -43,20 +43,20 @@ export default function Sidebar() {
       icon: '/design-assets/icons/vuesaxlinearcalendartick.svg',
       active: location.pathname.startsWith('/calendar')
     },
-  ];
-
-  const bottomNavigation = [
     {
       name: 'Team',
       href: ROUTES.TEAM,
       icon: '/design-assets/icons/vuesaxlinearusersquare.svg',
       active: location.pathname.startsWith('/team')
     },
+  ];
+
+  const bottomNavigation = [
     {
-      name: 'Einstellungen',
-      href: ROUTES.SETTINGS,
+      name: 'Mein Konto',
+      href: '/account',
       icon: '/design-assets/icons/vuesaxlinearsetting3.svg',
-      active: location.pathname.startsWith('/settings')
+      active: location.pathname.startsWith('/account')
     },
   ];
 
@@ -122,7 +122,7 @@ export default function Sidebar() {
 
       {/* User Profile */}
       <div className="mb-12">
-        <Link to={ROUTES.SETTINGS}>
+        <Link to="/account">
           <div className="w-[52px] h-[52px] rounded-full bg-primary flex items-center justify-center text-white font-bold text-lg">
             {userData?.first_name?.[0]}{userData?.last_name?.[0]}
           </div>
