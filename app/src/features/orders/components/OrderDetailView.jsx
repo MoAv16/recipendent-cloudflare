@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { format } from 'date-fns';
 import { de } from 'date-fns/locale';
 
@@ -79,14 +80,22 @@ export default function OrderDetailView({ order }) {
               </h2>
             </div>
 
-            {/* Zoom Icon */}
-            <button className="w-12 h-12 hover:bg-gray-50 rounded-lg flex items-center justify-center">
-              <img
-                src="/design-assets/icons/zoom.svg"
-                alt="Zoom"
-                className="w-8 h-8"
-              />
-            </button>
+            {/* Action Buttons */}
+            <div className="flex items-center gap-2">
+              <Link
+                to={`/orders/${order.id}/edit`}
+                className="px-4 py-2 border-2 border-primary text-primary rounded-lg hover:bg-purple-light transition-colors font-cabin font-semibold"
+              >
+                Bearbeiten
+              </Link>
+              <button className="w-12 h-12 hover:bg-gray-50 rounded-lg flex items-center justify-center">
+                <img
+                  src="/design-assets/icons/zoom.svg"
+                  alt="Zoom"
+                  className="w-8 h-8"
+                />
+              </button>
+            </div>
           </div>
 
           {/* Title */}

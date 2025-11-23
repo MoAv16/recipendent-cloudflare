@@ -60,7 +60,7 @@ export default function OrdersList() {
           </h1>
 
           {/* Search Bar */}
-          <div className="bg-white rounded-xl border border-[#ecedf6] shadow-soft-lg px-4 py-3 flex items-center gap-3">
+          <div className="bg-white rounded-xl border border-[#ecedf6] shadow-soft-lg px-4 py-3 flex items-center gap-3 max-w-[388px]">
             <img
               src="/design-assets/icons/vector_3.svg"
               alt="Search"
@@ -122,7 +122,7 @@ export default function OrdersList() {
       </div>
 
       {/* Right Side - Order Detail View */}
-      <div className="flex-1 overflow-y-auto">
+      <div className="flex-1 overflow-y-auto h-screen pb-10">
         <OrderDetailView order={selectedOrder} />
       </div>
     </div>
