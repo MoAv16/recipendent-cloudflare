@@ -29,7 +29,6 @@ export default function OrderDetailView({ order }) {
   }
 
   const orderNumber = `ORD-${order.id?.substring(0, 8).toUpperCase()}` || 'ORD-XXXXXXXX';
-  const orderImage = order.image_url || '/design-assets/alle_modelle_3.png';
 
   const toggleFilter = (filter) => {
     setActiveFilters(prev =>
@@ -95,11 +94,11 @@ export default function OrderDetailView({ order }) {
             {order.title}
           </h3>
 
-          {/* Order Image */}
-          {orderImage && (
+          {/* Order Image - Only show if image_url exists */}
+          {order.image_url && (
             <div className="mb-6 rounded-lg overflow-hidden bg-gray-50">
               <img
-                src={orderImage}
+                src={order.image_url}
                 alt={order.title}
                 className="w-full h-64 object-contain"
               />

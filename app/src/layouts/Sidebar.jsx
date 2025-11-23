@@ -91,7 +91,7 @@ export default function Sidebar() {
             <img
               src={item.icon}
               alt={item.name}
-              className={`w-6 h-6 ${item.active ? 'brightness-0 invert' : ''}`}
+              className={`w-6 h-6 ${item.active ? 'brightness-0 invert' : 'opacity-60'}`}
             />
           </Link>
         ))}
