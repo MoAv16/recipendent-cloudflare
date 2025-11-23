@@ -15,9 +15,6 @@ export default function OrderCardNew({ order, isActive, onClick }) {
     ? `${order.author.first_name?.[0] || ''}${order.author.last_name?.[0] || ''}`
     : '?';
 
-  // Placeholder image or order image
-  const orderImage = order.image_url || '/design-assets/alle_modelle_3.png';
-
   return (
     <div
       onClick={onClick}
@@ -127,14 +124,16 @@ export default function OrderCardNew({ order, isActive, onClick }) {
         </div>
       </div>
 
-      {/* Order Image - Positioned absolutely in top right */}
-      <div className="absolute top-4 right-12 w-[186px] h-[62px] pointer-events-none">
-        <img
-          src={orderImage}
-          alt={order.title}
-          className="w-full h-full object-contain"
-        />
-      </div>
+      {/* Order Image - Positioned absolutely in top right - Only show if image_url exists */}
+      {order.image_url && (
+        <div className="absolute top-4 right-12 w-[186px] h-[62px] pointer-events-none">
+          <img
+            src={order.image_url}
+            alt={order.title}
+            className="w-full h-full object-contain"
+          />
+        </div>
+      )}
     </div>
   );
 }
