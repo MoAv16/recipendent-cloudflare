@@ -8,6 +8,12 @@ export default function Sidebar() {
 
   const navigation = [
     {
+      name: 'Dashboard',
+      href: ROUTES.DASHBOARD,
+      icon: '/design-assets/icons/vuesaxboldbox.svg',
+      active: location.pathname === '/dashboard' || location.pathname === '/'
+    },
+    {
       name: 'Aufträge',
       href: ROUTES.ORDERS,
       icon: '/design-assets/icons/vuesaxlinearrouting2.svg',
@@ -58,12 +64,8 @@ export default function Sidebar() {
     <div className="fixed left-0 top-0 h-screen w-[104px] bg-white border-r border-gray-200 shadow-soft flex flex-col items-center z-30">
       {/* Logo */}
       <div className="pt-9 pb-6 flex flex-col items-center">
-        <div className="w-[46px] h-[46px] mb-2">
-          <img
-            src="/design-assets/icons/vuesaxboldbox.svg"
-            alt="Logo"
-            className="w-full h-full"
-          />
+        <div className="w-[46px] h-[46px] mb-2 bg-primary rounded-lg flex items-center justify-center">
+          <span className="text-white text-2xl font-bold">R</span>
         </div>
         <span className="text-[16px] font-ropa-sans text-black">
           Recipendent
