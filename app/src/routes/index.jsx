@@ -7,7 +7,7 @@ import RegisterForm from '../features/auth/components/RegisterForm';
 import EmployeeRegisterForm from '../features/auth/components/EmployeeRegisterForm';
 import Dashboard from '../features/dashboard/Dashboard';
 import OrdersList from '../features/orders/components/OrdersList';
-import CreateOrder from '../features/orders/components/CreateOrder';
+import CreateOrderNew from '../features/orders/components/CreateOrderNew';
 import OrderDetailPage from '../features/orders/components/OrderDetailPage';
 import EditOrder from '../features/orders/components/EditOrder';
 import TeamList from '../features/team/components/TeamList';
@@ -61,7 +61,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'orders/new',
-        element: <CreateOrder />,
+        element: <CreateOrderNew />,
       },
       {
         path: 'orders/:id',
