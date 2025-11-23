@@ -55,10 +55,10 @@ export default function Sidebar() {
 
   const bottomNavigation = [
     {
-      name: 'Mein Konto',
-      href: '/account',
+      name: 'Einstellungen',
+      href: '/settings',
       icon: '/design-assets/icons/vuesaxlinearsetting3.svg',
-      active: location.pathname.startsWith('/account')
+      active: location.pathname.startsWith('/settings')
     },
   ];
 
