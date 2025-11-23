@@ -15,6 +15,9 @@ import RecipesList from '../features/recipes/components/RecipesList';
 import CreateRecipe from '../features/recipes/components/CreateRecipe';
 import FoldersList from '../features/folders/components/FoldersList';
 import Settings from '../features/settings/components/Settings';
+import Messages from '../features/messages/Messages';
+import Notes from '../features/notes/Notes';
+import Calendar from '../features/calendar/Calendar';
 import { ROUTES } from '../config/constants';
 
 const router = createBrowserRouter([
@@ -69,12 +72,24 @@ const router = createBrowserRouter([
         element: <EditOrder />,
       },
       {
+        path: 'messages',
+        element: <Messages />,
+      },
+      {
+        path: 'notes',
+        element: <Notes />,
+      },
+      {
         path: 'recipes',
         element: <RecipesList />,
       },
       {
         path: 'recipes/new',
         element: <CreateRecipe />,
+      },
+      {
+        path: 'calendar',
+        element: <Calendar />,
       },
       {
         path: 'team',

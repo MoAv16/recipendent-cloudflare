@@ -4,15 +4,6 @@ import Sidebar from './Sidebar';
 export default function AppLayout() {
   return (
     <div className="min-h-screen bg-bg-main relative overflow-hidden">
-      {/* Background decorative elements */}
-      <div className="fixed bottom-0 right-0 w-64 h-64 pointer-events-none z-0">
-        <img
-          src="/design-assets/icons/group_280.svg"
-          alt=""
-          className="w-full h-full"
-        />
-      </div>
-
       {/* Sidebar */}
       <Sidebar />
 
