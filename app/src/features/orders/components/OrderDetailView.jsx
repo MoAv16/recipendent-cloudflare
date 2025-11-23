@@ -19,7 +19,7 @@ export default function OrderDetailView({ order }) {
 
   if (!order) {
     return (
-      <div className="bg-white rounded-xl border-2 border-primary shadow-soft h-[893px] w-full flex items-center justify-center">
+      <div className="bg-white rounded-xl border-2 border-primary shadow-soft h-full w-full flex items-center justify-center">
         <div className="text-center">
           <p className="text-gray-400 text-lg font-cabin">
             Wähle einen Auftrag aus, um Details anzuzeigen
@@ -40,9 +40,9 @@ export default function OrderDetailView({ order }) {
   };
 
   return (
-    <div className="bg-white rounded-xl border-2 border-primary shadow-soft w-full">
+    <div className="bg-white rounded-xl border-2 border-primary shadow-soft w-full h-full flex flex-col">
       {/* Header with Filter Chips */}
-      <div className="px-6 py-4 border-b border-gray-100">
+      <div className="px-6 py-4 border-b border-gray-100 flex-shrink-0">
         <div className="flex flex-wrap gap-2">
           {FILTER_CHIPS.map((chip) => (
             <button
@@ -64,10 +64,10 @@ export default function OrderDetailView({ order }) {
       </div>
 
       {/* Divider */}
-      <div className="border-t border-gray-200" />
+      <div className="border-t border-gray-200 flex-shrink-0" />
 
       {/* Main Content */}
-      <div className="p-6 space-y-6 max-h-[800px] overflow-y-auto">
+      <div className="p-6 space-y-6 flex-1 overflow-y-auto">
         {/* Order Header */}
         <div>
           <div className="flex items-center justify-between mb-4">

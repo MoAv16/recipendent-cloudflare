@@ -50,7 +50,7 @@ export default function OrdersList() {
   }
 
   return (
-    <div className="flex h-screen pt-10 px-6 gap-10">
+    <div className="flex h-screen pt-10 px-6 gap-10 pb-10">
       {/* Left Side - Orders List */}
       <div className="flex-shrink-0 w-[540px] flex flex-col">
         {/* Header */}
@@ -122,7 +122,7 @@ export default function OrdersList() {
       </div>
 
       {/* Right Side - Order Detail View */}
-      <div className="flex-1 overflow-y-auto h-screen pb-10">
+      <div className="flex-1 flex flex-col">
         <OrderDetailView order={selectedOrder} />
       </div>
     </div>
