@@ -91,7 +91,11 @@ export default function Sidebar() {
             <img
               src={item.icon}
               alt={item.name}
-              className={`w-6 h-6 ${item.active ? 'brightness-0 invert' : 'opacity-60'}`}
+              className="w-6 h-6"
+              style={item.active
+                ? { filter: 'brightness(0) invert(1)' }
+                : { filter: 'invert(1) brightness(0) opacity(0.8)' }
+              }
             />
           </Link>
         ))}
@@ -110,6 +114,7 @@ export default function Sidebar() {
               src={item.icon}
               alt={item.name}
               className="w-full h-full"
+              style={{ filter: 'invert(1) brightness(0) opacity(0.8)' }}
             />
           </Link>
         ))}
