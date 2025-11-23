@@ -18,6 +18,7 @@ import Settings from '../features/settings/components/Settings';
 import Messages from '../features/messages/Messages';
 import Notes from '../features/notes/Notes';
 import Calendar from '../features/calendar/Calendar';
+import Account from '../features/account/Account';
 import { ROUTES } from '../config/constants';
 
 const router = createBrowserRouter([
@@ -102,6 +103,10 @@ const router = createBrowserRouter([
       {
         path: 'settings',
         element: <Settings />,
+      },
+      {
+        path: 'account',
+        element: <Account />,
       },
     ],
   },
