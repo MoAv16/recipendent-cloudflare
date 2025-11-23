@@ -8,7 +8,7 @@ import EmployeeRegisterForm from '../features/auth/components/EmployeeRegisterFo
 import Dashboard from '../features/dashboard/Dashboard';
 import OrdersList from '../features/orders/components/OrdersList';
 import CreateOrder from '../features/orders/components/CreateOrder';
-import OrderDetail from '../features/orders/components/OrderDetail';
+import OrderDetailPage from '../features/orders/components/OrderDetailPage';
 import EditOrder from '../features/orders/components/EditOrder';
 import TeamList from '../features/team/components/TeamList';
 import RecipesList from '../features/recipes/components/RecipesList';
@@ -65,7 +65,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'orders/:id',
-        element: <OrderDetail />,
+        element: <OrderDetailPage />,
       },
       {
         path: 'orders/:id/edit',
