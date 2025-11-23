@@ -69,29 +69,24 @@ export default function Sidebar() {
       }`}
     >
       {/* Logo */}
-      <div className={`pt-9 pb-6 flex items-center transition-all duration-300 ${
-        isExpanded ? 'px-6 justify-start' : 'flex-col justify-center'
-      }`}>
+      <div className="pt-9 pb-6 px-6 flex items-center relative">
         <div className="w-[46px] h-[46px] bg-primary rounded-lg flex items-center justify-center flex-shrink-0">
           <span className="text-white text-2xl font-bold">R</span>
         </div>
-        {isExpanded && (
-          <span className="ml-3 text-[16px] font-ropa-sans text-black whitespace-nowrap">
-            Recipendent
-          </span>
-        )}
-        {!isExpanded && (
-          <span className="mt-2 text-[16px] font-ropa-sans text-black">
-            Recipendent
-          </span>
-        )}
+        <span
+          className={`ml-3 text-[16px] font-ropa-sans text-black whitespace-nowrap transition-opacity duration-300 ${
+            isExpanded ? 'opacity-100 delay-150' : 'opacity-0'
+          }`}
+        >
+          Recipendent
+        </span>
       </div>
 
-      {/* Toggle Button */}
-      <div className={`flex justify-center mb-4 ${isExpanded ? 'px-6' : ''}`}>
+      {/* Toggle Button - Fixed to right edge */}
+      <div className="relative mb-4 h-10">
         <button
           onClick={() => setIsExpanded(!isExpanded)}
-          className="w-10 h-10 rounded-lg bg-purple-light hover:bg-purple-200 flex items-center justify-center transition-colors"
+          className="absolute right-4 w-10 h-10 rounded-lg bg-purple-light hover:bg-purple-200 flex items-center justify-center transition-colors"
           title={isExpanded ? 'Einklappen' : 'Ausklappen'}
         >
           <svg
@@ -113,14 +108,14 @@ export default function Sidebar() {
       </div>
 
       {/* Main Navigation */}
-      <nav className={`flex-1 flex flex-col gap-3 ${isExpanded ? 'px-4' : 'items-center'}`}>
+      <nav className="flex-1 flex flex-col gap-3 px-4">
         {navigation.map((item) => (
           <Link
             key={item.name}
             to={item.href}
             className={`
-              rounded-lg flex items-center transition-all duration-200
-              ${isExpanded ? 'px-4 py-3 gap-3' : 'w-[58px] h-[58px] justify-center'}
+              rounded-lg flex items-center transition-all duration-200 h-[58px]
+              ${isExpanded ? 'px-4' : 'justify-center'}
               ${item.active
                 ? 'bg-primary shadow-[0_8px_12px_0_rgba(134,144,232,0.3)]'
                 : 'hover:bg-gray-100'
@@ -137,63 +132,67 @@ export default function Sidebar() {
                 : { filter: 'invert(1) brightness(0) opacity(0.8)' }
               }
             />
-            {isExpanded && (
-              <span className={`font-cabin font-semibold whitespace-nowrap ${
-                item.active ? 'text-white' : 'text-text-dark'
-              }`}>
-                {item.name}
-              </span>
-            )}
+            <span
+              className={`ml-3 font-cabin font-semibold whitespace-nowrap transition-opacity duration-300 ${
+                isExpanded ? 'opacity-100 delay-150' : 'opacity-0 w-0'
+              } ${item.active ? 'text-white' : 'text-text-dark'}`}
+            >
+              {item.name}
+            </span>
           </Link>
         ))}
       </nav>
 
       {/* Bottom Navigation */}
-      <div className={`flex flex-col gap-3 mb-6 ${isExpanded ? 'px-4' : 'items-center'}`}>
+      <div className="flex flex-col gap-3 mb-6 px-4">
         {bottomNavigation.map((item) => (
           <Link
             key={item.name}
             to={item.href}
             className={`
-              rounded-lg flex items-center transition-all duration-200 hover:bg-gray-100
-              ${isExpanded ? 'px-4 py-3 gap-3' : 'w-10 h-10 justify-center'}
+              rounded-lg flex items-center transition-all duration-200 hover:bg-gray-100 h-10
+              ${isExpanded ? 'px-4' : 'justify-center'}
             `}
             title={!isExpanded ? item.name : undefined}
           >
             <img
               src={item.icon}
               alt={item.name}
-              className={isExpanded ? 'w-6 h-6' : 'w-6 h-6'}
+              className="w-6 h-6 flex-shrink-0"
               style={{ filter: 'invert(1) brightness(0) opacity(0.8)' }}
             />
-            {isExpanded && (
-              <span className="font-cabin font-semibold text-text-dark whitespace-nowrap">
-                {item.name}
-              </span>
-            )}
+            <span
+              className={`ml-3 font-cabin font-semibold text-text-dark whitespace-nowrap transition-opacity duration-300 ${
+                isExpanded ? 'opacity-100 delay-150' : 'opacity-0 w-0'
+              }`}
+            >
+              {item.name}
+            </span>
           </Link>
         ))}
       </div>
 
       {/* User Profile */}
-      <div className={`mb-12 ${isExpanded ? 'px-4' : 'flex justify-center'}`}>
+      <div className="mb-12 px-4">
         <Link to="/account">
           <div className={`flex items-center gap-3 transition-all duration-200 ${
-            isExpanded ? 'hover:bg-gray-100 rounded-lg p-2' : ''
+            isExpanded ? 'hover:bg-gray-100 rounded-lg p-2' : 'justify-center'
           }`}>
             <div className="w-[52px] h-[52px] rounded-full bg-primary flex items-center justify-center text-white font-bold text-lg flex-shrink-0">
               {userData?.first_name?.[0]}{userData?.last_name?.[0]}
             </div>
-            {isExpanded && (
-              <div className="flex flex-col">
-                <span className="font-cabin font-semibold text-text-dark text-sm">
-                  {userData?.first_name} {userData?.last_name}
-                </span>
-                <span className="font-cabin text-xs text-text-gray">
-                  Mein Konto
-                </span>
-              </div>
-            )}
+            <div
+              className={`flex flex-col transition-opacity duration-300 ${
+                isExpanded ? 'opacity-100 delay-150' : 'opacity-0 w-0'
+              }`}
+            >
+              <span className="font-cabin font-semibold text-text-dark text-sm">
+                {userData?.first_name} {userData?.last_name}
+              </span>
+              <span className="font-cabin text-xs text-text-gray">
+                Mein Konto
+              </span>
+            </div>
           </div>
         </Link>
       </div>
