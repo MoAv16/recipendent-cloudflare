@@ -1,12 +1,12 @@
-import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { ROUTES } from '../config/constants';
 import { useAuth } from '../features/auth/hooks/useAuth';
+import { useSidebar } from '../contexts/SidebarContext';
 
 export default function Sidebar() {
   const location = useLocation();
   const { userData } = useAuth();
-  const [isExpanded, setIsExpanded] = useState(false);
+  const { isExpanded, setIsExpanded } = useSidebar();
 
   const navigation = [
     {
